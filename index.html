@@ -26,18 +26,20 @@
 
     h2 {
       color: #dd2476;
-      font-size: 30px;
-      font-weight: 600;
+      font-size: 36px;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 10px;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #dd2476;
     }
 
     /* Header Section */
     .header {
       background: linear-gradient(135deg, #ff512f, #dd2476);
       color: white;
-      padding: 50px;
+      padding: 60px 20px;
       font-size: 50px;
       font-weight: 900;
       text-transform: uppercase;
@@ -53,15 +55,30 @@
       top: 20px;
       left: 20px;
       width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 5px solid white;
     }
 
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Banner Section */
     .banner {
-      width: 90%;
-      max-width: 600px;
+      width: 100%;
       height: auto;
-      margin-top: 20px;
+      margin-top: 40px;
       border-radius: 20px;
       box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .banner:hover {
+      transform: scale(1.05);
     }
 
     /* Container */
@@ -73,9 +90,10 @@
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
       border-radius: 15px;
       overflow: hidden;
+      animation: fadeIn 1s ease-out;
     }
 
-    /* Button */
+    /* Button Styles */
     .button {
       display: inline-block;
       padding: 12px 25px;
@@ -121,11 +139,11 @@
       margin-bottom: 15px;
     }
 
-    /* Footer */
+    /* Footer Section */
     .footer {
       background: #222;
       color: white;
-      padding: 15px;
+      padding: 20px;
       position: fixed;
       bottom: 0;
       width: 100%;
@@ -147,8 +165,28 @@
       }
     }
 
-    .fade-in {
-      animation: fadeIn 1s ease-out;
+    /* Testimonials Section */
+    .testimonial-slider {
+      margin: 40px 0;
+      font-size: 18px;
+      font-style: italic;
+      color: #555;
+      border-left: 4px solid #ff512f;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .testimonial-slider::before {
+      content: '“';
+      position: absolute;
+      font-size: 50px;
+      left: -15px;
+      top: -15px;
+      color: #ff512f;
+    }
+
+    .testimonial-slider p {
+      margin: 20px 0;
     }
   </style>
 </head>
@@ -156,16 +194,18 @@
 <body>
 
   <!-- Header Section -->
-  <div class="header fade-in">
-    <img src="cd3de2ad-d71e-4c62-b675-218d7b5a62ac.jpg" alt="STARLET Logo" class="logo">
+  <div class="header">
+    <div class="logo">
+      <img src="cd3de2ad-d71e-4c62-b675-218d7b5a62ac.jpg" alt="STARLET Logo">
+    </div>
     BE STARLET
   </div>
 
   <!-- Banner Section -->
-  <img src="banner.jpg" alt="STARLET Banner" class="banner fade-in">
+  <img src="banner.jpg" alt="STARLET Banner" class="banner">
 
   <!-- About and Teachers Section -->
-  <div class="container fade-in">
+  <div class="container">
     <h2>About Our Coaching</h2>
     <p>At STARLET, we provide top-quality education for BSC Bio students at an affordable batch rate of ₹500. Our expert faculty ensures that students get the best learning experience with in-depth subject understanding.</p>
 
@@ -196,7 +236,7 @@
   </div>
 
   <!-- Testimonials Section -->
-  <div class="container fade-in">
+  <div class="container">
     <h2>What Our Students Say</h2>
     <div class="testimonial-slider">
       <p>"STARLET helped me understand complex topics easily. The faculty is amazing!" - <strong>Student A</strong></p>
@@ -205,25 +245,12 @@
     </div>
   </div>
 
-  <!-- Contact Form Section -->
-  <div class="container fade-in">
-    <h2>Contact Us</h2>
-    <form action="#" method="post">
-      <input type="text" placeholder="Your Name" required style="padding: 10px; margin: 5px; width: 80%; border-radius: 10px; border: 1px solid #ddd;">
-      <br>
-      <input type="email" placeholder="Your Email" required style="padding: 10px; margin: 5px; width: 80%; border-radius: 10px; border: 1px solid #ddd;">
-      <br>
-      <textarea placeholder="Your Message" required style="padding: 10px; margin: 5px; width: 80%; border-radius: 10px; border: 1px solid #ddd;"></textarea>
-      <br>
-      <button type="submit" class="button">Send Message</button>
-    </form>
-  </div>
-
   <!-- Footer Section -->
-  <div class="footer fade-in">
+  <div class="footer">
     &copy; 2025 STARLET BSC Bio Classes | All Rights Reserved
   </div>
 
 </body>
 
 </html>
+
