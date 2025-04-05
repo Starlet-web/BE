@@ -2,52 +2,42 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Coaching Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>STARLET Registration</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-blue-50 min-h-screen flex items-center justify-center">
-  <div class="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl">
-    <h2 class="text-2xl font-bold text-center text-blue-600 mb-6">Student Registration</h2>
+<body class="bg-gradient-to-r from-green-100 to-blue-100 flex justify-center items-center min-h-screen">
+  <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md animate-fade-in">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">BSC BIO Registration</h2>
     <form id="registerForm" class="space-y-4">
-      <input id="name" type="text" placeholder="Full Name" required class="w-full px-4 py-2 border rounded-lg" />
-      <input id="email" type="email" placeholder="Email" required class="w-full px-4 py-2 border rounded-lg" />
-      <input id="phone" type="tel" placeholder="Phone Number" pattern="[0-9]{10}" required class="w-full px-4 py-2 border rounded-lg" />
-      <select id="course" required class="w-full px-4 py-2 border rounded-lg">
-        <option value="">Select Course</option>
+      <input type="text" id="name" placeholder="Full Name" class="w-full p-3 border rounded-lg" required />
+      <input type="email" id="email" placeholder="Email" class="w-full p-3 border rounded-lg" required />
+      <input type="password" id="password" placeholder="Password" class="w-full p-3 border rounded-lg" required />
+      <select id="course" class="w-full p-3 border rounded-lg" required>
+        <option value="">Select Year</option>
         <option value="BSc 1st Year">BSc 1st Year</option>
         <option value="BSc 2nd Year">BSc 2nd Year</option>
         <option value="BSc 3rd Year">BSc 3rd Year</option>
       </select>
-      <input id="password" type="password" placeholder="Password" required minlength="6" class="w-full px-4 py-2 border rounded-lg" />
       <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Register</button>
     </form>
 
-    <div class="text-center mt-4">
-      <button onclick="googleSignIn()" class="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition mb-2">Sign in with Google</button>
-      <button onclick="forgotPassword()" class="text-blue-600 hover:underline text-sm">Forgot Password?</button>
+    <div class="mt-4 text-center text-sm text-gray-500">or</div>
+
+    <div class="mt-4 space-y-2">
+      <button onclick="googleSignIn()" class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition">
+        Sign in with Google
+      </button>
+      <button onclick="githubSignIn()" class="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-black transition">
+        Sign in with GitHub
+      </button>
     </div>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      sendEmailVerification,
-      signInWithPopup,
-      GoogleAuthProvider,
-      sendPasswordResetEmail,
-      signInWithEmailAndPassword,
-      signOut,
-      onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-    import {
-      getFirestore,
-      doc,
-      setDoc,
-      getDoc
-    } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+    import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCOKKBsbzJk8QSGvj1CPYQb_kJqb1tX06s",
@@ -63,44 +53,49 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+    // Email Registration with Verification
+    const registerForm = document.getElementById('registerForm');
+    registerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const name = document.getElementById("name").value;
-      const email = document.getElementById("email").value;
-      const phone = document.getElementById("phone").value;
-      const course = document.getElementById("course").value;
-      const password = document.getElementById("password").value;
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const course = document.getElementById('course').value;
 
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-        await sendEmailVerification(user);
 
+        await sendEmailVerification(user);
         await setDoc(doc(db, "students", user.uid), {
           name,
           email,
-          phone,
           course,
           uid: user.uid,
           registeredAt: new Date().toISOString()
         });
 
-        alert("Registered! Please verify your email.");
+        alert("Registration successful! A verification email has been sent. Please verify your email.");
+        registerForm.reset();
+        // Redirect after delay (simulate login wait)
+        setTimeout(() => window.location.href = "dashboard.html", 3000);
       } catch (error) {
         alert("Error: " + error.message);
       }
     });
 
+    // Google Sign-In
     window.googleSignIn = async () => {
       const provider = new GoogleAuthProvider();
       try {
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
-        const docRef = doc(db, "students", user.uid);
-        const docSnap = await getDoc(docRef);
 
-        if (!docSnap.exists()) {
-          await setDoc(docRef, {
+        const userRef = doc(db, "students", user.uid);
+        const userSnap = await getDoc(userRef);
+
+        if (!userSnap.exists()) {
+          await setDoc(userRef, {
             name: user.displayName,
             email: user.email,
             uid: user.uid,
@@ -108,30 +103,40 @@
             registeredAt: new Date().toISOString()
           });
         }
-        alert("Google Sign-In successful!");
+
+        alert("Signed in with Google!");
+        window.location.href = "dashboard.html";
       } catch (error) {
-        alert("Error: " + error.message);
+        alert("Google Sign-In Error: " + error.message);
       }
     };
 
-    window.forgotPassword = async () => {
-      const email = prompt("Enter your registered email:");
-      if (!email) return;
+    // GitHub Sign-In
+    window.githubSignIn = async () => {
+      const provider = new GithubAuthProvider();
       try {
-        await sendPasswordResetEmail(auth, email);
-        alert("Password reset email sent!");
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+
+        const userRef = doc(db, "students", user.uid);
+        const userSnap = await getDoc(userRef);
+
+        if (!userSnap.exists()) {
+          await setDoc(userRef, {
+            name: user.displayName || "GitHub User",
+            email: user.email,
+            uid: user.uid,
+            provider: "github",
+            registeredAt: new Date().toISOString()
+          });
+        }
+
+        alert("Signed in with GitHub!");
+        window.location.href = "dashboard.html";
       } catch (error) {
-        alert("Error: " + error.message);
+        alert("GitHub Sign-In Error: " + error.message);
       }
     };
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log("User logged in:", user.email);
-      } else {
-        console.log("User logged out");
-      }
-    });
   </script>
 </body>
 </html>
