@@ -2,42 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>STARLET Registration</title>
+  <title>Login - STARLET</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-r from-green-100 to-blue-100 flex justify-center items-center min-h-screen">
-  <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md animate-fade-in">
-    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">BSC BIO Registration</h2>
-    <form id="registerForm" class="space-y-4">
-      <input type="text" id="name" placeholder="Full Name" class="w-full p-3 border rounded-lg" required />
-      <input type="email" id="email" placeholder="Email" class="w-full p-3 border rounded-lg" required />
+<body class="bg-gradient-to-r from-blue-100 to-green-100 flex justify-center items-center min-h-screen">
+  <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-sm">
+    <h2 class="text-2xl font-bold text-center mb-6">STARLET Login</h2>
+    <form id="loginForm" class="space-y-4">
+      <input type="email" id="email" placeholder="Login ID (Email)" class="w-full p-3 border rounded-lg" required />
       <input type="password" id="password" placeholder="Password" class="w-full p-3 border rounded-lg" required />
-      <select id="course" class="w-full p-3 border rounded-lg" required>
-        <option value="">Select Year</option>
-        <option value="BSc 1st Year">BSc 1st Year</option>
-        <option value="BSc 2nd Year">BSc 2nd Year</option>
-        <option value="BSc 3rd Year">BSc 3rd Year</option>
-      </select>
-      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Register</button>
+      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Login</button>
     </form>
-
-    <div class="mt-4 text-center text-sm text-gray-500">or</div>
-
-    <div class="mt-4 space-y-2">
-      <button onclick="googleSignIn()" class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition">
-        Sign in with Google
-      </button>
-      <button onclick="githubSignIn()" class="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-black transition">
-        Sign in with GitHub
-      </button>
-    </div>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCOKKBsbzJk8QSGvj1CPYQb_kJqb1tX06s",
@@ -51,92 +31,28 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-    const db = getFirestore(app);
 
-    // Email Registration with Verification
-    const registerForm = document.getElementById('registerForm');
-    registerForm.addEventListener('submit', async (e) => {
+    const loginForm = document.getElementById('loginForm');
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
-      const course = document.getElementById('course').value;
 
       try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        await sendEmailVerification(user);
-        await setDoc(doc(db, "students", user.uid), {
-          name,
-          email,
-          course,
-          uid: user.uid,
-          registeredAt: new Date().toISOString()
-        });
+        if (!user.emailVerified) {
+          alert("Please verify your email before logging in.");
+          return;
+        }
 
-        alert("Registration successful! A verification email has been sent. Please verify your email.");
-        registerForm.reset();
-        // Redirect after delay (simulate login wait)
-        setTimeout(() => window.location.href = "dashboard.html", 3000);
+        alert("Login successful!");
+        window.location.href = "dashboard.html";
       } catch (error) {
-        alert("Error: " + error.message);
+        alert("Login Error: " + error.message);
       }
     });
-
-    // Google Sign-In
-    window.googleSignIn = async () => {
-      const provider = new GoogleAuthProvider();
-      try {
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-
-        const userRef = doc(db, "students", user.uid);
-        const userSnap = await getDoc(userRef);
-
-        if (!userSnap.exists()) {
-          await setDoc(userRef, {
-            name: user.displayName,
-            email: user.email,
-            uid: user.uid,
-            provider: "google",
-            registeredAt: new Date().toISOString()
-          });
-        }
-
-        alert("Signed in with Google!");
-        window.location.href = "dashboard.html";
-      } catch (error) {
-        alert("Google Sign-In Error: " + error.message);
-      }
-    };
-
-    // GitHub Sign-In
-    window.githubSignIn = async () => {
-      const provider = new GithubAuthProvider();
-      try {
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-
-        const userRef = doc(db, "students", user.uid);
-        const userSnap = await getDoc(userRef);
-
-        if (!userSnap.exists()) {
-          await setDoc(userRef, {
-            name: user.displayName || "GitHub User",
-            email: user.email,
-            uid: user.uid,
-            provider: "github",
-            registeredAt: new Date().toISOString()
-          });
-        }
-
-        alert("Signed in with GitHub!");
-        window.location.href = "dashboard.html";
-      } catch (error) {
-        alert("GitHub Sign-In Error: " + error.message);
-      }
-    };
   </script>
 </body>
 </html>
