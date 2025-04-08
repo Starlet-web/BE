@@ -27,14 +27,8 @@
       animation: fadeIn 1s ease-in-out;
     }
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
     }
     h2 {
       margin-bottom: 20px;
@@ -116,24 +110,8 @@
     </div>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyA85JME6yPkk_9BJEsbqnSrxv5SyWikq3I",
-      authDomain: "payment-be.firebaseapp.com",
-      projectId: "payment-be",
-      storageBucket: "payment-be.appspot.com",
-      messagingSenderId: "322143467545",
-      appId: "1:322143467545:web:80af0b3b419e9230e29288",
-      measurementId: "G-CN7SCCYHB0",
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    window.generateUPILink = async function () {
+  <script>
+    function generateUPILink() {
       const name = document.getElementById("name").value.trim();
       const mobile = document.getElementById("mobile").value.trim();
       const email = document.getElementById("email").value.trim();
@@ -148,7 +126,6 @@
 
       const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(course)}`;
 
-      // Display UPI link and QR code
       const link = document.getElementById("upiLink");
       link.href = upiUrl;
       document.getElementById("upiSection").style.display = "block";
@@ -159,28 +136,11 @@
         size: 200,
       });
 
-      // Store to Firestore
-      try {
-        await addDoc(collection(db, "payments"), {
-          name,
-          mobile,
-          email,
-          course,
-          amount,
-          upi_link: upiUrl,
-          timestamp: serverTimestamp(),
-          status: "initiated",
-        });
-        console.log("Payment recorded.");
-      } catch (error) {
-        console.error("Error writing document: ", error);
-      }
-
-      // Redirect to success page after 15 seconds
+      // Simulated redirect after 15 seconds
       setTimeout(() => {
         window.location.href = "success.html";
       }, 15000);
-    };
+    }
   </script>
 </body>
 </html>
