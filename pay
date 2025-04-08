@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>GPay UPI Payment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom right, #e0f7fa, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #ffffff;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    h2 {
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: #1a237e;
+    }
+    input,
+    select {
+      width: 100%;
+      padding: 14px;
+      margin: 12px 0;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+    input:focus,
+    select:focus {
+      border-color: #42a5f5;
+      outline: none;
+      box-shadow: 0 0 6px rgba(66, 165, 245, 0.4);
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      background: #1a73e8;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 15px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #0d47a1;
+    }
+    .upi-link,
+    #qrCode {
+      margin-top: 25px;
+    }
+    a.upi-btn {
+      display: inline-block;
+      background: #00c853;
+      padding: 12px 24px;
+      border-radius: 10px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      margin-top: 15px;
+      transition: background 0.3s;
+    }
+    a.upi-btn:hover {
+      background: #009624;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Pay ₹500 for B.Sc Course</h2>
+    <input type="text" id="name" placeholder="Your Name" required />
+    <input type="tel" id="mobile" placeholder="Mobile Number" required pattern="[0-9]{10}" />
+    <input type="email" id="email" placeholder="Email Address" required />
+    <select id="course" required>
+      <option value="">Select Course</option>
+      <option value="BSc 1st Year">BSc 1st Year</option>
+      <option value="BSc 2nd Year">BSc 2nd Year</option>
+      <option value="BSc 3rd Year">BSc 3rd Year</option>
+    </select>
+    <button onclick="generateUPILink()">Generate Payment</button>
+
+    <div class="upi-link" id="upiSection" style="display: none;">
+      <p>Scan the QR or click below to pay:</p>
+      <canvas id="qrCode"></canvas>
+      <br />
+      <a id="upiLink" class="upi-btn" href="#" target="_blank">Pay with GPay</a>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA85JME6yPkk_9BJEsbqnSrxv5SyWikq3I",
+      authDomain: "payment-be.firebaseapp.com",
+      projectId: "payment-be",
+      storageBucket: "payment-be.appspot.com",
+      messagingSenderId: "322143467545",
+      appId: "1:322143467545:web:80af0b3b419e9230e29288",
+      measurementId: "G-CN7SCCYHB0",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.generateUPILink = async function () {
+      const name = document.getElementById("name").value.trim();
+      const mobile = document.getElementById("mobile").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const course = document.getElementById("course").value;
+      const amount = "500";
+      const upiId = "mgbhaukali@oksbi";
+
+      if (!name || !mobile || !email || !course) {
+        alert("Please fill all fields.");
+        return;
+      }
+
+      const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(course)}`;
+
+      // Display UPI link and QR code
+      const link = document.getElementById("upiLink");
+      link.href = upiUrl;
+      document.getElementById("upiSection").style.display = "block";
+
+      new QRious({
+        element: document.getElementById("qrCode"),
+        value: upiUrl,
+        size: 200,
+      });
+
+      // Store to Firestore
+      try {
+        await addDoc(collection(db, "payments"), {
+          name,
+          mobile,
+          email,
+          course,
+          amount,
+          upi_link: upiUrl,
+          timestamp: serverTimestamp(),
+          status: "initiated",
+        });
+        console.log("Payment recorded.");
+      } catch (error) {
+        console.error("Error writing document: ", error);
+      }
+
+      // Redirect to success page after 15 seconds
+      setTimeout(() => {
+        window.location.href = "success.html";
+      }, 15000);
+    };
+  </script>
+</body>
+</html>
