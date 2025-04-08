@@ -96,7 +96,6 @@
     const auth = getAuth(app);
     getAnalytics(app);
 
-    // Toggle Password
     document.getElementById('togglePassword').addEventListener('click', () => {
       const password = document.getElementById('password');
       const toggle = document.getElementById('togglePassword');
@@ -104,7 +103,6 @@
       toggle.textContent = password.type === 'password' ? 'Show' : 'Hide';
     });
 
-    // Email/Password Login
     document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -137,7 +135,6 @@
       }
     });
 
-    // Google Sign-In
     document.getElementById("googleLogin").addEventListener("click", async () => {
       const provider = new GoogleAuthProvider();
       try {
@@ -149,7 +146,6 @@
       }
     });
 
-    // Forgot Password
     document.getElementById("forgotPassword").addEventListener("click", async () => {
       const email = prompt("Enter your email to receive reset link:");
       if (email) {
