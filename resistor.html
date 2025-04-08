@@ -5,8 +5,11 @@
   <title>STARLET Login</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  
+  <!-- ✅ Firebase COMPAT SDKs only -->
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -62,13 +65,8 @@
     </form>
   </div>
 
-  <!-- Firebase Config and Script -->
-  <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
+  <!-- ✅ Firebase Initialization and Login Script -->
+  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyCOKKBsbzJk8QSGvj1CPYQb_kJqb1tX06s",
       authDomain: "starlet-registor.firebaseapp.com",
@@ -95,8 +93,8 @@
       }
     });
 
-    // Handle Login
-    document.getElementById("loginForm").addEventListener("submit", function(e) {
+    // Login form submission
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
       const email = document.getElementById("email").value.trim();
