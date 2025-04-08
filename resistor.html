@@ -63,14 +63,6 @@
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
         </svg>
       </button>
-
-      <div class="text-center mt-4">
-        <span class="text-sm text-gray-500">or</span>
-      </div>
-
-      <button type="button" id="googleLogin" class="w-full py-3 border border-gray-300 text-gray-700 hover:bg-gray-100 rounded-lg">
-        Sign in with Google
-      </button>
     </form>
   </div>
 
@@ -79,8 +71,9 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
     import {
       getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,
-      GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, sendEmailVerification
+      sendPasswordResetEmail, signOut
     } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-analytics.js";
 
     const firebaseConfig = {
@@ -96,6 +89,7 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
     getAnalytics(app);
 
     const togglePassword = document.getElementById('togglePassword');
@@ -132,14 +126,23 @@
           const userCredential = await signInWithEmailAndPassword(auth, email, password);
           if (!userCredential.user.emailVerified) {
             alert("Please verify your email before logging in.");
-          } else {
+            await signOut(auth);
+            return;
+          }
+          const docRef = doc(db, "users", userCredential.user.uid);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists() && docSnap.data().hasAccess) {
             alert("Login successful!");
             window.location.href = "dashboard.html";
+          } else {
+            alert("You do not have access to the dashboard. Please purchase the course.");
+            await signOut(auth);
           }
         } else {
           const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-          await sendEmailVerification(userCredential.user);
-          alert("Signup successful! Verification email sent. Please check your inbox.");
+          alert("Signup successful! Verification email sent.");
+          userCredential.user.sendEmailVerification();
         }
       } catch (error) {
         alert((isLogin ? "Login" : "Signup") + " failed: " + error.message);
@@ -147,17 +150,6 @@
         authText.textContent = isLogin ? "Login" : "Sign Up";
         spinner.classList.add("hidden");
         authBtn.disabled = false;
-      }
-    });
-
-    document.getElementById("googleLogin").addEventListener("click", async () => {
-      const provider = new GoogleAuthProvider();
-      try {
-        await signInWithPopup(auth, provider);
-        alert("Google Login successful!");
-        window.location.href = "dashboard.html";
-      } catch (error) {
-        alert("Google Login failed: " + error.message);
       }
     });
 
