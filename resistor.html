@@ -24,11 +24,11 @@
     }
   </style>
 </head>
-<body class="w-screen h-screen flex items-center justify-center bg-white p-4">
+<body class="min-h-screen w-screen flex items-center justify-center bg-white p-4">
 
-  <div class="glass w-full h-full md:max-w-md md:h-auto p-10 fade-in flex flex-col justify-center">
-    <div class="text-center mb-8">
-      <h2 class="text-3xl font-bold text-gray-800 mb-2">Welcome to <span class="text-indigo-600">STARLET</span></h2>
+  <div class="glass w-full max-w-md p-8 md:p-10 fade-in">
+    <div class="text-center mb-6">
+      <h2 class="text-3xl font-bold text-gray-800 mb-1">Welcome to <span class="text-indigo-600">STARLET</span></h2>
       <p class="text-sm text-gray-600" id="formTitle">Login to your account</p>
     </div>
 
@@ -65,7 +65,7 @@
     </form>
   </div>
 
-  <!-- Firebase Modular SDK -->
+  <!-- Firebase SDK (modular) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
     import {
