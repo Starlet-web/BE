@@ -1,1 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Starlet B.Sc. Bio Classes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .gradient-border {
+      border: 2px solid;
+      border-image-slice: 1;
+      border-width: 3px;
+      border-image-source: linear-gradient(to right, #6366f1, #ec4899);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-purple-200 via-pink-100 to-yellow-100 min-h-screen font-sans overflow-x-hidden">
+  <!-- Header -->
+  <header class="bg-white shadow-xl py-5 px-6 flex justify-between items-center sticky top-0 z-50 border-b border-indigo-200">
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-pink-500">Starlet Classes</h1>
+    <button class="block sm:hidden text-indigo-600 focus:outline-none" onclick="toggleMenu()">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+    <nav id="mobileMenu" class="hidden sm:flex space-x-4 text-sm sm:text-base text-gray-600 font-medium">
+      <span class="italic text-gray-500">Empowering B.Sc. Biology Students</span>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="w-full px-4 py-8 sm:py-14 text-center bg-white/50 backdrop-blur-md">
+    <h2 class="text-2xl sm:text-3xl font-bold text-indigo-800 mb-2">Welcome to Starlet B.Sc. Biology Classes</h2>
+    <p class="text-gray-700 max-w-2xl mx-auto text-base sm:text-lg">Join interactive online lectures, explore seminar sessions, and stay updated with class schedules – all in one place!</p>
+  </section>
+
+  <!-- Main Content -->
+  <main class="flex flex-col items-center px-4 py-10 sm:py-14 space-y-16">
+    <!-- Lecture Buttons -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 w-full max-w-3xl">
+      <a href="https://meet.google.com/your-link-1" target="_blank"
+         class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-3 rounded-xl shadow-lg text-center transition duration-300 ease-in-out transform hover:scale-110 text-sm gradient-border">
+        🎓 1st Year
+      </a>
+      <a href="https://meet.google.com/your-link-2" target="_blank"
+         class="bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-3 rounded-xl shadow-lg text-center transition duration-300 ease-in-out transform hover:scale-110 text-sm gradient-border">
+        📘 2nd Year
+      </a>
+      <a href="https://meet.google.com/your-link-3" target="_blank"
+         class="bg-pink-500 hover:bg-pink-600 text-white font-medium py-3 px-3 rounded-xl shadow-lg text-center transition duration-300 ease-in-out transform hover:scale-110 text-sm gradient-border">
+        🧬 3rd Year
+      </a>
+      <a href="https://meet.google.com/your-link-4" target="_blank"
+         class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-3 px-3 rounded-xl shadow-lg text-center transition duration-300 ease-in-out transform hover:scale-110 text-sm gradient-border">
+        🗣️ Seminar
+      </a>
+    </div>
+
+    <!-- Notice Board -->
+    <section class="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl p-6 sm:p-8 w-full max-w-5xl border border-indigo-100">
+      <h2 class="text-2xl sm:text-3xl font-bold text-indigo-700 mb-4 sm:mb-6 border-b-2 border-indigo-200 pb-2">📢 Class Timings</h2>
+      <ul class="list-disc list-inside text-gray-800 text-base sm:text-lg space-y-2 sm:space-y-3">
+        <li><strong>🕘 1st Year:</strong> 9:00 AM - 10:00 AM</li>
+        <li><strong>🕥 2nd Year:</strong> 10:30 AM - 11:30 AM</li>
+        <li><strong>🕛 3rd Year:</strong> 12:00 PM - 1:00 PM</li>
+        <li><strong>🗓️ Seminar:</strong> Saturday, 2:00 PM - 3:30 PM</li>
+      </ul>
+    </section>
+
+    <!-- Floating Help Button -->
+    <button class="fixed bottom-5 right-5 bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-full shadow-xl transition transform hover:scale-110" title="Need Help?">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 14h.01M16 10h.01M12 18h0m0 0h0m0 0h0" />
+      </svg>
+    </button>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center text-gray-600 py-8 mt-20 border-t border-indigo-200 px-4 text-sm sm:text-md">
+    <p>© 2025 <strong>Starlet Classes</strong>. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+    }
+  </script>
+</body>
+</html>
 
