@@ -122,14 +122,14 @@
     };
 
     onAuthStateChanged(auth, (user) => {
-      if (user && user.email === "youradminemail@example.com") {
+      if (user && user.email === "mgbhaukali@gmail.com") {
         loadUsers();
       } else {
         const email = prompt("Admin Email:");
         const password = prompt("Admin Password:");
         signInWithEmailAndPassword(auth, email, password)
           .then((userCred) => {
-            if (email === "youradminemail@example.com") {
+            if (email === "mgbhaukali@gmail.com") {
               loadUsers();
             } else {
               alert("Not authorized.");
