@@ -11,22 +11,15 @@
     }
     .glass {
       background: white;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
       border-radius: 20px;
       border: 1px solid #e5e7eb;
-    }
-    .fade-in {
-      animation: fadeIn 0.5s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body class="min-h-screen w-screen flex items-center justify-center bg-white p-4">
 
-  <div class="glass w-full max-w-md p-8 md:p-10 fade-in">
+  <div class="glass w-full max-w-md p-8 fade-in">
     <div class="text-center mb-6">
       <h2 class="text-3xl font-bold text-gray-800 mb-1">Welcome to <span class="text-indigo-600">STARLET</span></h2>
       <p class="text-sm text-gray-600" id="formTitle">Login to your account</p>
@@ -34,18 +27,15 @@
 
     <form id="authForm" class="space-y-5">
       <div>
-        <label for="email" class="block mb-1 text-sm font-medium text-gray-700">Email</label>
-        <input type="email" id="email" placeholder="your@email.com"
-          class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-gray-800"
-          required />
+        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        <input type="email" id="email" required placeholder="you@email.com"
+               class="w-full px-4 py-3 border rounded-lg" />
       </div>
 
-      <div class="relative">
-        <label for="password" class="block mb-1 text-sm font-medium text-gray-700">Password</label>
-        <input type="password" id="password" placeholder="********"
-          class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-gray-800"
-          required />
-        <button type="button" id="togglePassword" class="absolute right-3 top-10 text-xs text-indigo-600">Show</button>
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+        <input type="password" id="password" required placeholder="********"
+               class="w-full px-4 py-3 border rounded-lg" />
       </div>
 
       <div class="flex justify-between text-sm text-gray-500">
@@ -54,56 +44,52 @@
       </div>
 
       <button type="submit" id="authBtn"
-        class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-all duration-200 flex justify-center items-center gap-2">
+              class="w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg flex justify-center items-center gap-2">
         <span id="authText">Login</span>
-        <svg id="spinner" class="hidden animate-spin h-5 w-5 text-white"
-          xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+        <svg id="spinner" class="hidden animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
         </svg>
       </button>
     </form>
+
+    <div id="payNotice" class="mt-4 hidden text-center">
+      <p class="text-red-600 font-medium">You don't have access to the dashboard.</p>
+      <a href="GPay.html" class="mt-2 inline-block bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">
+        Pay Now
+      </a>
+    </div>
   </div>
 
-  <!-- Firebase SDK (modular) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
     import {
       getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,
       sendPasswordResetEmail, signOut
     } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-analytics.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
       authDomain: "starlet-registor.firebaseapp.com",
-      databaseURL: "https://starlet-registor-default-rtdb.firebaseio.com",
       projectId: "starlet-registor",
       storageBucket: "starlet-registor.appspot.com",
       messagingSenderId: "904193225045",
-      appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc",
-      measurementId: "G-1NLM1F0262"
+      appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    getAnalytics(app);
-
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('password');
-    togglePassword.addEventListener('click', () => {
-      passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
-      togglePassword.textContent = passwordInput.type === 'password' ? 'Show' : 'Hide';
-    });
 
     const toggleFormBtn = document.getElementById("toggleForm");
     const formTitle = document.getElementById("formTitle");
     const authBtn = document.getElementById("authBtn");
     const authText = document.getElementById("authText");
-    let isLogin = true;
+    const spinner = document.getElementById("spinner");
+    const payNotice = document.getElementById("payNotice");
 
+    let isLogin = true;
     toggleFormBtn.addEventListener("click", () => {
       isLogin = !isLogin;
       formTitle.textContent = isLogin ? "Login to your account" : "Create a new account";
@@ -115,51 +101,60 @@
       e.preventDefault();
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
-      const spinner = document.getElementById("spinner");
+
+      authBtn.disabled = true;
       authText.textContent = isLogin ? "Logging in..." : "Signing up...";
       spinner.classList.remove("hidden");
-      authBtn.disabled = true;
 
       try {
         if (isLogin) {
           const userCredential = await signInWithEmailAndPassword(auth, email, password);
-          if (!userCredential.user.emailVerified) {
+          const user = userCredential.user;
+
+          if (!user.emailVerified) {
             alert("Please verify your email before logging in.");
             await signOut(auth);
             return;
           }
-          const docRef = doc(db, "users", userCredential.user.uid);
+
+          const docRef = doc(db, "users", user.uid);
           const docSnap = await getDoc(docRef);
 
           if (docSnap.exists() && docSnap.data().hasAccess) {
-            alert("Login successful!");
             window.location.href = "dashboard.html";
           } else {
-            alert("You do not have access to the dashboard. Please purchase the course.");
-            await signOut(auth);
+            payNotice.classList.remove("hidden");
           }
         } else {
           const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-          alert("Signup successful! Verification email sent.");
-          userCredential.user.sendEmailVerification();
+          const user = userCredential.user;
+          await user.sendEmailVerification();
+
+          await setDoc(doc(db, "users", user.uid), {
+            email: user.email,
+            hasAccess: false,
+            createdAt: new Date()
+          });
+
+          alert("Signup successful. Verification email sent.");
         }
-      } catch (error) {
-        alert((isLogin ? "Login" : "Signup") + " failed: " + error.message);
+      } catch (err) {
+        alert((isLogin ? "Login" : "Signup") + " failed: " + err.message);
       } finally {
+        authBtn.disabled = false;
         authText.textContent = isLogin ? "Login" : "Sign Up";
         spinner.classList.add("hidden");
-        authBtn.disabled = false;
       }
     });
 
     document.getElementById("forgotPassword").addEventListener("click", async () => {
-      const email = prompt("Enter your email to receive reset link:");
+      const email = prompt("Enter your email to reset password:");
       if (email) {
         try {
           await sendPasswordResetEmail(auth, email);
-          alert("Password reset email sent.");
-        } catch (error) {
-          alert("Error: " + error.message);
+          alert("Reset email sent.");
+        } catch (err) {
+          alert("Error: " + err.message);
         }
       }
     });
