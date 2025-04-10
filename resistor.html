@@ -127,12 +127,6 @@
       try {
         if (isLogin) {
           const userCredential = await signInWithEmailAndPassword(auth, email, password);
-          if (!userCredential.user.emailVerified) {
-            alert("Please verify your email first.");
-            await signOut(auth);
-            return;
-          }
-
           const docRef = doc(db, "users", userCredential.user.uid);
           const docSnap = await getDoc(docRef);
 
@@ -141,6 +135,7 @@
             window.location.href = "dashboard.html";
           } else {
             document.getElementById("payNow").classList.remove("hidden");
+            await signOut(auth); // Log out if no access
           }
 
         } else {
@@ -157,8 +152,7 @@
             hasAccess: false
           });
 
-          await userCredential.user.sendEmailVerification();
-          alert("Signup successful. Verification email sent.");
+          alert("Signup successful. Please wait for access approval.");
         }
 
       } catch (error) {
