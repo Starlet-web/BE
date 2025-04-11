@@ -8,66 +8,96 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #e6f0ff, #ffffff);
+      background: url('https://www.transparenttextures.com/patterns/cubes.png'), linear-gradient(to bottom right, #f5f8ff, #ffffff);
+      background-size: cover;
+      background-repeat: repeat;
       display: flex;
-      justify-content: center;
-      align-items: center;
       flex-direction: column;
-      padding: 40px 20px;
-      min-height: 100vh;
+      align-items: center;
+      padding: 50px 20px;
     }
 
     h1 {
-      font-size: 2.5rem;
+      font-size: 2.7rem;
+      color: #202040;
       margin-bottom: 40px;
-      color: #1a1a2e;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      text-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
 
     .card-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 25px;
+      gap: 30px;
       width: 100%;
-      max-width: 900px;
+      max-width: 960px;
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.6);
       border-radius: 18px;
-      padding: 16px 20px;
+      padding: 18px 22px;
       display: flex;
       align-items: center;
-      gap: 15px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      gap: 16px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
-      animation: fadeIn 0.6s ease-in-out;
     }
 
     .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+      transform: translateY(-5px);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.1);
     }
 
     .card img {
-      width: 54px;
-      height: 54px;
-      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
     }
 
     .card h2 {
+      font-size: 1.2rem;
+      color: #1a1a2e;
       margin: 0;
-      font-size: 1.15rem;
-      color: #222;
-      flex-grow: 1;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .cta-section {
+      margin-top: 60px;
+      text-align: center;
+      max-width: 600px;
+    }
+
+    .cta-section p {
+      font-size: 1.3rem;
+      font-weight: 600;
+      background: linear-gradient(to right, #4a60e8, #9333ea);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: pulseText 2.5s infinite ease-in-out;
+      margin-bottom: 20px;
+    }
+
+    .cta-section a {
+      display: inline-block;
+      padding: 15px 36px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: #fff;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #4a60e8, #9333ea);
+      box-shadow: 0 0 18px rgba(123, 73, 255, 0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .cta-section a:hover {
+      transform: scale(1.06);
+      box-shadow: 0 0 26px rgba(123, 73, 255, 0.6);
+    }
+
+    @keyframes pulseText {
+      0%, 100% { opacity: 1; letter-spacing: 0px; }
+      50% { opacity: 0.95; letter-spacing: 1.5px; }
     }
 
     @media (max-width: 600px) {
@@ -76,8 +106,8 @@
       }
 
       .card img {
-        width: 42px;
-        height: 42px;
+        width: 40px;
+        height: 40px;
       }
 
       .card h2 {
@@ -107,9 +137,14 @@
     </div>
   </div>
 
+  <!-- AI-Powered Call To Action -->
+  <div class="cta-section">
+    <p>Experience Empowered Learning. Get HD Lectures, Premium Notes & Smart Mentorship.</p>
+    <a href="GPay.html">Join STARLET Now</a>
+  </div>
+
   <!-- Flip Sound -->
   <audio id="flipSound" src="https://assets.mixkit.co/sfx/preview/mixkit-page-flip-1110.mp3" preload="auto"></audio>
-
   <script>
     function openNote(pdfUrl) {
       const flipSound = document.getElementById("flipSound");
