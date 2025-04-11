@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Starlet Coaching Notes</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #e6f0ff, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      color: #1a1a2e;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+      border-radius: 18px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    }
+
+    .card img {
+      width: 54px;
+      height: 54px;
+      flex-shrink: 0;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 1.15rem;
+      color: #222;
+      flex-grow: 1;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .card img {
+        width: 42px;
+        height: 42px;
+      }
+
+      .card h2 {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>STARLET Coaching - Demo Notes</h1>
+
+  <div class="card-container">
+    <div class="card" onclick="openNote('notes/zoology.pdf')">
+      <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Zoology">
+      <h2>Zoology Notes</h2>
+    </div>
+
+    <div class="card" onclick="openNote('notes/botany.pdf')">
+      <img src="https://cdn-icons-png.flaticon.com/512/861/861055.png" alt="Botany">
+      <h2>Botany Notes</h2>
+    </div>
+
+    <div class="card" onclick="openNote('notes/chemistry.pdf')">
+      <img src="https://cdn-icons-png.flaticon.com/512/4241/4241691.png" alt="Chemistry">
+      <h2>Chemistry Notes</h2>
+    </div>
+  </div>
+
+  <!-- Flip Sound -->
+  <audio id="flipSound" src="https://assets.mixkit.co/sfx/preview/mixkit-page-flip-1110.mp3" preload="auto"></audio>
+
+  <script>
+    function openNote(pdfUrl) {
+      const flipSound = document.getElementById("flipSound");
+      flipSound.play();
+      setTimeout(() => {
+        window.open(pdfUrl, '_blank');
+      }, 150);
+    }
+  </script>
+
+</body>
+</html>
