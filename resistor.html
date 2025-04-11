@@ -3,57 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <title>STARLET - Login & Signup</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     body {
       font-family: 'Poppins', sans-serif;
+      background: white;
       min-height: 100vh;
-      background: linear-gradient(135deg, #4f46e5, #3b82f6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
     }
-
-    .glass {
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 2rem;
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    .fade-slide {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
     }
-
-    input:focus, select:focus {
-      border-color: #6366f1;
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+    .fade-slide.show {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
-<body>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
 
-  <div class="w-full max-w-md glass p-8 sm:p-10 text-white space-y-6">
+  <div class="w-full max-w-2xl bg-white shadow-xl rounded-2xl p-10 space-y-6 mx-4">
     <div class="text-center">
-      <h2 class="text-4xl font-bold text-white drop-shadow">STARLET</h2>
-      <p class="text-indigo-100" id="formTitle">Login to your account</p>
+      <h2 class="text-4xl font-bold text-indigo-700">STARLET</h2>
+      <p class="text-gray-500" id="formTitle">Login to your account</p>
     </div>
 
-    <form id="authForm" class="space-y-5">
+    <form id="authForm" class="space-y-5 transition-all duration-500">
       <div id="nameField" class="hidden">
-        <label class="block text-sm">Full Name</label>
-        <input type="text" id="name" class="w-full p-3 rounded-xl bg-white bg-opacity-20 text-white placeholder-white placeholder-opacity-70" placeholder="Your Name" />
+        <label class="block text-sm font-medium">Full Name</label>
+        <input type="text" id="name" class="w-full p-3 border rounded-lg" placeholder="Your Name" />
       </div>
 
       <div id="mobileField" class="hidden">
-        <label class="block text-sm">Mobile Number</label>
-        <input type="text" id="mobile" class="w-full p-3 rounded-xl bg-white bg-opacity-20 text-white placeholder-white placeholder-opacity-70" placeholder="10-digit mobile" />
+        <label class="block text-sm font-medium">Mobile Number</label>
+        <input type="text" id="mobile" class="w-full p-3 border rounded-lg" placeholder="10-digit mobile" />
       </div>
 
       <div id="courseField" class="hidden">
-        <label class="block text-sm">Choose Course</label>
-        <select id="course" class="w-full p-3 rounded-xl bg-white bg-opacity-20 text-black">
+        <label class="block text-sm font-medium">Choose Course</label>
+        <select id="course" class="w-full p-3 border rounded-lg">
           <option value="">Select</option>
           <option value="BSc 1st Year">BSc 1st Year</option>
           <option value="BSc 2nd Year">BSc 2nd Year</option>
@@ -62,22 +52,22 @@
       </div>
 
       <div>
-        <label class="block text-sm">Email</label>
-        <input type="email" id="email" class="w-full p-3 rounded-xl bg-white bg-opacity-20 text-white placeholder-white placeholder-opacity-70" placeholder="email@example.com" required />
+        <label class="block text-sm font-medium">Email</label>
+        <input type="email" id="email" class="w-full p-3 border rounded-lg" placeholder="email@example.com" required />
       </div>
 
       <div>
-        <label class="block text-sm">Password</label>
-        <input type="password" id="password" class="w-full p-3 rounded-xl bg-white bg-opacity-20 text-white placeholder-white placeholder-opacity-70" placeholder="********" required />
+        <label class="block text-sm font-medium">Password</label>
+        <input type="password" id="password" class="w-full p-3 border rounded-lg" placeholder="********" required />
       </div>
 
       <div class="flex justify-between text-sm">
-        <a href="#" id="forgotPassword" class="text-blue-200 hover:underline">Forgot Password?</a>
-        <button type="button" id="toggleForm" class="text-blue-200 hover:underline">Don't have an account? Sign Up</button>
+        <a href="#" id="forgotPassword" class="text-indigo-600 hover:underline">Forgot Password?</a>
+        <button type="button" id="toggleForm" class="text-indigo-600 hover:underline">Don't have an account? Sign Up</button>
       </div>
 
       <button type="submit" id="authBtn"
-        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2">
+        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2">
         <span id="authText">Login</span>
         <svg id="spinner" class="hidden animate-spin h-5 w-5 text-white"
           xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -87,18 +77,19 @@
       </button>
 
       <div id="payNow" class="hidden text-center">
-        <p class="text-yellow-200 font-semibold mt-4">You haven't purchased access yet.</p>
-        <a href="GPay.html" class="inline-block mt-2 px-6 py-3 bg-green-500 text-white rounded-xl hover:bg-green-600 transition">Pay Now</a>
+        <p class="text-red-600 font-semibold mt-4">You haven't purchased access yet.</p>
+        <a href="GPay.html" class="inline-block mt-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">Pay Now</a>
       </div>
     </form>
+
+    <div id="popupMessage" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg fade-slide hidden"></div>
   </div>
 
-  <!-- Firebase SDK & Logic -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
     import {
       getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,
-      sendPasswordResetEmail, signOut
+      sendPasswordResetEmail, signOut, onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
     import {
       getFirestore, setDoc, doc, getDoc
@@ -117,23 +108,42 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
+    const popup = document.getElementById("popupMessage");
+    const showPopup = (msg) => {
+      popup.textContent = msg;
+      popup.classList.remove("hidden");
+      popup.classList.add("show");
+      setTimeout(() => {
+        popup.classList.remove("show");
+        setTimeout(() => popup.classList.add("hidden"), 500);
+      }, 3000);
+    };
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        getDoc(doc(db, "users", user.uid)).then(docSnap => {
+          if (docSnap.exists() && docSnap.data().hasAccess) {
+            window.location.href = "dashboard.html";
+          } else {
+            signOut(auth);
+          }
+        });
+      }
+    });
+
     let isLogin = true;
     const toggleFormBtn = document.getElementById("toggleForm");
     const authText = document.getElementById("authText");
     const formTitle = document.getElementById("formTitle");
 
-    const updateFormMode = () => {
+    toggleFormBtn.addEventListener("click", () => {
+      isLogin = !isLogin;
       document.getElementById("nameField").classList.toggle("hidden", isLogin);
       document.getElementById("mobileField").classList.toggle("hidden", isLogin);
       document.getElementById("courseField").classList.toggle("hidden", isLogin);
       formTitle.textContent = isLogin ? "Login to your account" : "Create a new account";
       authText.textContent = isLogin ? "Login" : "Sign Up";
       toggleFormBtn.textContent = isLogin ? "Don't have an account? Sign Up" : "Already have an account? Login";
-    };
-
-    toggleFormBtn.addEventListener("click", () => {
-      isLogin = !isLogin;
-      updateFormMode();
     });
 
     document.getElementById("authForm").addEventListener("submit", async (e) => {
@@ -149,16 +159,26 @@
 
       try {
         if (isLogin) {
-          const userCredential = await signInWithEmailAndPassword(auth, email, password);
-          const docRef = doc(db, "users", userCredential.user.uid);
-          const docSnap = await getDoc(docRef);
+          try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const docRef = doc(db, "users", userCredential.user.uid);
+            const docSnap = await getDoc(docRef);
 
-          if (docSnap.exists() && docSnap.data().hasAccess) {
-            alert("Login successful!");
-            window.location.href = "dashboard.html";
-          } else {
-            document.getElementById("payNow").classList.remove("hidden");
-            await signOut(auth);
+            if (docSnap.exists() && docSnap.data().hasAccess) {
+              showPopup("Login successful!");
+              window.location.href = "dashboard.html";
+            } else {
+              document.getElementById("payNow").classList.remove("hidden");
+              await signOut(auth);
+            }
+          } catch (error) {
+            if (error.code === "auth/user-not-found") {
+              isLogin = false;
+              toggleFormBtn.click();
+              showPopup("No account found. Please sign up.");
+            } else {
+              showPopup("Error: " + error.message);
+            }
           }
 
         } else {
@@ -175,13 +195,14 @@
             hasAccess: false
           });
 
-          alert("Signup successful. Please wait for access approval.");
+          showPopup("Signup successful! Now login.");
           isLogin = true;
-          updateFormMode();
+          toggleFormBtn.click();
+          await signOut(auth);
         }
 
       } catch (error) {
-        alert("Error: " + error.message);
+        showPopup("Error: " + error.message);
       } finally {
         authText.textContent = isLogin ? "Login" : "Sign Up";
         spinner.classList.add("hidden");
@@ -194,9 +215,9 @@
       if (email) {
         try {
           await sendPasswordResetEmail(auth, email);
-          alert("Password reset email sent.");
+          showPopup("Password reset email sent.");
         } catch (error) {
-          alert("Error: " + error.message);
+          showPopup("Error: " + error.message);
         }
       }
     });
