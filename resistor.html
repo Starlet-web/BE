@@ -1,103 +1,99 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>STARLET - Login & Signup</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STARLET - Login & Signup</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     body {
       font-family: 'Poppins', sans-serif;
+      background: white;
       min-height: 100vh;
-      background: linear-gradient(135deg, #4f46e5, #3b82f6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
     }
-
-    .glass {
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 2rem;
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    #toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #10b981;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      transform: translateY(-20px);
+      z-index: 9999;
     }
-
-    input:focus, select:focus {
-      border-color: #6366f1;
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+    #toast.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
     }
   </style>
 </head>
-<body>
-
-  <div class="w-full max-w-md glass p-8 sm:p-10 text-white space-y-6">
+<body class="flex items-center justify-center min-h-screen bg-gray-50 p-4">  <div class="w-full max-w-2xl bg-white shadow-2xl rounded-2xl p-10 space-y-6 transition-all duration-700 ease-in-out">
     <div class="text-center">
-      <h2 class="text-4xl font-bold text-white drop-shadow">STARLET</h2>
-      <p class="text-indigo-100" id="formTitle">Login to your account</p>
-    </div>
-
-    <form id="authForm" class="space-y-5">
-      <div id="nameField" class="hidden">
-        <label class="block text-sm">Full Name</label>
-        <input type="text" id="name" class="w-full p-3 rounded-xl bg-white bg-opacity-20 text-white placeholder-white placeholder-opacity-70" placeholder="Your Name" />
-      </div>
-
-      <div id="mobileField" class="hidden">
-        <label class="block text-sm">Mobile Number</label>
-        <input type="text" id="mobile" class="w-full p-3 rounded-xl bg-white bg-opacity-20 text-white placeholder-white placeholder-opacity-70" placeholder="10-digit mobile" />
-      </div>
-
-      <div id="courseField" class="hidden">
-        <label class="block text-sm">Choose Course</label>
-        <select id="course" class="w-full p-3 rounded-xl bg-white bg-opacity-20 text-black">
-          <option value="">Select</option>
-          <option value="BSc 1st Year">BSc 1st Year</option>
-          <option value="BSc 2nd Year">BSc 2nd Year</option>
-          <option value="BSc 3rd Year">BSc 3rd Year</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block text-sm">Email</label>
-        <input type="email" id="email" class="w-full p-3 rounded-xl bg-white bg-opacity-20 text-white placeholder-white placeholder-opacity-70" placeholder="email@example.com" required />
-      </div>
-
-      <div>
-        <label class="block text-sm">Password</label>
-        <input type="password" id="password" class="w-full p-3 rounded-xl bg-white bg-opacity-20 text-white placeholder-white placeholder-opacity-70" placeholder="********" required />
-      </div>
-
-      <div class="flex justify-between text-sm">
-        <a href="#" id="forgotPassword" class="text-blue-200 hover:underline">Forgot Password?</a>
-        <button type="button" id="toggleForm" class="text-blue-200 hover:underline">Don't have an account? Sign Up</button>
-      </div>
-
-      <button type="submit" id="authBtn"
-        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2">
-        <span id="authText">Login</span>
-        <svg id="spinner" class="hidden animate-spin h-5 w-5 text-white"
-          xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
-        </svg>
-      </button>
-
-      <div id="payNow" class="hidden text-center">
-        <p class="text-yellow-200 font-semibold mt-4">You haven't purchased access yet.</p>
-        <a href="GPay.html" class="inline-block mt-2 px-6 py-3 bg-green-500 text-white rounded-xl hover:bg-green-600 transition">Pay Now</a>
-      </div>
-    </form>
+      <h2 class="text-4xl font-bold text-indigo-700">STARLET</h2>
+      <p class="text-gray-500" id="formTitle">Login to your account</p>
+    </div><form id="authForm" class="space-y-5">
+  <div id="nameField" class="hidden transition-all duration-500 ease-in-out">
+    <label class="block text-sm font-medium">Full Name</label>
+    <input type="text" id="name" class="w-full p-3 border rounded-lg" placeholder="Your Name" />
   </div>
 
-  <!-- Firebase SDK & Logic -->
-  <script type="module">
+  <div id="mobileField" class="hidden transition-all duration-500 ease-in-out">
+    <label class="block text-sm font-medium">Mobile Number</label>
+    <input type="text" id="mobile" class="w-full p-3 border rounded-lg" placeholder="10-digit mobile" />
+  </div>
+
+  <div id="courseField" class="hidden transition-all duration-500 ease-in-out">
+    <label class="block text-sm font-medium">Choose Course</label>
+    <select id="course" class="w-full p-3 border rounded-lg">
+      <option value="">Select</option>
+      <option value="BSc 1st Year">BSc 1st Year</option>
+      <option value="BSc 2nd Year">BSc 2nd Year</option>
+      <option value="BSc 3rd Year">BSc 3rd Year</option>
+    </select>
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium">Email</label>
+    <input type="email" id="email" class="w-full p-3 border rounded-lg" placeholder="email@example.com" required />
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium">Password</label>
+    <input type="password" id="password" class="w-full p-3 border rounded-lg" placeholder="********" required />
+  </div>
+
+  <div class="flex justify-between text-sm">
+    <a href="#" id="forgotPassword" class="text-indigo-600 hover:underline">Forgot Password?</a>
+    <button type="button" id="toggleForm" class="text-indigo-600 hover:underline">Don't have an account? Sign Up</button>
+  </div>
+
+  <button type="submit" id="authBtn"
+    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2">
+    <span id="authText">Login</span>
+    <svg id="spinner" class="hidden animate-spin h-5 w-5 text-white"
+      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+    </svg>
+  </button>
+
+  <div id="payNow" class="hidden text-center">
+    <p class="text-red-600 font-semibold mt-4">You haven't purchased access yet.</p>
+    <a href="GPay.html" class="inline-block mt-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">Pay Now</a>
+  </div>
+</form>
+
+  </div>  <div id="toast"></div>  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
     import {
-      getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,
+      getAuth, setPersistence, browserLocalPersistence,
+      signInWithEmailAndPassword, createUserWithEmailAndPassword,
       sendPasswordResetEmail, signOut
     } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
     import {
@@ -116,6 +112,14 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+    await setPersistence(auth, browserLocalPersistence);
+
+    const showToast = (msg) => {
+      const toast = document.getElementById("toast");
+      toast.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3000);
+    };
 
     let isLogin = true;
     const toggleFormBtn = document.getElementById("toggleForm");
@@ -123,9 +127,9 @@
     const formTitle = document.getElementById("formTitle");
 
     const updateFormMode = () => {
-      document.getElementById("nameField").classList.toggle("hidden", isLogin);
-      document.getElementById("mobileField").classList.toggle("hidden", isLogin);
-      document.getElementById("courseField").classList.toggle("hidden", isLogin);
+      ["nameField", "mobileField", "courseField"].forEach(id => {
+        document.getElementById(id).classList.toggle("hidden", isLogin);
+      });
       formTitle.textContent = isLogin ? "Login to your account" : "Create a new account";
       authText.textContent = isLogin ? "Login" : "Sign Up";
       toggleFormBtn.textContent = isLogin ? "Don't have an account? Sign Up" : "Already have an account? Login";
@@ -149,18 +153,27 @@
 
       try {
         if (isLogin) {
-          const userCredential = await signInWithEmailAndPassword(auth, email, password);
-          const docRef = doc(db, "users", userCredential.user.uid);
-          const docSnap = await getDoc(docRef);
+          try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const docRef = doc(db, "users", userCredential.user.uid);
+            const docSnap = await getDoc(docRef);
 
-          if (docSnap.exists() && docSnap.data().hasAccess) {
-            alert("Login successful!");
-            window.location.href = "dashboard.html";
-          } else {
-            document.getElementById("payNow").classList.remove("hidden");
-            await signOut(auth);
+            if (docSnap.exists() && docSnap.data().hasAccess) {
+              showToast("Login successful!");
+              window.location.href = "dashboard.html";
+            } else {
+              document.getElementById("payNow").classList.remove("hidden");
+              await signOut(auth);
+            }
+          } catch (error) {
+            if (error.code === "auth/user-not-found") {
+              showToast("User not found. Redirecting to Sign Up.");
+              isLogin = false;
+              updateFormMode();
+            } else {
+              showToast("Login Error: " + error.message);
+            }
           }
-
         } else {
           const name = document.getElementById("name").value.trim();
           const mobile = document.getElementById("mobile").value.trim();
@@ -175,13 +188,12 @@
             hasAccess: false
           });
 
-          alert("Signup successful. Please wait for access approval.");
+          showToast("Signup successful. Please wait for access approval.");
           isLogin = true;
           updateFormMode();
         }
-
       } catch (error) {
-        alert("Error: " + error.message);
+        showToast("Error: " + error.message);
       } finally {
         authText.textContent = isLogin ? "Login" : "Sign Up";
         spinner.classList.add("hidden");
@@ -194,12 +206,11 @@
       if (email) {
         try {
           await sendPasswordResetEmail(auth, email);
-          alert("Password reset email sent.");
+          showToast("Password reset email sent.");
         } catch (error) {
-          alert("Error: " + error.message);
+          showToast("Error: " + error.message);
         }
       }
     });
-  </script>
-</body>
+  </script></body>
 </html>
