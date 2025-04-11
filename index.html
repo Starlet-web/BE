@@ -38,12 +38,16 @@
     </div>
   </section>
 
-  <!-- About Section -->
+  <!-- About Section with Poster -->
   <section class="max-w-5xl mx-auto px-4 py-12">
     <h2 class="text-3xl font-bold text-center text-pink-600 mb-6">About Us</h2>
-    <p class="text-center text-lg text-gray-700">At STARLET, we provide top-quality education for BSC Bio students. Our
+    <p class="text-center text-lg text-gray-700 mb-8">At STARLET, we provide top-quality education for BSC Bio students. Our
       expert faculty ensures an excellent learning environment at just ₹500 per batch. We focus on deep understanding
       and concept clarity.</p>
+    <!-- Poster Image -->
+    <div class="flex justify-center">
+      <img src="your-poster-image.jpg" alt="Starlet Poster" class="rounded-xl shadow-lg w-full max-w-3xl">
+    </div>
   </section>
 
   <!-- Teachers Section -->
@@ -109,28 +113,19 @@
     </div>
   </section>
 
-<!-- Contact Section -->
+  <!-- WhatsApp Button -->
+  <button class="whatsapp-btn fixed bottom-6 right-6 z-50" id="whatsappRedirect">
+    <img class="whatsapp-icon w-14 h-14" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+  </button>
 
-
-    <button class="whatsapp-btn" id="whatsappRedirect">
-        <img class="whatsapp-icon" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-        Chat Now
-    </button>
-
-    <script>
-        document.getElementById("whatsappRedirect").addEventListener("click", function () {
-            let phoneNumber = "919648837922"; // Replace with the actual WhatsApp number
-            let message = encodeURIComponent("Hello ,Sir");
-            let whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
-
-            // Redirect to WhatsApp
-            window.open(whatsappURL, '_blank');
-        });
-    </script>
-
-</body>
-</html>
-
+  <script>
+    document.getElementById("whatsappRedirect").addEventListener("click", function () {
+      let phoneNumber = "919648837922"; // Replace with the actual WhatsApp number
+      let message = encodeURIComponent("Hello ,Sir");
+      let whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
+      window.open(whatsappURL, '_blank');
+    });
+  </script>
 
   <!-- Footer -->
   <footer class="bg-gray-800 text-white py-6 mt-10">
