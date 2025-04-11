@@ -2,24 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>STARLET - Login & Signup</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    html, body {
+    body {
       font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow-x: hidden;
+      background: white;
+      min-height: 100vh;
     }
 
-    .glass {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(15px);
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.3);
-      border-radius: 2rem;
+    .fade-slide {
+      animation: fadeSlide 0.5s ease-out forwards;
     }
 
     @keyframes fadeSlide {
@@ -32,66 +26,206 @@
         transform: translateY(0);
       }
     }
-
-    .fade-slide {
-      animation: fadeSlide 0.5s ease-out forwards;
-    }
   </style>
 </head>
-<body class="min-h-screen w-full bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center">
+<body class="flex items-center justify-center min-h-screen bg-gray-50 p-4">
 
-  <div class="w-full max-w-md p-6 sm:p-10 glass text-white fade-slide">
-    <div class="text-center mb-6">
-      <h1 class="text-4xl font-bold tracking-wide">STARLET</h1>
-      <p class="text-sm text-white/80" id="formTitle">Login to your account</p>
+  <div class="w-full max-w-2xl bg-white shadow-2xl rounded-2xl p-10 space-y-6 transition-all duration-500" id="formContainer">
+    <div class="text-center">
+      <h2 class="text-4xl font-bold text-indigo-700">STARLET</h2>
+      <p class="text-gray-500" id="formTitle">Login to your account</p>
     </div>
 
-    <form id="authForm" class="space-y-5">
+    <form id="authForm" class="space-y-5 transition-all duration-500">
       <div id="nameField" class="hidden">
-        <input type="text" id="name" class="w-full p-3 bg-white/10 text-white placeholder-white/70 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50" placeholder="Full Name" />
+        <label class="block text-sm font-medium">Full Name</label>
+        <input type="text" id="name" class="w-full p-3 border rounded-lg" placeholder="Your Name" />
       </div>
 
       <div id="mobileField" class="hidden">
-        <input type="text" id="mobile" class="w-full p-3 bg-white/10 text-white placeholder-white/70 border border-white/20 rounded-lg" placeholder="Mobile Number" />
+        <label class="block text-sm font-medium">Mobile Number</label>
+        <input type="text" id="mobile" class="w-full p-3 border rounded-lg" placeholder="10-digit mobile" />
       </div>
 
       <div id="courseField" class="hidden">
-        <select id="course" class="w-full p-3 bg-white/10 text-white border border-white/20 rounded-lg">
-          <option value="">Select Course</option>
+        <label class="block text-sm font-medium">Choose Course</label>
+        <select id="course" class="w-full p-3 border rounded-lg">
+          <option value="">Select</option>
           <option value="BSc 1st Year">BSc 1st Year</option>
           <option value="BSc 2nd Year">BSc 2nd Year</option>
           <option value="BSc 3rd Year">BSc 3rd Year</option>
         </select>
       </div>
 
-      <input type="email" id="email" class="w-full p-3 bg-white/10 text-white placeholder-white/70 border border-white/20 rounded-lg" placeholder="Email" required />
-      <input type="password" id="password" class="w-full p-3 bg-white/10 text-white placeholder-white/70 border border-white/20 rounded-lg" placeholder="Password" required />
-
-      <div class="flex justify-between text-xs text-white/70">
-        <a href="#" id="forgotPassword" class="hover:underline">Forgot Password?</a>
-        <button type="button" id="toggleForm" class="hover:underline">Don't have an account? Sign Up</button>
+      <div>
+        <label class="block text-sm font-medium">Email</label>
+        <input type="email" id="email" class="w-full p-3 border rounded-lg" placeholder="email@example.com" required />
       </div>
 
-      <button type="submit" id="authBtn" class="w-full bg-white/20 hover:bg-white/30 p-3 rounded-lg font-semibold text-white transition-all flex items-center justify-center gap-2">
+      <div>
+        <label class="block text-sm font-medium">Password</label>
+        <input type="password" id="password" class="w-full p-3 border rounded-lg" placeholder="********" required />
+      </div>
+
+      <div class="flex justify-between text-sm">
+        <a href="#" id="forgotPassword" class="text-indigo-600 hover:underline">Forgot Password?</a>
+        <button type="button" id="toggleForm" class="text-indigo-600 hover:underline transition">Don't have an account? Sign Up</button>
+      </div>
+
+      <button type="submit" id="authBtn"
+        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2">
         <span id="authText">Login</span>
         <svg id="spinner" class="hidden animate-spin h-5 w-5 text-white"
-             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
         </svg>
       </button>
 
-      <div id="payNow" class="hidden text-center mt-4">
-        <p class="text-red-300 font-semibold">You haven't purchased access yet.</p>
+      <div id="payNow" class="hidden text-center">
+        <p class="text-red-600 font-semibold mt-4">You haven't purchased access yet.</p>
         <a href="GPay.html" class="inline-block mt-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">Pay Now</a>
       </div>
     </form>
 
-    <!-- Pop-up -->
+    <!-- Success Popup -->
     <div id="popupMessage" class="hidden fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg fade-slide z-50"></div>
   </div>
 
-  <!-- Firebase + Script -->
-  <!-- Keep your Firebase <script type="module"> block from previous code here -->
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import {
+      getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,
+      sendPasswordResetEmail, signOut, setPersistence, browserLocalPersistence
+    } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+    import {
+      getFirestore, setDoc, doc, getDoc
+    } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
+      authDomain: "starlet-registor.firebaseapp.com",
+      projectId: "starlet-registor",
+      storageBucket: "starlet-registor.appspot.com",
+      messagingSenderId: "904193225045",
+      appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    setPersistence(auth, browserLocalPersistence);
+
+    let isLogin = true;
+    const toggleFormBtn = document.getElementById("toggleForm");
+    const authText = document.getElementById("authText");
+    const formTitle = document.getElementById("formTitle");
+
+    toggleFormBtn.addEventListener("click", () => toggleForm());
+
+    function toggleForm() {
+      isLogin = !isLogin;
+      document.getElementById("nameField").classList.toggle("hidden", isLogin);
+      document.getElementById("mobileField").classList.toggle("hidden", isLogin);
+      document.getElementById("courseField").classList.toggle("hidden", isLogin);
+      formTitle.textContent = isLogin ? "Login to your account" : "Create a new account";
+      authText.textContent = isLogin ? "Login" : "Sign Up";
+      toggleFormBtn.textContent = isLogin ? "Don't have an account? Sign Up" : "Already have an account? Login";
+    }
+
+    function showPopup(msg) {
+      const popup = document.getElementById("popupMessage");
+      popup.textContent = msg;
+      popup.classList.remove("hidden");
+      popup.classList.add("fade-slide");
+      setTimeout(() => popup.classList.add("hidden"), 3000);
+    }
+
+    document.getElementById("authForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const spinner = document.getElementById("spinner");
+      const authBtn = document.getElementById("authBtn");
+
+      authText.textContent = isLogin ? "Logging in..." : "Signing up...";
+      spinner.classList.remove("hidden");
+      authBtn.disabled = true;
+
+      try {
+        if (isLogin) {
+          try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const docRef = doc(db, "users", userCredential.user.uid);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists() && docSnap.data().hasAccess) {
+              showPopup("Login successful!");
+              setTimeout(() => window.location.href = "dashboard.html", 1500);
+            } else {
+              document.getElementById("payNow").classList.remove("hidden");
+              await signOut(auth);
+            }
+
+          } catch (err) {
+            if (err.code === 'auth/user-not-found') {
+              showPopup("User not found. Redirecting to signup...");
+              toggleForm();
+            } else {
+              showPopup("Error: " + err.message);
+            }
+          }
+
+        } else {
+          const name = document.getElementById("name").value.trim();
+          const mobile = document.getElementById("mobile").value.trim();
+          const course = document.getElementById("course").value;
+
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+          await setDoc(doc(db, "users", userCredential.user.uid), {
+            name,
+            email,
+            mobile,
+            course,
+            hasAccess: false
+          });
+
+          showPopup("Signup successful! Now login.");
+          toggleForm();
+        }
+
+      } catch (error) {
+        showPopup("Error: " + error.message);
+      } finally {
+        authText.textContent = isLogin ? "Login" : "Sign Up";
+        spinner.classList.add("hidden");
+        authBtn.disabled = false;
+      }
+    });
+
+    document.getElementById("forgotPassword").addEventListener("click", async () => {
+      const email = prompt("Enter your email to receive reset link:");
+      if (email) {
+        try {
+          await sendPasswordResetEmail(auth, email);
+          showPopup("Password reset email sent.");
+        } catch (error) {
+          showPopup("Error: " + error.message);
+        }
+      }
+    });
+
+    // Auto-login if already logged in
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        getDoc(doc(db, "users", user.uid)).then((docSnap) => {
+          if (docSnap.exists() && docSnap.data().hasAccess) {
+            window.location.href = "dashboard.html";
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>
