@@ -109,6 +109,29 @@
     </div>
   </section>
 
+<!-- Contact Section -->
+
+
+    <button class="whatsapp-btn" id="whatsappRedirect">
+        <img class="whatsapp-icon" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+        Chat Now
+    </button>
+
+    <script>
+        document.getElementById("whatsappRedirect").addEventListener("click", function () {
+            let phoneNumber = "919648837922"; // Replace with the actual WhatsApp number
+            let message = encodeURIComponent("Hello ,Sir");
+            let whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
+
+            // Redirect to WhatsApp
+            window.open(whatsappURL, '_blank');
+        });
+    </script>
+
+</body>
+</html>
+
+
   <!-- Footer -->
   <footer class="bg-gray-800 text-white py-6 mt-10">
     <div class="text-center">
