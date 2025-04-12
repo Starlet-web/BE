@@ -88,11 +88,10 @@
 
     </main>
 
-
 <!-- Circular Download Button Container -->
 <div id="app-download-container" class="download-banner">
   <a id="download-link" href="https://storage.appilix.com/uploads/app-apk-67f98393a190d-1744405395.apk" class="download-btn" title="Download App">
-    <span class="download-icon">⬇️</span>
+    <span class="download-icon">⬇️⭐</span>
   </a>
 </div>
 
@@ -153,18 +152,18 @@
 
 <!-- JavaScript Logic -->
 <script>
-  // Set this flag to true in your web app files to hide the download button
+  // Set to true in your web app pages to hide the download button
   const isWebApp = false;
 
-  // Display the download button only if not in the web app
+  // Show the button only on the website
   if (!isWebApp) {
     const banner = document.getElementById("app-download-container");
     banner.style.display = "block";
 
-    // Hide the banner after 10 seconds
+    // Hide after 10 seconds
     setTimeout(() => {
       banner.style.display = "none";
-    }, 10000); // 10000 milliseconds = 10 seconds
+    }, 10000); // 10 seconds
   }
 </script>
 
