@@ -90,7 +90,11 @@
 </head>
 <body>
   <div class="container">
-    <h2>Pay ₹500 for B.Sc Course</h2>
+    <h2>
+      Pay <span style="text-decoration: line-through; color: #888;">₹500</span> 
+      <span style="color: #1a237e; font-weight: 700;">₹400</span> for B.Sc Course <br>
+      <small style="color: green;">(20% Discount till 1 May!)</small>
+    </h2>
     <input type="text" id="name" placeholder="Your Name" required />
     <input type="tel" id="mobile" placeholder="Mobile Number" required pattern="[0-9]{10}" />
     <input type="email" id="email" placeholder="Email Address" required />
@@ -116,7 +120,7 @@
       const mobile = document.getElementById("mobile").value.trim();
       const email = document.getElementById("email").value.trim();
       const course = document.getElementById("course").value;
-      const amount = "500";
+      const amount = "400"; // Updated amount
       const upiId = "mgbhaukali@oksbi";
 
       if (!name || !mobile || !email || !course) {
@@ -136,7 +140,6 @@
         size: 200,
       });
 
-      // Simulated redirect after 15 seconds
       setTimeout(() => {
         window.location.href = "success.html";
       }, 15000);
