@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Starlet B.Sc. Bio Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script defer src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-  <script defer src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
-  <script defer src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -72,7 +72,6 @@
       <a href="https://meet.google.com/your-link-4" target="_blank" class="custom-button mt-4 inline-block bg-blue-600 text-white">Join Seminar</a>
     </div>
 
-    <!-- Notice Board Section -->
     <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
       <h2 class="section-title">Notice Board</h2>
       <ul class="mt-4 list-disc list-inside space-y-2 text-sm">
@@ -97,6 +96,15 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
+    function logout() {
+      auth.signOut().then(() => {
+        window.location.href = "login.html";
+      }).catch((error) => {
+        console.error("Logout Error:", error);
+        alert("Logout failed. Please try again.");
+      });
+    }
+
     auth.onAuthStateChanged(user => {
       if (user) {
         const userRef = db.collection('students').doc(user.uid);
@@ -112,14 +120,6 @@
         window.location.href = "login.html";
       }
     });
-
-    function logout() {
-      auth.signOut().then(() => {
-        window.location.href = "login.html";
-      }).catch((error) => {
-        console.error("Logout Error:", error);
-      });
-    }
   </script>
 </body>
 </html>
