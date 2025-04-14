@@ -33,7 +33,10 @@
   <div class="max-w-4xl mx-auto p-6 space-y-10">
     <header class="flex justify-between items-center">
       <h1 class="text-3xl font-bold text-indigo-600 dark:text-pink-400">Starlet B.Sc. Bio Dashboard</h1>
-      <img src="https://i.pravatar.cc/50" alt="User" class="w-10 h-10 rounded-full border-2 border-indigo-400 dark:border-pink-400" />
+      <div class="flex items-center space-x-4">
+        <button onclick="logout()" class="custom-button bg-red-500 text-white">Logout</button>
+        <img src="https://i.pravatar.cc/50" alt="User" class="w-10 h-10 rounded-full border-2 border-indigo-400 dark:border-pink-400" />
+      </div>
     </header>
 
     <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
@@ -68,6 +71,16 @@
       <h2 class="section-title">Seminar</h2>
       <a href="https://meet.google.com/your-link-4" target="_blank" class="custom-button mt-4 inline-block bg-blue-600 text-white">Join Seminar</a>
     </div>
+
+    <!-- Notice Board Section -->
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+      <h2 class="section-title">Notice Board</h2>
+      <ul class="mt-4 list-disc list-inside space-y-2 text-sm">
+        <li>1st Year Practical Exam starts from 20th April.</li>
+        <li>2nd Year students must submit seminar topics by 18th April.</li>
+        <li>3rd Year Final Exam Time Table released, check college website.</li>
+      </ul>
+    </div>
   </div>
 
   <script>
@@ -99,6 +112,14 @@
         window.location.href = "login.html";
       }
     });
+
+    function logout() {
+      auth.signOut().then(() => {
+        window.location.href = "login.html";
+      }).catch((error) => {
+        console.error("Logout Error:", error);
+      });
+    }
   </script>
 </body>
 </html>
