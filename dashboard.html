@@ -17,8 +17,6 @@
       font-weight: 700;
       color: #4f46e5;
     }
-
-    /* Stylish Gradient Button - For Lecture & Notes */
     .custom-button {
       position: relative;
       display: inline-block;
@@ -64,44 +62,31 @@
       transition: 0s;
     }
 
-    /* For Logout & Seminar */
-    .btn-logout {
-      font-size: 0.8rem;
-      padding: 10px 16px;
-      border-radius: 0.75rem;
-      font-weight: 600;
-      transition: 0.3s ease;
-      background-color: #dc2626; /* red-600 */
-      color: white;
-      box-shadow: 0 4px 12px rgba(248, 113, 113, 0.5);
+    /* Special Seminar Button */
+    .seminar-button {
+      background-image: linear-gradient(to right, #06b6d4, #3b82f6);
+      box-shadow: 0 5px 15px rgba(6, 182, 212, 0.4);
     }
-    .btn-logout:hover {
-      transform: scale(1.05);
-      background-color: #b91c1c; /* red-700 */
+    .seminar-button:hover {
+      box-shadow: 0 10px 20px rgba(6, 182, 212, 0.6);
     }
 
-    .btn-seminar {
-      font-size: 0.8rem;
-      padding: 10px 16px;
-      border-radius: 0.75rem;
-      font-weight: 600;
-      transition: 0.3s ease;
-      background-color: #0891b2; /* cyan-600 */
-      color: white;
-      box-shadow: 0 4px 12px rgba(34, 211, 238, 0.5);
+    /* Logout Button */
+    .logout-button {
+      background-image: linear-gradient(to right, #ef4444, #dc2626);
+      box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
     }
-    .btn-seminar:hover {
-      transform: scale(1.05);
-      background-color: #0e7490; /* cyan-700 */
+    .logout-button:hover {
+      box-shadow: 0 10px 20px rgba(239, 68, 68, 0.6);
     }
   </style>
 </head>
 <body class="bg-gradient-to-tr from-blue-100 via-purple-100 to-pink-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100 min-h-screen">
   <div class="max-w-4xl mx-auto p-6 space-y-10">
     <header class="flex justify-between items-center">
-      <h1 class="text-3xl font-bold text-indigo-600 dark:text-red-400">STARLET</h1>
+      <h1 class="text-3xl font-bold text-indigo-600 dark:text-pink-400">Starlet B.Sc</h1>
       <div class="flex items-center space-x-4">
-        <button onclick="logout()" class="btn-logout">Logout</button>
+        <button onclick="logout()" class="custom-button logout-button">Logout</button>
         <img src="https://i.pravatar.cc/50" alt="User" class="w-10 h-10 rounded-full border-2 border-indigo-400 dark:border-pink-400" />
       </div>
     </header>
@@ -114,24 +99,24 @@
     <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
       <h2 class="section-title">Lecture Links</h2>
       <div class="grid grid-cols-2 gap-4 mt-4">
-        <a href="https://meet.google.com/your-link-1" target="_blank" class="custom-button">1st Year</a>
-        <a href="meet.google.com/shx-fpmm-vaz" target="_blank" class="custom-button">2nd Year</a>
-        <a href="#" class="custom-button">3rd Year</a>
+        <a href="intent://meet.google.com/abc-def-ghi#Intent;package=com.google.android.apps.meetings;scheme=https;end" class="custom-button">1st Year</a>
+        <a href="intent://meet.google.com/shx-fpmm-vaz#Intent;package=com.google.android.apps.meetings;scheme=https;end" class="custom-button">2nd Year</a>
+        <a href="intent://meet.google.com/jkl-mno-pqr#Intent;package=com.google.android.apps.meetings;scheme=https;end" class="custom-button">3rd Year</a>
       </div>
     </div>
 
     <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
       <h2 class="section-title">Notes</h2>
       <div class="grid grid-cols-2 gap-4 mt-4">
-        <a href="1stYearNotes.html" class="custom-button">1st Year </a>
-        <a href="2ndYearNotes.html" class="custom-button">2nd Year </a>
-        <a href="3rdYearNotes.html" class="custom-button">3rd Year </a>
+        <a href="1stYearNotes.html" class="custom-button">1st Year</a>
+        <a href="2ndYearNotes.html" class="custom-button">2nd Year</a>
+        <a href="3rdYearNotes.html" class="custom-button">3rd Year</a>
       </div>
     </div>
 
     <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
       <h2 class="section-title">Seminar</h2>
-      <a href="https://meet.google.com/your-link-4" target="_blank" class="btn-seminar mt-4 inline-block">Join Seminar</a>
+      <a href="intent://meet.google.com/your-link-4#Intent;package=com.google.android.apps.meetings;scheme=https;end" target="_blank" class="custom-button seminar-button mt-4 inline-block">Join Seminar</a>
     </div>
 
     <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
