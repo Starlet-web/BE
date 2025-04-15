@@ -2,157 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Starlet B.Sc. Bio Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    .section-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #4f46e5;
-    }
-    .custom-button {
-      position: relative;
-      display: inline-block;
-      padding: 0.75rem 1.5rem;
-      font-size: 0.875rem;
-      font-weight: 600;
-      border-radius: 1rem;
-      text-align: center;
-      color: white;
-      background-image: linear-gradient(to right, #6366f1, #8b5cf6);
-      box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
-      transition: transform 0.2s ease, box-shadow 0.3s ease, background-position 0.3s ease;
-      background-size: 200% auto;
-      overflow: hidden;
-    }
-
-    .custom-button:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 10px 20px rgba(139, 92, 246, 0.5);
-      background-position: right center;
-    }
-
-    .custom-button:active {
-      transform: scale(0.97);
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .custom-button::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      height: 300%;
-      width: 300%;
-      background: radial-gradient(circle, rgba(255,255,255,0.4) 10%, transparent 10.01%);
-      background-repeat: no-repeat;
-      background-position: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      opacity: 0;
-      transition: transform 0.5s, opacity 1s;
-      pointer-events: none;
-    }
-
-    .custom-button:active::after {
-      transform: translate(-50%, -50%) scale(1);
-      opacity: 1;
-      transition: 0s;
-    }
-
-    .logout-button {
-      background: linear-gradient(to right, #ef4444, #dc2626);
-      box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
-    }
-
-    .seminar-button {
-      background: linear-gradient(to right, #06b6d4, #0891b2);
-      box-shadow: 0 5px 15px rgba(6, 182, 212, 0.4);
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>B.Sc. Biology Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gradient-to-tr from-blue-100 via-purple-100 to-pink-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100 min-h-screen">
-  <div class="max-w-4xl mx-auto p-6 space-y-10">
-    <header class="flex justify-between items-center">
-      <h1 class="text-3xl font-bold text-indigo-600 dark:text-pink-400">Starlet B.Sc</h1>
-      <div class="flex items-center space-x-4">
-        <button onclick="logout()" class="custom-button logout-button">Logout</button>
-        <img src="https://i.pravatar.cc/50" alt="User" class="w-10 h-10 rounded-full border-2 border-indigo-400 dark:border-pink-400" />
+<body class="bg-gradient-to-tr from-green-50 via-blue-50 to-purple-50 min-h-screen p-6">
+
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl font-bold text-center text-green-800 mb-8">B.Sc. Biology Dashboard</h1>
+
+    <div class="grid gap-6 md:grid-cols-2">
+      
+      <!-- 1st Year -->
+      <div class="p-6 bg-white rounded-2xl shadow-lg border-t-4 border-green-400 transition-transform transform hover:scale-105">
+        <h2 class="text-2xl font-semibold text-green-700 mb-4">B.Sc. 1st Year</h2>
+        <a href="https://zoom.us/j/1234567890" target="_blank" rel="noopener noreferrer" class="inline-block bg-green-500 text-white px-5 py-2 rounded-xl hover:bg-green-600 transition">Join Class</a>
       </div>
-    </header>
 
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-      <h2 class="section-title">Welcome</h2>
-      <p class="text-sm mt-1">Access your classes, notes, and seminar links below.</p>
-    </div>
-
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-      <h2 class="section-title">Lecture Links</h2>
-      <div class="grid grid-cols-2 gap-4 mt-4">
-        <a href="https://zoom.us/j/12345678901" target="_blank" rel="noopener noreferrer" class="custom-button">1st Year</a>
-        <a href="https://zoom.us/j/23456789012" target="_blank" rel="noopener noreferrer" class="custom-button">2nd Year</a>
-        <a href="https://zoom.us/j/34567890123" target="_blank" rel="noopener noreferrer" class="custom-button">3rd Year</a>
+      <!-- 2nd Year -->
+      <div class="p-6 bg-white rounded-2xl shadow-lg border-t-4 border-blue-400 transition-transform transform hover:scale-105">
+        <h2 class="text-2xl font-semibold text-blue-700 mb-4">B.Sc. 2nd Year</h2>
+        <a href="https://us04web.zoom.us/j/4527503240?pwd=r4x5vNC7o7uDOdhhc8YaMWC3QaYsfa.1&omn=76899787530" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-500 text-white px-5 py-2 rounded-xl hover:bg-blue-600 transition">Join Class</a>
       </div>
-    </div>
 
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-      <h2 class="section-title">Notes</h2>
-      <div class="grid grid-cols-2 gap-4 mt-4">
-        <a href="1stYearNotes.html" class="custom-button">1st Year Notes</a>
-        <a href="2ndYearNotes.html" class="custom-button">2nd Year Notes</a>
-        <a href="3rdYearNotes.html" class="custom-button">3rd Year Notes</a>
+      <!-- 3rd Year -->
+      <div class="p-6 bg-white rounded-2xl shadow-lg border-t-4 border-purple-400 transition-transform transform hover:scale-105">
+        <h2 class="text-2xl font-semibold text-purple-700 mb-4">B.Sc. 3rd Year</h2>
+        <a href="https://zoom.us/j/3456789012" target="_blank" rel="noopener noreferrer" class="inline-block bg-purple-500 text-white px-5 py-2 rounded-xl hover:bg-purple-600 transition">Join Class</a>
       </div>
-    </div>
 
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-      <h2 class="section-title">Seminar</h2>
-      <a href="https://zoom.us/j/45678901234" target="_blank" rel="noopener noreferrer" class="custom-button seminar-button mt-4 inline-block">Join Seminar</a>
-    </div>
+      <!-- Logout -->
+      <div class="p-6 bg-white rounded-2xl shadow-lg border-t-4 border-red-400 transition-transform transform hover:scale-105">
+        <h2 class="text-2xl font-semibold text-red-700 mb-4">Logout</h2>
+        <a href="logout.html" class="inline-block bg-red-500 text-white px-5 py-2 rounded-xl hover:bg-red-600 transition">Logout</a>
+      </div>
 
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-      <h2 class="section-title">Notice Board</h2>
-      <ul class="mt-4 list-disc list-inside space-y-2 text-sm">
-        <li>1st Year Practical Exam starts from 20th April.</li>
-        <li>2nd Year students must submit seminar topics by 18th April.</li>
-        <li>3rd Year Final Exam Time Table released, check college website.</li>
-      </ul>
     </div>
   </div>
 
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
-      authDomain: "starlet-registor.firebaseapp.com",
-      projectId: "starlet-registor",
-      storageBucket: "starlet-registor.appspot.com",
-      messagingSenderId: "904193225045",
-      appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc"
-    };
-    firebase.initializeApp(firebaseConfig);
-
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-
-    function logout() {
-      auth.signOut().then(() => {
-        window.location.href = "index.html";
-      }).catch((error) => {
-        console.error("Logout Error:", error);
-        alert("Logout failed. Please try again.");
-      });
-    }
-
-    auth.onAuthStateChanged(user => {
-      if (!user) {
-        window.location.href = "login.html";
-      }
-    });
-  </script>
 </body>
 </html>
