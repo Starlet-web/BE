@@ -57,6 +57,12 @@
       text-shadow: 2px 2px 10px rgba(96, 165, 250, 0.4);
       letter-spacing: 2px;
     }
+    .poster-img {
+      width: 100%;
+      height: auto;
+      border-radius: 1rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
   </style>
 </head>
 <body class="bg-blue-50 text-gray-800 min-h-screen">
@@ -72,9 +78,12 @@
       </div>
     </header>
 
-    <!-- Fullscreen Poster 1 -->
-    <div class="w-full h-screen overflow-hidden shadow-lg rounded-xl">
-      <img src="IMG_20250417_015130.png" alt="Dashboard Poster" class="w-full h-full object-cover">
+    <!-- Poster 1 -->
+    <div class="bg-white p-6 rounded-xl shadow-lg">
+      <h2 class="section-title"></h2>
+      <div class="mt-4">
+        <img src="IMG_20250417_015130.png" alt="Dashboard Poster" class="poster-img">
+      </div>
     </div>
 
     <!-- Welcome Section -->
@@ -83,9 +92,12 @@
       <p class="text-sm mt-1">Access your classes, notes, and seminar links below.</p>
     </div>
 
-    <!-- Fullscreen Poster 2 -->
-    <div class="w-full h-screen overflow-hidden shadow-lg rounded-xl">
-      <img src="f37ccfc6-891e-42e6-a3ec-fc2b9465c6f2.png" alt="More Poster" class="w-full h-full object-cover">
+    <!-- Poster 2 -->
+    <div class="bg-white p-6 rounded-xl shadow-lg">
+      <h2 class="section-title"></h2>
+      <div class="mt-4">
+        <img src="f37ccfc6-891e-42e6-a3ec-fc2b9465c6f2.png" alt="Dashboard Poster" class="poster-img">
+      </div>
     </div>
 
     <!-- Lecture Links -->
@@ -123,6 +135,7 @@
         <li>3rd Year Final Exam Time Table released, check college website.</li>
       </ul>
     </div>
+
   </div>
 
   <!-- Firebase Config -->
