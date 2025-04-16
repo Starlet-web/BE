@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -41,26 +40,6 @@
       transform: scale(0.97);
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
     }
-    .custom-button::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      height: 300%;
-      width: 300%;
-      background: radial-gradient(circle, rgba(255,255,255,0.4) 10%, transparent 10.01%);
-      background-repeat: no-repeat;
-      background-position: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      opacity: 0;
-      transition: transform 0.5s, opacity 1s;
-      pointer-events: none;
-    }
-    .custom-button:active::after {
-      transform: translate(-50%, -50%) scale(1);
-      opacity: 1;
-      transition: 0s;
-    }
   </style>
 </head>
 <body class="bg-gradient-to-tr from-blue-100 via-purple-100 to-pink-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100 min-h-screen">
@@ -71,47 +50,44 @@
         <button onclick="logout()" class="custom-button bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-400/50">Logout</button>
         <img src="https://i.pravatar.cc/50" alt="User" class="w-10 h-10 rounded-full border-2 border-indigo-400 dark:border-pink-400" />
       </div>
-    </header>
+    </header><div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+  <h2 class="section-title">Welcome</h2>
+  <p class="text-sm mt-1">Access your classes, notes, and seminar links below.</p>
+</div>
 
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-      <h2 class="section-title">Welcome</h2>
-      <p class="text-sm mt-1">Access your classes, notes, and seminar links below.</p>
-    </div>
-
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-      <h2 class="section-title">Lecture Links</h2>
-      <div class="grid grid-cols-2 gap-4 mt-4">
-        <a href="zoommtg://zoom.us/join?action=join&confno=12345678901" class="custom-button bg-indigo-500 hover:bg-indigo-600">1st Year</a>
-        <a href="zoommtg://zoom.us/join?action=join&confno=23456789012" class="custom-button bg-green-500 hover:bg-green-600">2nd Year</a>
-        <a href="zoommtg://zoom.us/join?action=join&confno=34567890123" class="custom-button bg-pink-500 hover:bg-pink-600">3rd Year</a>
-      </div>
-    </div>
-
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-      <h2 class="section-title">Notes</h2>
-      <div class="grid grid-cols-2 gap-4 mt-4">
-        <a href="1stYearNotes.html" class="custom-button bg-yellow-500 hover:bg-yellow-600">1st Year Notes</a>
-        <a href="2ndYearNotes.html" class="custom-button bg-rose-500 hover:bg-rose-600">2nd Year Notes</a>
-        <a href="3rdYearNotes.html" class="custom-button bg-violet-500 hover:bg-violet-600">3rd Year Notes</a>
-      </div>
-    </div>
-
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-      <h2 class="section-title">Seminar</h2>
-      <a href="zoommtg://zoom.us/join?action=join&confno=98765432109" class="custom-button mt-4 inline-block bg-cyan-600 hover:bg-cyan-700">Join Seminar</a>
-    </div>
-
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-      <h2 class="section-title">Notice Board</h2>
-      <ul class="mt-4 list-disc list-inside space-y-2 text-sm">
-        <li>1st Year Practical Exam starts from 20th April.</li>
-        <li>2nd Year students must submit seminar topics by 18th April.</li>
-        <li>3rd Year Final Exam Time Table released, check college website.</li>
-      </ul>
-    </div>
+<div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+  <h2 class="section-title">Lecture Links</h2>
+  <div class="grid grid-cols-2 gap-4 mt-4">
+    <a href="zoomus://zoom.us/join?confno=1234567890&pwd=abc123" class="custom-button bg-indigo-500 hover:bg-indigo-600 text-white shadow-md">1st Year</a>
+    <a href="zoomus://zoom.us/join?confno=2345678901&pwd=def456" class="custom-button bg-green-500 hover:bg-green-600 text-white shadow-md">2nd Year</a>
+    <a href="zoomus://zoom.us/join?confno=3456789012&pwd=ghi789" class="custom-button bg-pink-500 hover:bg-pink-600 text-white shadow-md">3rd Year</a>
   </div>
+</div>
 
-  <script>
+<div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+  <h2 class="section-title">Notes</h2>
+  <div class="grid grid-cols-2 gap-4 mt-4">
+    <a href="1stYearNotes.html" class="custom-button bg-yellow-500 hover:bg-yellow-600 text-white shadow-md">1st Year Notes</a>
+    <a href="2ndYearNotes.html" class="custom-button bg-rose-500 hover:bg-rose-600 text-white shadow-md">2nd Year Notes</a>
+    <a href="3rdYearNotes.html" class="custom-button bg-violet-500 hover:bg-violet-600 text-white shadow-md">3rd Year Notes</a>
+  </div>
+</div>
+
+<div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+  <h2 class="section-title">Seminar</h2>
+  <a href="zoomus://zoom.us/join?confno=9876543210&pwd=xyz123" target="_blank" class="custom-button mt-4 inline-block bg-cyan-600 hover:bg-cyan-700 text-white shadow-md shadow-cyan-400/50">Join Seminar</a>
+</div>
+
+<div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+  <h2 class="section-title">Notice Board</h2>
+  <ul class="mt-4 list-disc list-inside space-y-2 text-sm">
+    <li>1st Year Practical Exam starts from 20th April.</li>
+    <li>2nd Year students must submit seminar topics by 18th April.</li>
+    <li>3rd Year Final Exam Time Table released, check college website.</li>
+  </ul>
+</div>
+
+  </div>  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
       authDomain: "starlet-registor.firebaseapp.com",
@@ -121,6 +97,7 @@
       appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc"
     };
     firebase.initializeApp(firebaseConfig);
+
     const auth = firebase.auth();
     const db = firebase.firestore();
 
@@ -138,6 +115,5 @@
         window.location.href = "login.html";
       }
     });
-  </script>
-</body>
+  </script></body>
 </html>
