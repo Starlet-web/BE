@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,10 +15,9 @@
     .section-title {
       font-size: 1.5rem;
       font-weight: 700;
-      color: #4f46e5;
+      color: #2563eb;
     }
     .custom-button {
-      position: relative;
       display: inline-block;
       padding: 0.75rem 1.5rem;
       font-size: 0.875rem;
@@ -25,87 +25,108 @@
       border-radius: 1rem;
       text-align: center;
       color: white;
-      background-image: linear-gradient(to right, #6366f1, #8b5cf6);
-      box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
-      transition: transform 0.2s ease, box-shadow 0.3s ease, background-position 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
       background-size: 200% auto;
-      overflow: hidden;
+      background-position: left center;
     }
     .custom-button:hover {
       transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 10px 20px rgba(139, 92, 246, 0.5);
       background-position: right center;
     }
-    .custom-button:active {
-      transform: scale(0.97);
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    .logout-button {
+      background-image: linear-gradient(to right, #ef4444, #dc2626); /* Red */
+      box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
+    }
+    .logout-button:hover {
+      box-shadow: 0 10px 20px rgba(220, 38, 38, 0.6);
+    }
+    .seminar-button {
+      background-image: linear-gradient(to right, #a855f7, #9333ea); /* Purple */
+      box-shadow: 0 5px 15px rgba(168, 85, 247, 0.4);
+    }
+    .seminar-button:hover {
+      box-shadow: 0 10px 20px rgba(147, 51, 234, 0.5);
+    }
+    .stylish-logo {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(to right, #2563eb, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 2px 2px 10px rgba(96, 165, 250, 0.4);
+      letter-spacing: 2px;
     }
   </style>
 </head>
-<body class="bg-gradient-to-tr from-blue-100 via-blue-100 to-pink-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100 min-h-screen">
-  <div class="max-w-4xl mx-auto p-6 space-y-10">
-    <header class="flex justify-between items-center">
-      <h1 class="text-3xl font-bold text-indigo-600 dark:text-pink-400">Starlet </h1>
+<body class="bg-blue-50 text-gray-800 min-h-screen">
+
+  <div class="max-w-4xl mx-auto space-y-10">
+
+    <!-- Header -->
+    <header class="flex justify-between items-center p-6">
+      <h1 class="stylish-logo">Starlet</h1>
       <div class="flex items-center space-x-4">
-        <button onclick="logout()" class="custom-button bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-400/50">Logout</button>
-        <img src="https://i.pravatar.cc/50" alt="User" class="w-10 h-10 rounded-full border-2 border-red-400 dark:border-pink-400" />
+        <button onclick="logout()" class="custom-button logout-button">Logout</button>
+        <img src="https://i.pravatar.cc/50" alt="User" class="w-10 h-10 rounded-full border-2 border-blue-500" />
       </div>
-   </div>
+    </header>
 
+    <!-- Fullscreen Poster 1 -->
+    <div class="w-full h-screen overflow-hidden shadow-lg rounded-xl">
+      <img src="IMG_20250417_015130.png" alt="Dashboard Poster" class="w-full h-full object-cover">
+    </div>
 
-<div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-  <h2 class="section-title"></h2>
-  <div class="mt-4">
-    <img src="IMG_20250417_015130.png" alt="Dashboard Poster" class="w-full rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
+    <!-- Welcome Section -->
+    <div class="bg-white p-6 rounded-xl shadow-lg">
+      <h2 class="section-title">Welcome</h2>
+      <p class="text-sm mt-1">Access your classes, notes, and seminar links below.</p>
+    </div>
+
+    <!-- Fullscreen Poster 2 -->
+    <div class="w-full h-screen overflow-hidden shadow-lg rounded-xl">
+      <img src="f37ccfc6-891e-42e6-a3ec-fc2b9465c6f2.png" alt="More Poster" class="w-full h-full object-cover">
+    </div>
+
+    <!-- Lecture Links -->
+    <div class="bg-white p-6 rounded-xl shadow-lg">
+      <h2 class="section-title">Lecture Links</h2>
+      <div class="grid grid-cols-2 gap-4 mt-4">
+        <a href="zoomus://zoom.us/join?confno=1234567890&pwd=abc123" class="custom-button" style="background-image: linear-gradient(to right, #3b82f6, #2563eb);">1st Year</a>
+        <a href="zoomus://zoom.us/join?confno=4527503240&pwd=QDw5xc" class="custom-button" style="background-image: linear-gradient(to right, #3b82f6, #2563eb);">2nd Year</a>
+        <a href="zoomus://zoom.us/join?confno=3456789012&pwd=ghi789" class="custom-button" style="background-image: linear-gradient(to right, #3b82f6, #2563eb);">3rd Year</a>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="bg-white p-6 rounded-xl shadow-lg">
+      <h2 class="section-title">Notes</h2>
+      <div class="grid grid-cols-2 gap-4 mt-4">
+        <a href="1stYearNotes.html" class="custom-button" style="background-image: linear-gradient(to right, #3b82f6, #2563eb);">1st Year Notes</a>
+        <a href="2ndYearNotes.html" class="custom-button" style="background-image: linear-gradient(to right, #3b82f6, #2563eb);">2nd Year Notes</a>
+        <a href="3rdYearNotes.html" class="custom-button" style="background-image: linear-gradient(to right, #3b82f6, #2563eb);">3rd Year Notes</a>
+      </div>
+    </div>
+
+    <!-- Seminar -->
+    <div class="bg-white p-6 rounded-xl shadow-lg">
+      <h2 class="section-title">Seminar</h2>
+      <a href="zoomus://zoom.us/join?confno=9876543210&pwd=xyz123" target="_blank" class="custom-button seminar-button mt-4 inline-block">Join Seminar</a>
+    </div>
+
+    <!-- Notice Board -->
+    <div class="bg-white p-6 rounded-xl shadow-lg">
+      <h2 class="section-title">Notice Board</h2>
+      <ul class="mt-4 list-disc list-inside space-y-2 text-sm">
+        <li>1st Year Practical Exam starts from 20th April.</li>
+        <li>2nd Year students must submit seminar topics by 18th April.</li>
+        <li>3rd Year Final Exam Time Table released, check college website.</li>
+      </ul>
+    </div>
   </div>
-</div>
 
-    </header><div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-  <h2 class="section-title">Welcome</h2>
-  <p class="text-sm mt-1">Access your classes, notes, and seminar links below.</p>
-</div>
-
-<div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-  <h2 class="section-title"></h2>
-  <div class="mt-4">
-    <img src="f37ccfc6-891e-42e6-a3ec-fc2b9465c6f2.png" alt="Dashboard Poster" class="w-full rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
-  </div>
-</div>
-
-<div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-  <h2 class="section-title">Lecture Links</h2>
-  <div class="grid grid-cols-2 gap-4 mt-4">
-    <a href="zoomus://zoom.us/join?confno=1234567890&pwd=abc123" class="custom-button bg-indigo-500 hover:bg-indigo-600 text-white shadow-md">1st Year</a>
-    <a href="zoomus://zoom.us/join?confno=4527503240&pwd=QDw5xc" class="custom-button bg-green-500 hover:bg-green-600 text-white shadow-md">2nd Year</a>
-    <a href="zoomus://zoom.us/join?confno=3456789012&pwd=ghi789" class="custom-button bg-pink-500 hover:bg-pink-600 text-white shadow-md">3rd Year</a>
-  </div>
-</div>
-
-
-<div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-  <h2 class="section-title">Notes</h2>
-  <div class="grid grid-cols-2 gap-4 mt-4">
-    <a href="1stYearNotes.html" class="custom-button bg-yellow-500 hover:bg-yellow-600 text-white shadow-md">1st Year Notes</a>
-    <a href="2ndYearNotes.html" class="custom-button bg-rose-500 hover:bg-rose-600 text-white shadow-md">2nd Year Notes</a>
-    <a href="3rdYearNotes.html" class="custom-button bg-violet-500 hover:bg-violet-600 text-white shadow-md">3rd Year Notes</a>
-  </div>
-</div>
-
-<div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-  <h2 class="section-title">Seminar</h2>
-  <a href="zoomus://zoom.us/join?confno=9876543210&pwd=xyz123" target="_blank" class="custom-button mt-4 inline-block bg-cyan-600 hover:bg-cyan-700 text-white shadow-md shadow-cyan-400/50">Join Seminar</a>
-</div>
-
-<div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-  <h2 class="section-title">Notice Board</h2>
-  <ul class="mt-4 list-disc list-inside space-y-2 text-sm">
-    <li>1st Year Practical Exam starts from 20th April.</li>
-    <li>2nd Year students must submit seminar topics by 18th April.</li>
-    <li>3rd Year Final Exam Time Table released, check college website.</li>
-  </ul>
-</div>
-
-  </div>  <script>
+  <!-- Firebase Config -->
+  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
       authDomain: "starlet-registor.firebaseapp.com",
@@ -133,5 +154,6 @@
         window.location.href = "login.html";
       }
     });
-  </script></body>
+  </script>
+</body>
 </html>
