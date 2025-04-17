@@ -35,14 +35,14 @@
       background-position: right center;
     }
     .logout-button {
-      background-image: linear-gradient(to right, #ef4444, #dc2626); /* Red */
+      background-image: linear-gradient(to right, #ef4444, #dc2626);
       box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
     }
     .logout-button:hover {
       box-shadow: 0 10px 20px rgba(220, 38, 38, 0.6);
     }
     .seminar-button {
-      background-image: linear-gradient(to right, #a855f7, #9333ea); /* Purple */
+      background-image: linear-gradient(to right, #a855f7, #9333ea);
       box-shadow: 0 5px 15px rgba(168, 85, 247, 0.4);
     }
     .seminar-button:hover {
@@ -62,18 +62,29 @@
       height: auto;
       border-radius: 1rem;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+    .poster-img:hover {
+      transform: scale(1.02);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 0.6s ease-out both;
     }
   </style>
 </head>
 <body class="bg-blue-50 text-gray-800 min-h-screen">
 
-  <div class="max-w-4xl mx-auto space-y-10">
+  <div class="max-w-4xl mx-auto space-y-10 animate-fadeIn">
 
     <!-- Header -->
     <header class="flex justify-between items-center p-6">
       <h1 class="stylish-logo">Starlet</h1>
       <div class="flex items-center space-x-4">
-        <button onclick="logout(index.html)" class="custom-button logout-button">Logout</button>
+        <button onclick="logout()" class="custom-button logout-button">Logout</button>
         <img src="https://i.pravatar.cc/50" alt="User" class="w-10 h-10 rounded-full border-2 border-blue-500" />
       </div>
     </header>
