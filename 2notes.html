@@ -105,32 +105,33 @@
               </button>
               <div class="accordion-content mt-3 pl-4 space-y-2">
                 ${units.map((unit, i) => {
-                  // Special links for Genetics and Ecology
-                  if (subject === "Zoology" && paper === "paper3" && i === 1) {
-                    return `
-                      <a href="https://online.pubhtml5.com/yamxd/innh/" target="_blank"
-                        class="block rounded-lg bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] text-white px-4 py-2 font-medium hover:from-[#1D4ED8] hover:to-[#3B82F6] transition duration-200">
-                        <i class="lucide lucide-file-check mr-1"></i>Unit ${i + 1}: ${unit}
-                      </a>
-                    `;
-                  }
+                  // Special links
                   if (subject === "Zoology" && paper === "paper1" && i === 2) {
-                    return `
-                      <a href="https://online.pubhtml5.com/yamxd/vpcg/" target="_blank"
-                        class="block rounded-lg bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] text-white px-4 py-2 font-medium hover:from-[#1D4ED8] hover:to-[#3B82F6] transition duration-200">
-                        <i class="lucide lucide-file-check mr-1"></i>Unit ${i + 1}: ${unit}
-                      </a>
-                    `;
+                    return `<a href="https://online.pubhtml5.com/yamxd/vpcg/" target="_blank"
+                      class="block rounded-lg bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] text-white px-4 py-2 font-medium hover:from-[#1D4ED8] hover:to-[#3B82F6] transition duration-200">
+                      <i class="lucide lucide-file-check mr-1"></i>Unit ${i + 1}: ${unit}</a>`;
+                  }
+                  if (subject === "Zoology" && paper === "paper2" && i === 0) {
+                    return `<a href="https://online.pubhtml5.com/yamxd/onno/" target="_blank"
+                      class="block rounded-lg bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] text-white px-4 py-2 font-medium hover:from-[#1D4ED8] hover:to-[#3B82F6] transition duration-200">
+                      <i class="lucide lucide-file-check mr-1"></i>Unit ${i + 1}: ${unit}</a>`;
+                  }
+                  if (subject === "Zoology" && paper === "paper2" && i === 1) {
+                    return `<a href="https://online.pubhtml5.com/yamxd/xcxz/" target="_blank"
+                      class="block rounded-lg bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] text-white px-4 py-2 font-medium hover:from-[#1D4ED8] hover:to-[#3B82F6] transition duration-200">
+                      <i class="lucide lucide-file-check mr-1"></i>Unit ${i + 1}: ${unit}</a>`;
+                  }
+                  if (subject === "Zoology" && paper === "paper3" && i === 1) {
+                    return `<a href="https://online.pubhtml5.com/yamxd/innh/" target="_blank"
+                      class="block rounded-lg bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] text-white px-4 py-2 font-medium hover:from-[#1D4ED8] hover:to-[#3B82F6] transition duration-200">
+                      <i class="lucide lucide-file-check mr-1"></i>Unit ${i + 1}: ${unit}</a>`;
                   }
 
-                  // Default unit link
-                  const path = `src/${subject.toLowerCase()}/${paper}/unit${i+1}.html`;
-                  return `
-                    <a href="${path}" target="_blank"
-                      class="block rounded-lg bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] text-white px-4 py-2 font-medium hover:from-[#1D4ED8] hover:to-[#3B82F6] transition duration-200">
-                      <i class="lucide lucide-file-check mr-1"></i>Unit ${i + 1}: ${unit}
-                    </a>
-                  `;
+                  // Default fallback
+                  const path = `src/${subject.toLowerCase()}/${paper}/unit${i + 1}.html`;
+                  return `<a href="${path}" target="_blank"
+                    class="block rounded-lg bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] text-white px-4 py-2 font-medium hover:from-[#1D4ED8] hover:to-[#3B82F6] transition duration-200">
+                    <i class="lucide lucide-file-check mr-1"></i>Unit ${i + 1}: ${unit}</a>`;
                 }).join("")}
               </div>
             </div>
