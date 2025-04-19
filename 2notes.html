@@ -80,6 +80,13 @@
       paper3: "🧪"
     };
 
+    const specialLinks = {
+      "Zoology-paper1-2": "https://online.pubhtml5.com/yamxd/vpcg/",
+      "Zoology-paper2-0": "https://online.pubhtml5.com/yamxd/iqer/",
+      "Zoology-paper2-1": "https://online.pubhtml5.com/yamxd/dkeo/",
+      "Zoology-paper3-1": "https://online.pubhtml5.com/yamxd/innh/"
+    };
+
     const subjectsDiv = document.getElementById("subjects");
 
     for (const subject in data) {
@@ -105,33 +112,17 @@
               </button>
               <div class="accordion-content mt-3 pl-4 space-y-2">
                 ${units.map((unit, i) => {
-                  // Special links
-                  if (subject === "Zoology" && paper === "paper1" && i === 2) {
-                    return `<a href="https://online.pubhtml5.com/yamxd/vpcg/" target="_blank"
-                      class="block rounded-lg bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] text-white px-4 py-2 font-medium hover:from-[#1D4ED8] hover:to-[#3B82F6] transition duration-200">
-                      <i class="lucide lucide-file-check mr-1"></i>Unit ${i + 1}: ${unit}</a>`;
-                  }
-                  if (subject === "Zoology" && paper === "paper2" && i === 0) {
-                    return `<a href="https://online.pubhtml5.com/yamxd/onno/" target="_blank"
-                      class="block rounded-lg bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] text-white px-4 py-2 font-medium hover:from-[#1D4ED8] hover:to-[#3B82F6] transition duration-200">
-                      <i class="lucide lucide-file-check mr-1"></i>Unit ${i + 1}: ${unit}</a>`;
-                  }
-                  if (subject === "Zoology" && paper === "paper2" && i === 1) {
-                    return `<a href="https://online.pubhtml5.com/yamxd/xcxz/" target="_blank"
-                      class="block rounded-lg bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] text-white px-4 py-2 font-medium hover:from-[#1D4ED8] hover:to-[#3B82F6] transition duration-200">
-                      <i class="lucide lucide-file-check mr-1"></i>Unit ${i + 1}: ${unit}</a>`;
-                  }
-                  if (subject === "Zoology" && paper === "paper3" && i === 1) {
-                    return `<a href="https://online.pubhtml5.com/yamxd/innh/" target="_blank"
-                      class="block rounded-lg bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] text-white px-4 py-2 font-medium hover:from-[#1D4ED8] hover:to-[#3B82F6] transition duration-200">
-                      <i class="lucide lucide-file-check mr-1"></i>Unit ${i + 1}: ${unit}</a>`;
-                  }
+                  const key = `${subject}-${paper}-${i}`;
+                  const href = specialLinks[key]
+                    ? specialLinks[key]
+                    : `src/${subject.toLowerCase()}/${paper}/unit${i+1}.html`;
 
-                  // Default fallback
-                  const path = `src/${subject.toLowerCase()}/${paper}/unit${i + 1}.html`;
-                  return `<a href="${path}" target="_blank"
-                    class="block rounded-lg bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] text-white px-4 py-2 font-medium hover:from-[#1D4ED8] hover:to-[#3B82F6] transition duration-200">
-                    <i class="lucide lucide-file-check mr-1"></i>Unit ${i + 1}: ${unit}</a>`;
+                  return `
+                    <a href="${href}" target="_blank"
+                      class="block rounded-lg bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] text-white px-4 py-2 font-medium hover:from-[#1D4ED8] hover:to-[#3B82F6] transition duration-200">
+                      <i class="lucide lucide-file-check mr-1"></i>Unit ${i + 1}: ${unit}
+                    </a>
+                  `;
                 }).join("")}
               </div>
             </div>
