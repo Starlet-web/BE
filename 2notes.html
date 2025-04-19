@@ -1,0 +1,145 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>STARLET B.Sc. Notes Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .accordion-content.show {
+      max-height: 1000px;
+    }
+    .glass-card {
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .subject-icon {
+      width: 24px;
+      height: 24px;
+      object-fit: cover;
+    }
+    .paper-icon {
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+    }
+  </style>
+</head>
+<body class="bg-white text-[#1F2937] min-h-screen p-6 sm:p-8 font-sans">
+
+  <div class="max-w-6xl mx-auto">
+    <!-- Header -->
+    <header class="text-center mb-10">
+      <h1 class="text-5xl font-bold text-[#1F2937] drop-shadow-md">STARLET B.Sc. Notes</h1>
+      <p class="text-lg text-gray-600 mt-2">Zoology, Botany & Chemistry | All Papers & Units</p>
+    </header>
+
+    <!-- Subjects -->
+    <div id="subjects" class="space-y-8"></div>
+
+    <!-- Footer -->
+    <footer class="mt-16 text-center text-sm text-gray-500">
+      &copy; 2025 STARLET B.Sc. Bio Classes. All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    const data = {
+      Zoology: {
+        paper1: ["Protochordata, Urochordata, Cephalochordata", "Animal Distribution", "Ecology"],
+        paper2: ["Agnatha", "Gnathostomata", "Special Topics"],
+        paper3: ["Cell Bio", "Genetics"]
+      },
+      Botany: {
+        paper1: ["Plant Diversity", "Algae & Fungi", "Bryophytes", "Pteridophytes", "Gymnosperms"],
+        paper2: ["Plant Anatomy", "Embryology", "Plant Physiology", "Genetics", "Ecology"],
+        paper3: ["Biotechnology", "Molecular Biology", "Economic Botany", "Plant Pathology", "Plant Breeding"]
+      },
+      Chemistry: {
+        paper1: ["Atomic Structure", "Periodic Table", "Chemical Bonding", "Stoichiometry", "Redox Reactions"],
+        paper2: ["Organic Basics", "Hydrocarbons", "Alcohols & Ethers", "Carbonyl Compounds", "Amines"],
+        paper3: ["Thermodynamics", "Electrochemistry", "Kinetics", "Surface Chemistry", "Coordination Chemistry"]
+      }
+    };
+
+    const subjectIcons = {
+      Zoology: "zoology.png", // Your uploaded image
+      Botany: "https://upload.wikimedia.org/wikipedia/commons/f/f5/Botany_Logo.png",
+      Chemistry: "https://upload.wikimedia.org/wikipedia/commons/4/4f/Chemistry_Logo.png"
+    };
+
+    const paperEmojis = {
+      paper1: "📚",
+      paper2: "🔬",
+      paper3: "🧪"
+    };
+
+    const subjectsDiv = document.getElementById("subjects");
+
+    for (const subject in data) {
+      const subjectSection = document.createElement("div");
+      subjectSection.className = "glass-card rounded-2xl p-6 shadow-lg";
+      subjectSection.innerHTML = `
+        <button class="w-full flex justify-between items-center text-2xl font-bold text-white bg-[#9B4DFF] hover:bg-[#7C32D1] py-3 px-4 rounded-lg subject-btn transition-all duration-300 ease-in-out transform hover:scale-105">
+          <span class="flex items-center">
+            <img src="${subjectIcons[subject]}" alt="${subject} icon" class="subject-icon mr-2">
+            ${subject}
+          </span>
+          <i class="lucide lucide-plus transition-transform"></i>
+        </button>
+        <div class="accordion-content mt-4 space-y-4">
+          ${Object.entries(data[subject]).map(([paper, units]) => `
+            <div class="bg-white/70 rounded-xl p-4 shadow hover:shadow-md transition">
+              <button class="w-full flex justify-between items-center text-lg font-semibold text-[#3B82F6] paper-btn">
+                <span class="flex items-center">
+                  <span class="paper-icon">${paperEmojis[paper]}</span>
+                  ${paper.replace("paper", "Paper ")}
+                </span>
+                <i class="lucide lucide-plus transition-transform"></i>
+              </button>
+              <div class="accordion-content mt-3 pl-4 space-y-2">
+                ${units.map((unit, i) => `
+                  <a href="src/${subject.toLowerCase()}/${paper}/unit${i+1}.html" target="_blank"
+                    class="block rounded-lg bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] text-white px-4 py-2 font-medium hover:from-[#1D4ED8] hover:to-[#3B82F6] transition duration-200">
+                    <i class="lucide lucide-file-check mr-1"></i>Unit ${i + 1}: ${unit}
+                  </a>
+                `).join("")}
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+      subjectsDiv.appendChild(subjectSection);
+    }
+
+    document.querySelectorAll(".subject-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const content = btn.nextElementSibling;
+        const icon = btn.querySelector("i");
+        content.classList.toggle("show");
+        icon.classList.toggle("lucide-plus");
+        icon.classList.toggle("lucide-minus");
+      });
+    });
+
+    document.querySelectorAll(".paper-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const content = btn.nextElementSibling;
+        const icon = btn.querySelector("i");
+        content.classList.toggle("show");
+        icon.classList.toggle("lucide-plus");
+        icon.classList.toggle("lucide-minus");
+      });
+    });
+
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>
