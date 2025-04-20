@@ -34,16 +34,13 @@
 <body class="bg-white text-[#1F2937] min-h-screen p-6 sm:p-8 font-sans">
 
   <div class="max-w-6xl mx-auto">
-    <!-- Header -->
     <header class="text-center mb-10">
       <h1 class="text-5xl font-bold text-[#1F2937] drop-shadow-md">STARLET B.Sc. Notes</h1>
       <p class="text-lg text-gray-600 mt-2">Zoology, Botany & Chemistry | All Papers & Units</p>
     </header>
 
-    <!-- Subjects -->
     <div id="subjects" class="space-y-8"></div>
 
-    <!-- Footer -->
     <footer class="mt-16 text-center text-sm text-gray-500">
       &copy; 2025 STARLET B.Sc. Bio Classes. All rights reserved.
     </footer>
@@ -52,9 +49,20 @@
   <script>
     const data = {
       Zoology: {
-        paper1: ["Protochordata, Urochordata, Cephalochordata", "Animal Distribution", "Ecology"],
-        paper2: ["Agnatha", "Gnathostomata", "Special Topics"],
-        paper3: ["Cell Bio", "Genetics"]
+        paper1: [
+          "Protochordata, Urochordata, Cephalochordata",
+          { title: "Animal Distribution", link: "https://online.pubhtml5.com/yamxd/wjfu/" },
+          { title: "Ecology", link: "https://online.pubhtml5.com/yamxd/vpcg/" }
+        ],
+        paper2: [
+          { title: "Agnatha", link: "https://online.pubhtml5.com/yamxd/iqer/" },
+          { title: "Gnathostomata", link: "https://online.pubhtml5.com/yamxd/dkeo/" },
+          { title: "Special Topics", link: "https://online.pubhtml5.com/yamxd/emmx/" }
+        ],
+        paper3: [
+          "Cell Bio",
+          { title: "Genetics", link: "https://online.pubhtml5.com/yamxd/innh/" }
+        ]
       },
       Botany: {
         paper1: ["Plant Diversity", "Algae & Fungi", "Bryophytes", "Pteridophytes", "Gymnosperms"],
@@ -68,23 +76,16 @@
       }
     };
 
-    const subjectIcons = {
-      Zoology: "https://img.icons8.com/ios-filled/50/funny-zebra.png",
-      Botany: "https://img.icons8.com/ios-filled/50/leaf.png",
-      Chemistry: "https://img.icons8.com/ios-filled/50/test-tube.png"
-    };
-
     const paperEmojis = {
       paper1: "📚",
       paper2: "🔬",
       paper3: "🧪"
     };
 
-    const specialLinks = {
-      "Zoology-paper1-2": "https://online.pubhtml5.com/yamxd/vpcg/",
-      "Zoology-paper2-0": "https://online.pubhtml5.com/yamxd/iqer/",
-      "Zoology-paper2-1": "https://online.pubhtml5.com/yamxd/dkeo/",
-      "Zoology-paper3-1": "https://online.pubhtml5.com/yamxd/innh/"
+    const subjectIcons = {
+      Zoology: "https://cdn-icons-png.flaticon.com/512/616/616408.png",
+      Botany: "https://cdn-icons-png.flaticon.com/512/2909/2909769.png",
+      Chemistry: "https://cdn-icons-png.flaticon.com/512/2755/2755351.png"
     };
 
     const subjectsDiv = document.getElementById("subjects");
@@ -112,17 +113,15 @@
               </button>
               <div class="accordion-content mt-3 pl-4 space-y-2">
                 ${units.map((unit, i) => {
-                  const key = `${subject}-${paper}-${i}`;
-                  const href = specialLinks[key]
-                    ? specialLinks[key]
-                    : `src/${subject.toLowerCase()}/${paper}/unit${i+1}.html`;
-
+                  const unitTitle = typeof unit === "string" ? unit : unit.title;
+                  const unitLink = typeof unit === "string"
+                    ? `src/${subject.toLowerCase()}/${paper}/unit${i + 1}.html`
+                    : unit.link;
                   return `
-                    <a href="${href}" target="_blank"
+                    <a href="${unitLink}" target="_blank"
                       class="block rounded-lg bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] text-white px-4 py-2 font-medium hover:from-[#1D4ED8] hover:to-[#3B82F6] transition duration-200">
-                      <i class="lucide lucide-file-check mr-1"></i>Unit ${i + 1}: ${unit}
-                    </a>
-                  `;
+                      <i class="lucide lucide-file-check mr-1"></i>Unit ${i + 1}: ${unitTitle}
+                    </a>`;
                 }).join("")}
               </div>
             </div>
@@ -154,6 +153,5 @@
 
     lucide.createIcons();
   </script>
-
 </body>
 </html>
