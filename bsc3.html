@@ -1,0 +1,144 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Starlet B.Sc. 3rd Year Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #8b5cf6;
+    }
+    .poster-img {
+      width: 100%;
+      height: auto;
+      border-radius: 1rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+    .poster-img:hover {
+      transform: scale(1.02);
+    }
+    .stylish-logo {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(to right, #8b5cf6, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 2px 2px 10px rgba(236, 72, 153, 0.4);
+      letter-spacing: 2px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 0.6s ease-out both;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-pink-50 via-purple-100 to-indigo-50 text-gray-800 min-h-screen">
+
+  <div class="max-w-4xl mx-auto space-y-10 p-6 animate-fadeIn">
+
+    <!-- Header -->
+    <header class="flex justify-between items-center">
+      <h1 class="stylish-logo">Starlet</h1>
+      <div class="flex items-center space-x-4">
+        <button onclick="logout()" class="px-5 py-2 rounded-full bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold shadow-md hover:shadow-xl transition-all duration-300">Logout</button>
+        <img src="https://i.pravatar.cc/50" alt="User" class="w-10 h-10 rounded-full border-2 border-pink-500" />
+      </div>
+    </header>
+
+    <!-- Poster -->
+    <div class="bg-white p-6 rounded-xl shadow-lg">
+      <img src="IMG_20250417_015130.png" alt="Dashboard Poster" class="poster-img">
+    </div>
+
+    <!-- Welcome Section -->
+    <div class="bg-white p-6 rounded-xl shadow-lg">
+      <h2 class="section-title">Welcome, 3rd Year Students!</h2>
+      <p class="text-sm mt-1 text-gray-600">Access your lecture links, notes, and seminar sessions below.</p>
+    </div>
+
+    <!-- Lecture Links -->
+    <div class="bg-white p-6 rounded-xl shadow-lg">
+      <h2 class="section-title">Live Lecture</h2>
+      <div class="mt-4">
+        <a href="zoomus://zoom.us/join?confno=4527503240&pwd=QDw5xc" class="inline-block px-6 py-3 text-white text-sm font-semibold rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 shadow-md hover:shadow-2xl transform hover:scale-105 transition-all duration-300 ease-in-out ring-2 ring-offset-2 ring-pink-300 hover:ring-purple-400">
+          Join 3rd Year Lecture
+        </a>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="bg-white p-6 rounded-xl shadow-lg">
+      <h2 class="section-title">Download Notes</h2>
+      <div class="mt-4">
+        <a href="3notes.html" class="inline-block px-6 py-3 text-white text-sm font-semibold rounded-full bg-gradient-to-r from-pink-600 to-purple-600 shadow-md hover:shadow-2xl transform hover:scale-105 transition-all duration-300 ease-in-out ring-2 ring-offset-2 ring-rose-300 hover:ring-fuchsia-400">
+          3rd Year Notes
+        </a>
+      </div>
+    </div>
+
+    <!-- Seminar -->
+    <div class="bg-white p-6 rounded-xl shadow-lg">
+      <h2 class="section-title">Seminar</h2>
+      <a href="zoomus://zoom.us/join?confno=9876543210&pwd=xyz123" target="_blank"
+         class="inline-block px-6 py-3 text-white text-sm font-semibold rounded-full bg-gradient-to-r from-rose-500 to-fuchsia-600 shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 ring-2 ring-offset-2 ring-pink-400 hover:ring-rose-500 mt-4">
+        Join Seminar
+      </a>
+    </div>
+
+    <!-- Notice Board -->
+    <div class="bg-white p-6 rounded-xl shadow-lg">
+      <h2 class="section-title">Notice Board</h2>
+      <ul class="mt-4 list-disc list-inside space-y-2 text-sm text-gray-700">
+        <li>📢 NOTICE: Final year projects submission by <strong>15th July 2025</strong>.</li>
+        <li>Be present for viva and mock presentations as scheduled.</li>
+        <li>Contact:
+          <br>Mohit Sir: +91 9648837922
+          <br>Himanshu Sir: +91 70079 25727
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Firebase Config -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
+      authDomain: "starlet-registor.firebaseapp.com",
+      projectId: "starlet-registor",
+      storageBucket: "starlet-registor.appspot.com",
+      messagingSenderId: "904193225045",
+      appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function logout() {
+      auth.signOut().then(() => {
+        window.location.href = "index.html";
+      }).catch((error) => {
+        console.error("Logout Error:", error);
+        alert("Logout failed. Please try again.");
+      });
+    }
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "login.html";
+      }
+    });
+  </script>
+</body>
+</html>
