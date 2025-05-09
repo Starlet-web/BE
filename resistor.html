@@ -11,7 +11,7 @@
     .fade { transition: all 0.5s ease-in-out; }
   </style>
 </head>
-<body class="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-4 relative">
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 via-white to-gray-200 p-4 relative text-gray-800">
 
 <!-- Loader -->
 <div id="loader" class="absolute inset-0 flex items-center justify-center bg-white z-50">
@@ -19,26 +19,26 @@
 </div>
 
 <!-- Form Container -->
-<div class="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 fade opacity-0" id="formContainer">
+<div class="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 fade opacity-0 border border-gray-200" id="formContainer">
   <div class="text-center mb-6">
     <h2 class="text-4xl font-bold text-indigo-700">STARLET</h2>
-    <p class="text-gray-500" id="formTitle">Login to your account</p>
+    <p class="text-gray-600" id="formTitle">Login to your account</p>
   </div>
 
   <form id="authForm" class="space-y-5">
     <div id="nameField" class="hidden">
       <label class="block text-sm font-medium">Full Name</label>
-      <input type="text" id="name" class="w-full p-3 border rounded-lg" placeholder="Your Name" />
+      <input type="text" id="name" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Your Name" />
     </div>
 
     <div id="mobileField" class="hidden">
       <label class="block text-sm font-medium">Mobile Number</label>
-      <input type="text" id="mobile" class="w-full p-3 border rounded-lg" placeholder="10-digit mobile" />
+      <input type="text" id="mobile" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="10-digit mobile" />
     </div>
 
     <div id="courseField" class="hidden">
       <label class="block text-sm font-medium">Choose Course</label>
-      <select id="course" class="w-full p-3 border rounded-lg">
+      <select id="course" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
         <option value="">Select</option>
         <option value="BSc 1st Year">BSc 1st Year</option>
         <option value="BSc 2nd Year">BSc 2nd Year</option>
@@ -48,12 +48,12 @@
 
     <div>
       <label class="block text-sm font-medium">Email</label>
-      <input type="email" id="email" class="w-full p-3 border rounded-lg" placeholder="email@example.com" required />
+      <input type="email" id="email" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="email@example.com" required />
     </div>
 
     <div>
       <label class="block text-sm font-medium">Password</label>
-      <input type="password" id="password" class="w-full p-3 border rounded-lg" placeholder="********" required />
+      <input type="password" id="password" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="********" required />
     </div>
 
     <div class="flex justify-between text-sm">
@@ -75,7 +75,7 @@
     </div>
   </form>
 
-  <div id="popupMessage" class="hidden mt-4 text-center text-white px-4 py-3 rounded-lg"></div>
+  <div id="popupMessage" class="hidden mt-4 text-center text-white px-4 py-3 rounded-lg transition-all duration-300"></div>
 </div>
 
 <!-- Firebase Auth & Logic -->
@@ -123,11 +123,11 @@
   const authText = document.getElementById("authText");
   const formTitle = document.getElementById("formTitle");
   const popup = document.getElementById("popupMessage");
-  const formContainer = document.getElementById("formContainer");
 
   function showMessage(msg, bg = 'bg-green-600') {
     popup.textContent = msg;
     popup.className = `block mt-4 text-center text-white px-4 py-3 rounded-lg ${bg}`;
+    popup.classList.remove("hidden");
     setTimeout(() => popup.classList.add("hidden"), 3000);
   }
 
@@ -142,10 +142,10 @@
   }
 
   toggleFormBtn.addEventListener("click", () => {
-    formContainer.classList.add("opacity-0");
+    document.getElementById("formContainer").classList.add("opacity-0");
     setTimeout(() => {
       toggleForm();
-      formContainer.classList.remove("opacity-0");
+      document.getElementById("formContainer").classList.remove("opacity-0");
     }, 300);
   });
 
