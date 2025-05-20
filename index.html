@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
-
+<html lang="en" class="h-full scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,172 +7,181 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
+<body class="bg-gradient-to-tr from-pink-50 via-white to-purple-100 text-gray-800 min-h-screen flex flex-col">
 
-<body class="bg-gray-100 h-full text-gray-800 overflow-hidden">
+  <!-- Header -->
+  <header class="fixed w-full z-50 bg-white bg-opacity-90 backdrop-blur shadow-md px-4 py-3 flex justify-between items-center">
+    <div class="flex items-center space-x-3">
+      <img src="cd3de2ad-d71e-4c62-b675-218d7b5a62ac.jpg" alt="Logo" class="w-10 h-10 rounded-full border-2 border-pink-500 shadow-sm">
+      <h1 class="text-xl font-bold text-pink-600">THP-STARLET BSC Bio</h1>
+    </div>
+    <a href="resistor.html" class="bg-gradient-to-r from-pink-500 to-purple-500 hover:opacity-90 text-white px-5 py-2 rounded-full font-semibold text-sm shadow transition-transform transform hover:scale-105">Login</a>
+  </header>
 
-  <!-- App Wrapper -->
-  <div class="h-full flex flex-col">
+  <!-- Main Content -->
+  <main class="mt-20 px-4 pb-24 space-y-8">
 
-    <!-- Top App Bar -->
-    <header class="bg-white shadow-md px-4 py-3 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
-      <div class="flex items-center gap-3">
-        <img src="cd3de2ad-d71e-4c62-b675-218d7b5a62ac.jpg" alt="Logo"
-          class="w-10 h-10 rounded-full border-2 border-pink-500 shadow-sm">
-        <h1 class="text-xl font-bold text-pink-600">THP-STARLET BSC Bio</h1>
+    <!-- Hero Section -->
+    <section class="relative h-64 rounded-3xl overflow-hidden shadow-lg">
+      <img src="4647c102-5bb7-4e0e-8655-426f5af57ddd.jpg" class="absolute inset-0 w-full h-full object-cover" alt="Hero">
+      <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-white text-center p-4 backdrop-blur">
+        <h2 class="text-4xl font-extrabold">THP-STARLET</h2>
+        <p class="text-lg mt-1">Only ₹500 per batch</p>
+        <a href="GPay.html" class="mt-4 bg-pink-500 hover:bg-pink-600 px-6 py-2 rounded-full font-semibold shadow-lg transform hover:scale-105 transition">Join Now</a>
       </div>
-      <a href="resistor.html"
-        class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow">Login</a>
-    </header>
+    </section>
 
-    <!-- Scrollable App Content -->
-    <main class="mt-20 mb-20 overflow-y-auto px-4">
+    <!-- Admission Info -->
+    <section class="bg-white rounded-3xl shadow-xl p-6 space-y-6">
+      <h2 class="text-3xl font-bold text-center text-pink-600">Admissions Open – B.Sc. 1st, 2nd & 3rd Year</h2>
+      <p class="text-center text-lg">Start your journey from <strong>1st June 2025</strong> with expert-led classes!</p>
+      <ul class="text-center space-y-2 text-sm sm:text-base">
+        <li><strong>Subjects:</strong> 🧪 Chemistry | 🌿 Botany | 🦠 Zoology</li>
+        <li><strong>Fee:</strong> ₹500/month</li>
+        <li class="text-green-600 font-semibold">Enroll before <strong>1st May</strong> to get <strong>20% OFF</strong>!</li>
+      </ul>
 
-      <!-- Hero -->
-      <section class="rounded-3xl overflow-hidden shadow-lg mb-6">
-        <div class="relative">
-          <img src="4647c102-5bb7-4e0e-8655-426f5af57ddd.jpg" class="w-full h-64 object-cover" />
-          <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-white p-4">
-            <h2 class="text-3xl font-bold">THP-STARLET</h2>
-            <p class="text-lg my-2">Only ₹500 per batch</p>
-            <a href="GPay.html"
-              class="bg-pink-600 hover:bg-pink-700 px-6 py-2 mt-3 rounded-full font-semibold text-white shadow">Join Now</a>
-          </div>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="p-4 bg-pink-50 rounded-xl text-center shadow"><p class="font-semibold">Live Lectures</p><p>By expert faculty</p></div>
+        <div class="p-4 bg-purple-50 rounded-xl text-center shadow"><p class="font-semibold">Recorded Classes</p><p>Access anytime</p></div>
+        <div class="p-4 bg-pink-50 rounded-xl text-center shadow"><p class="font-semibold">Toppers' Notes</p><p>Premium quality</p></div>
+        <div class="p-4 bg-purple-50 rounded-xl text-center shadow"><p class="font-semibold">Student Dashboard</p><p>Track your progress</p></div>
+      </div>
+
+      <div class="text-center">
+        <a href="https://www.upload-apk.com/en/5sF6pRe9jXM04Ks" class="inline-block mt-4 bg-gradient-to-r from-pink-500 to-purple-600 hover:opacity-90 text-white px-6 py-2 rounded-full font-semibold shadow transform hover:scale-105 transition">Download App</a>
+      </div>
+
+      <div class="mt-4 text-center">
+        <h3 class="font-bold text-pink-600 mb-2">How to Join:</h3>
+        <ol class="list-decimal list-inside space-y-1 text-gray-700 text-left max-w-md mx-auto">
+          <li>Download the THP-STARLET App</li>
+          <li>Make the payment</li>
+          <li>Login & start learning</li>
+        </ol>
+        <p class="mt-4 italic text-pink-600 font-semibold">"Learn Smart, Shine Bright"</p>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="bg-white p-6 rounded-2xl shadow-md">
+      <h2 class="text-2xl font-bold text-center text-pink-600 mb-4">About Us</h2>
+      <p class="text-center mb-4">Top-quality B.Sc. Bio education from expert faculty. Clarity, concept-building, and affordability – just ₹500/batch.</p>
+      <img src="fa511bac-7af4-439e-9320-9ff4c60e67eb.png" class="rounded-xl mx-auto shadow-lg" alt="About Poster">
+    </section>
+
+    <!-- Teachers -->
+    <section class="bg-white p-6 rounded-2xl shadow-md">
+      <h2 class="text-2xl font-bold text-center text-pink-600 mb-6">Meet Our Teachers</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div class="text-center">
+          <img src="manshi.jpg" class="h-32 mx-auto mb-2 rounded-xl border-4 border-pink-300 shadow">
+          <h3 class="text-lg font-semibold">Manshi Ma'am</h3>
+          <p class="text-pink-600">M.Sc. Zoology</p>
         </div>
-      </section>
-
-      <!-- Admissions Announcement -->
-      <section class="bg-gradient-to-br from-pink-100 to-white p-6 rounded-3xl shadow-xl mb-6">
-        <h2 class="text-3xl font-bold text-pink-600 text-center mb-4">Admissions Open – B.Sc. 1st, 2nd & 3rd Year</h2>
-        <p class="text-center text-lg mb-4">Join THP-STARLET Classes and experience smarter learning from <strong>1st June 2025</strong>!</p>
-        
-        <div class="text-gray-800 space-y-3 text-center">
-          <p><strong>Subjects Offered:</strong> 🧪 Chemistry | 🌿 Botany | 🦠 Zoology</p>
-          <p><strong>Course Fee:</strong> ₹500/month</p>
-          <p class="text-green-600 font-semibold">Enroll before <strong>1st May</strong> to get <strong>20% OFF</strong>!</p>
+        <div class="text-center">
+          <img src="himanshu.jpg" class="h-32 mx-auto mb-2 rounded-xl border-4 border-pink-300 shadow">
+          <h3 class="text-lg font-semibold">Himanshu Sir</h3>
+          <p class="text-pink-600">M.Sc. Zoology</p>
         </div>
-
-        <div class="mt-6 grid sm:grid-cols-2 gap-4 text-sm sm:text-base">
-          <div class="bg-white p-4 rounded-xl shadow text-center">
-            <p class="font-semibold text-pink-600">Live Lectures</p>
-            <p>By expert faculty in every subject</p>
-          </div>
-          <div class="bg-white p-4 rounded-xl shadow text-center">
-            <p class="font-semibold text-pink-600">Recorded Classes</p>
-            <p>Watch anytime at your convenience</p>
-          </div>
-          <div class="bg-white p-4 rounded-xl shadow text-center">
-            <p class="font-semibold text-pink-600">Toppers' Notes</p>
-            <p>Premium handwritten notes for success</p>
-          </div>
-          <div class="bg-white p-4 rounded-xl shadow text-center">
-            <p class="font-semibold text-pink-600">Student Dashboard</p>
-            <p>Track your progress & schedule easily</p>
-          </div>
+        <div class="text-center">
+          <img src="mohit.jpg" class="h-32 mx-auto mb-2 rounded-xl border-4 border-pink-300 shadow">
+          <h3 class="text-lg font-semibold">Mohit Sir</h3>
+          <p class="text-pink-600">M.Sc. Zoology</p>
         </div>
+      </div>
+    </section>
 
-        <div class="mt-6 text-center">
-          <a href="https://www.upload-apk.com/en/5sF6pRe9jXM04Ks"
-            class="inline-block bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-full font-semibold shadow">
-            Download THP-STARLET App
-          </a>
-        </div>
+    <!-- Testimonials -->
+    <section class="bg-white p-6 rounded-2xl shadow-md">
+      <h2 class="text-2xl font-bold text-center text-pink-600 mb-4">Testimonials</h2>
+      <div class="space-y-4 text-center text-gray-700">
+        <blockquote class="italic">"THP-STARLET helped me understand complex topics easily!"<br><strong>-- Sweta Singh</strong></blockquote>
+        <blockquote class="italic">"Interactive and engaging online classes!"<br><strong>-- Vivek Kumar</strong></blockquote>
+        <blockquote class="italic">"Affordable and organized coaching!"<br><strong>-- Mayank Mishra</strong></blockquote>
+      </div>
+      <img src="testimonial-poster.jpg" alt="Testimonials" class="mt-6 w-full rounded-xl shadow-md">
+      <div class="text-center mt-6">
+        <a href="https://chat.whatsapp.com/HbSNkHQ3xAIF7SVk9VX4AJ" class="inline-block bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full font-semibold shadow transform hover:scale-105 transition">Join WhatsApp Group</a>
+      </div></div></div></div>
+      
+      </div>
+      </div>
+    </section>
 
-        <div class="mt-4 text-center text-gray-700">
-          <h3 class="font-bold text-pink-600 mb-2">How to Join:</h3>
-          <ol class="list-decimal list-inside space-y-1">
-            <li>Download the THP-STARLET App</li>
-            <li>Make the payment (before 1st May to save!)</li>
-            <li>Login & start learning from 1st June</li>
-          </ol>
-        </div>
+  </main>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>THP-STARLET Slim Bar</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #fdf2f8, #e0e7ff);
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between items-center text-gray-800">
 
-        <div class="text-center mt-6">
-          <p class="italic text-pink-600 font-semibold">“Learn Smart, Shine Bright”</p>
-        </div>
-      </section>
+  
 
-      <!-- About Section -->
-      <section class="bg-white p-6 rounded-2xl shadow-md mb-6">
-        <h2 class="text-2xl font-bold text-pink-600 text-center mb-4">About Us</h2>
-        <p class="text-center mb-4">Top-quality BSC Bio education from expert faculty at just ₹500 per batch. Focus on clarity & concept building.</p>
-        <img src="fa511bac-7af4-439e-9320-9ff4c60e67eb.png" alt="Poster" class="rounded-xl mx-auto shadow-lg">
-      </section>
+  <!-- Slim Bottom Navigation -->
+  <nav class="fixed bottom-3 left-1/2 transform -translate-x-1/2 w-[94%] max-w-xl flex justify-between items-center px-4 py-2 rounded-full glass shadow-lg z-50 text-xs">
 
-      <!-- Teachers -->
-      <section class="bg-white p-6 rounded-2xl shadow-md mb-6">
-        <h2 class="text-2xl font-bold text-pink-600 text-center mb-6">Meet Our Teachers</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div class="text-center">
-            <img src="manshi.jpg" class="h-32 mx-auto mb-2 rounded-xl border-4 border-pink-300 shadow">
-            <h3 class="text-lg font-semibold">Manshi Ma'am</h3>
-            <p class="text-pink-600">M.Sc. Zoology</p>
-          </div>
-          <div class="text-center">
-            <img src="himanshu.jpg" class="h-32 mx-auto mb-2 rounded-xl border-4 border-pink-300 shadow">
-            <h3 class="text-lg font-semibold">Himanshu Sir</h3>
-            <p class="text-pink-600">M.Sc. Zoology</p>
-          </div>
-          <div class="text-center col-span-full sm:col-span-1">
-            <img src="mohit.jpg" class="h-32 mx-auto mb-2 rounded-xl border-4 border-pink-300 shadow">
-            <h3 class="text-lg font-semibold">Mohit Sir</h3>
-            <p class="text-pink-600">M.Sc. Zoology</p>
-          </div>
-        </div>
-      </section>
+    <!-- Home -->
+    <a href="index.html" class="flex flex-col items-center text-gray-700 hover:text-pink-600 transition">
+      <i class="fas fa-home text-base"></i>
+      <span class="mt-0.5">Home</span>
+    </a>
 
-      <!-- Testimonials -->
-      <section class="bg-white p-6 rounded-2xl shadow-md mb-6">
-        <h2 class="text-2xl font-bold text-pink-600 text-center mb-4">Testimonials</h2>
-        <div class="space-y-4">
-          <blockquote class="text-center text-gray-700 italic">"THP-STARLET helped me understand complex topics easily!"<br><strong>— Sweta Singh</strong></blockquote>
-          <blockquote class="text-center text-gray-700 italic">"Interactive and engaging online classes!"<br><strong>— Vivek Kumar</strong></blockquote>
-          <blockquote class="text-center text-gray-700 italic">"Affordable and organized coaching!"<br><strong>— Mayank Mishra</strong></blockquote>
-        </div>
-        <div class="mt-6">
-          <img src="testimonial-poster.jpg" alt="Testimonial Poster" class="w-full rounded-xl shadow-md">
-        </div>
+    <!-- Demo -->
+    <a href="demo.html" class="flex flex-col items-center text-gray-700 hover:text-purple-600 transition">
+      <i class="fas fa-play text-base"></i>
+      <span class="mt-0.5">Demo</span>
+    </a>
 
-        <div class="mt-6 text-center">
-          <a href="https://chat.whatsapp.com/HbSNkHQ3xAIF7SVk9VX4AJ"
-            class="inline-block bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full font-semibold shadow">
-            Join WhatsApp Group 
-          </a>
-        </div>
-      </section>
+    <!-- Center Dashboard Button -->
+    <a href="dashboard.html" class="absolute -top-6 left-1/2 transform -translate-x-1/2 text-center">
+      <div class="bg-gradient-to-br from-pink-500 to-purple-600 text-white p-3 rounded-full shadow-xl hover:scale-110 transition">
+        <i class="fas fa-tachometer-alt text-xl"></i>
+      </div>
+      <span class="block text-[11px] text-purple-700 font-semibold mt-0.5">Dashboard</span>
+    </a>
 
-    </main>
+    <!-- Notes -->
+    <a href="notes.html" class="flex flex-col items-center text-gray-700 hover:text-purple-600 transition">
+      <i class="fas fa-book text-base"></i>
+      <span class="mt-0.5">Notes</span>
+    </a>
 
-    <!-- Bottom Nav (App Style) -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t shadow-inner z-50 flex justify-around py-3">
-      <a href="index.html" class="text-pink-600 flex flex-col items-center text-sm font-semibold">
-        <i class="fas fa-home text-xl"></i>
-        Home
-      </a>
-      <a href="demo.html" class="text-gray-500 hover:text-pink-600 flex flex-col items-center text-sm">
-        <i class="fas fa-play-circle text-xl"></i>
-        Demo Lectures
-      </a>
-      <a href="notes.html" class="text-gray-500 hover:text-pink-600 flex flex-col items-center text-sm">
-        <i class="fas fa-book text-xl"></i>
-        Demo Notes
-      </a>
-      <button id="whatsappRedirect" class="text-green-500 hover:text-green-600 flex flex-col items-center text-sm">
-        <i class="fab fa-whatsapp text-xl"></i>
-        Chat
-      </button>
-    </nav>
+    <!-- WhatsApp -->
+    <button id="whatsappRedirect" class="flex flex-col items-center text-green-600 hover:text-green-700 transition">
+      <i class="fab fa-whatsapp text-base"></i>
+      <span class="mt-0.5">Contact</span>
+    </button>
 
-    <!-- WhatsApp Script -->
-    <script>
-      document.getElementById("whatsappRedirect").addEventListener("click", function () {
-        let phoneNumber = "919648837922";
-        let message = encodeURIComponent("Hello Sir, I'm interested in THP-STARLET Classes.");
-        let whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
-        window.open(whatsappURL, '_blank');
-      });
-    </script>
+  </nav>
 
-  </div>
+  <!-- WhatsApp Redirect Script -->
+  <script>
+    document.getElementById("whatsappRedirect").addEventListener("click", function () {
+      let phoneNumber = "919648837922";
+      let message = encodeURIComponent("Hello Sir, I'm interested in THP-STARLET Classes.");
+      window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+    });
+  </script>
+
 </body>
-
 </html>
+
+  
