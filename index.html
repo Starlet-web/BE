@@ -6,6 +6,8 @@
   <title>THP-STARLET App</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <!-- AOS CSS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
 </head>
 <body class="bg-gradient-to-tr from-pink-50 via-white to-purple-100 text-gray-800 min-h-screen flex flex-col">
 
@@ -13,7 +15,7 @@
   <header class="fixed w-full z-50 bg-white bg-opacity-90 backdrop-blur shadow-md px-4 py-3 flex justify-between items-center">
     <div class="flex items-center space-x-3">
       <img src="cd3de2ad-d71e-4c62-b675-218d7b5a62ac.jpg" alt="Logo" class="w-10 h-10 rounded-full border-2 border-pink-500 shadow-sm">
-      <h1 class="text-xl font-bold text-pink-600">THP-STARLET BSC Bio</h1>
+      <h1 class="text-xl font-bold text-pink-600">THP-STARLET BSC</h1>
     </div>
     <a href="resistor.html" class="bg-gradient-to-r from-pink-500 to-purple-500 hover:opacity-90 text-white px-5 py-2 rounded-full font-semibold text-sm shadow transition-transform transform hover:scale-105">Login</a>
   </header>
@@ -22,7 +24,7 @@
   <main class="mt-20 px-4 pb-24 space-y-8">
 
     <!-- Hero Section -->
-    <section class="relative h-64 rounded-3xl overflow-hidden shadow-lg">
+    <section class="relative h-64 rounded-3xl overflow-hidden shadow-lg" data-aos="fade-up">
       <img src="4647c102-5bb7-4e0e-8655-426f5af57ddd.jpg" class="absolute inset-0 w-full h-full object-cover" alt="Hero">
       <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-white text-center p-4 backdrop-blur">
         <h2 class="text-4xl font-extrabold">THP-STARLET</h2>
@@ -32,7 +34,7 @@
     </section>
 
     <!-- Admission Info -->
-    <section class="bg-white rounded-3xl shadow-xl p-6 space-y-6">
+    <section class="bg-white rounded-3xl shadow-xl p-6 space-y-6" data-aos="zoom-in">
       <h2 class="text-3xl font-bold text-center text-pink-600">Admissions Open – B.Sc. 1st, 2nd & 3rd Year</h2>
       <p class="text-center text-lg">Start your journey from <strong>1st June 2025</strong> with expert-led classes!</p>
       <ul class="text-center space-y-2 text-sm sm:text-base">
@@ -42,10 +44,10 @@
       </ul>
 
       <div class="grid sm:grid-cols-2 gap-4">
-        <div class="p-4 bg-pink-50 rounded-xl text-center shadow"><p class="font-semibold">Live Lectures</p><p>By expert faculty</p></div>
-        <div class="p-4 bg-purple-50 rounded-xl text-center shadow"><p class="font-semibold">Recorded Classes</p><p>Access anytime</p></div>
-        <div class="p-4 bg-pink-50 rounded-xl text-center shadow"><p class="font-semibold">Toppers' Notes</p><p>Premium quality</p></div>
-        <div class="p-4 bg-purple-50 rounded-xl text-center shadow"><p class="font-semibold">Student Dashboard</p><p>Track your progress</p></div>
+        <div class="p-4 bg-pink-50 rounded-xl text-center shadow" data-aos="fade-right"><p class="font-semibold">Live Lectures</p><p>By expert faculty</p></div>
+        <div class="p-4 bg-purple-50 rounded-xl text-center shadow" data-aos="fade-left"><p class="font-semibold">Recorded Classes</p><p>Access anytime</p></div>
+        <div class="p-4 bg-pink-50 rounded-xl text-center shadow" data-aos="fade-right"><p class="font-semibold">Toppers' Notes</p><p>Premium quality</p></div>
+        <div class="p-4 bg-purple-50 rounded-xl text-center shadow" data-aos="fade-left"><p class="font-semibold">Student Dashboard</p><p>Track your progress</p></div>
       </div>
 
       <div class="text-center">
@@ -64,27 +66,27 @@
     </section>
 
     <!-- About -->
-    <section class="bg-white p-6 rounded-2xl shadow-md">
+    <section class="bg-white p-6 rounded-2xl shadow-md" data-aos="fade-up">
       <h2 class="text-2xl font-bold text-center text-pink-600 mb-4">About Us</h2>
       <p class="text-center mb-4">Top-quality B.Sc. Bio education from expert faculty. Clarity, concept-building, and affordability – just ₹500/batch.</p>
       <img src="fa511bac-7af4-439e-9320-9ff4c60e67eb.png" class="rounded-xl mx-auto shadow-lg" alt="About Poster">
     </section>
 
     <!-- Teachers -->
-    <section class="bg-white p-6 rounded-2xl shadow-md">
+    <section class="bg-white p-6 rounded-2xl shadow-md" data-aos="zoom-in-up">
       <h2 class="text-2xl font-bold text-center text-pink-600 mb-6">Meet Our Teachers</h2>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div class="text-center">
+        <div class="text-center" data-aos="flip-left">
           <img src="manshi.jpg" class="h-32 mx-auto mb-2 rounded-xl border-4 border-pink-300 shadow">
           <h3 class="text-lg font-semibold">Manshi Ma'am</h3>
           <p class="text-pink-600">M.Sc. Zoology</p>
         </div>
-        <div class="text-center">
+        <div class="text-center" data-aos="flip-left" data-aos-delay="100">
           <img src="himanshu.jpg" class="h-32 mx-auto mb-2 rounded-xl border-4 border-pink-300 shadow">
           <h3 class="text-lg font-semibold">Himanshu Sir</h3>
           <p class="text-pink-600">M.Sc. Zoology</p>
         </div>
-        <div class="text-center">
+        <div class="text-center" data-aos="flip-left" data-aos-delay="200">
           <img src="mohit.jpg" class="h-32 mx-auto mb-2 rounded-xl border-4 border-pink-300 shadow">
           <h3 class="text-lg font-semibold">Mohit Sir</h3>
           <p class="text-pink-600">M.Sc. Zoology</p>
@@ -93,7 +95,7 @@
     </section>
 
     <!-- Testimonials -->
-    <section class="bg-white p-6 rounded-2xl shadow-md">
+    <section class="bg-white p-6 rounded-2xl shadow-md" data-aos="fade-up">
       <h2 class="text-2xl font-bold text-center text-pink-600 mb-4">Testimonials</h2>
       <div class="space-y-4 text-center text-gray-700">
         <blockquote class="italic">"THP-STARLET helped me understand complex topics easily!"<br><strong>-- Sweta Singh</strong></blockquote>
@@ -103,13 +105,9 @@
       <img src="testimonial-poster.jpg" alt="Testimonials" class="mt-6 w-full rounded-xl shadow-md">
       <div class="text-center mt-6">
         <a href="https://chat.whatsapp.com/HbSNkHQ3xAIF7SVk9VX4AJ" class="inline-block bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full font-semibold shadow transform hover:scale-105 transition">Join WhatsApp Group</a>
-      </div></div></div></div>
-      
-      </div>
       </div>
     </section>
-
-  </main>
+    </main>
   <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -137,39 +135,24 @@
 
   <!-- Slim Bottom Navigation -->
   <nav class="fixed bottom-3 left-1/2 transform -translate-x-1/2 w-[94%] max-w-xl flex justify-between items-center px-4 py-2 rounded-full glass shadow-lg z-50 text-xs">
-
-    <!-- Home -->
     <a href="index.html" class="flex flex-col items-center text-gray-700 hover:text-pink-600 transition">
-      <i class="fas fa-home text-base"></i>
-      <span class="mt-0.5">Home</span>
+      <i class="fas fa-home text-base"></i><span class="mt-0.5">Home</span>
     </a>
-
-    <!-- Demo -->
     <a href="demo.html" class="flex flex-col items-center text-gray-700 hover:text-purple-600 transition">
-      <i class="fas fa-play text-base"></i>
-      <span class="mt-0.5">Demo</span>
+      <i class="fas fa-play text-base"></i><span class="mt-0.5">Demo</span>
     </a>
-
-    <!-- Center Dashboard Button -->
     <a href="dashboard.html" class="absolute -top-6 left-1/2 transform -translate-x-1/2 text-center">
       <div class="bg-gradient-to-br from-pink-500 to-purple-600 text-white p-3 rounded-full shadow-xl hover:scale-110 transition">
         <i class="fas fa-tachometer-alt text-xl"></i>
       </div>
       <span class="block text-[11px] text-purple-700 font-semibold mt-0.5">Dashboard</span>
     </a>
-
-    <!-- Notes -->
     <a href="notes.html" class="flex flex-col items-center text-gray-700 hover:text-purple-600 transition">
-      <i class="fas fa-book text-base"></i>
-      <span class="mt-0.5">Notes</span>
+      <i class="fas fa-book text-base"></i><span class="mt-0.5">Notes</span>
     </a>
-
-    <!-- WhatsApp -->
     <button id="whatsappRedirect" class="flex flex-col items-center text-green-600 hover:text-green-700 transition">
-      <i class="fab fa-whatsapp text-base"></i>
-      <span class="mt-0.5">Contact</span>
+      <i class="fab fa-whatsapp text-base"></i><span class="mt-0.5">Contact</span>
     </button>
-
   </nav>
 
   <!-- WhatsApp Redirect Script -->
@@ -181,7 +164,23 @@
     });
   </script>
 
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,
+      offset: 120,
+      once: true
+    });
+  </script>
+
+  <style>
+    .glass {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  </style>
+
 </body>
 </html>
-
-  
