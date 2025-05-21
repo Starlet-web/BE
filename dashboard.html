@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Starlet B.Sc. Bio Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
@@ -141,19 +141,15 @@
     <div class="bg-white p-6 rounded-xl shadow-lg">
       <h2 class="section-title">Notice Board</h2>
       <ul class="mt-4 list-disc list-inside space-y-2 text-sm">
-        <li>📢 NOTICE:
-Classes will begin from 1st June 2025 🗓️. 
-</li>
+        <li>📢 NOTICE: Classes will begin from 1st June 2025 🗓️.</li>
         <li>All students must attend from day one 📚.</li>
-        <li>For more queries, contact:
-Mohit Sir: [+91 9648837922]
-Himanshu Sir: [+91 70079 25727].</li>
+        <li>For more queries, contact: Mohit Sir: [+91 9648837922], Himanshu Sir: [+91 70079 25727].</li>
       </ul>
     </div>
 
   </div>
 
-  <!-- Firebase Config -->
+  <!-- Firebase Config & Logic -->
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
@@ -179,7 +175,18 @@ Himanshu Sir: [+91 70079 25727].</li>
 
     auth.onAuthStateChanged(user => {
       if (!user) {
-        window.location.href = "login.html";
+        window.location.href = "login.html"; // Not logged in
+      } else {
+        db.collection("users").doc(user.uid).get().then(doc => {
+          if (doc.exists && doc.data().paymentDone === true) {
+            // Authenticated and payment done
+          } else {
+            window.location.href = "payment.html"; // Not paid yet
+          }
+        }).catch(error => {
+          console.error("Error checking payment:", error);
+          alert("Error verifying account. Please try again.");
+        });
       }
     });
   </script>
