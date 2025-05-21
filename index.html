@@ -2,30 +2,40 @@
 <html lang="en" class="h-full scroll-smooth">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>THP-STARLET App</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <!-- AOS CSS -->
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #fdf2f8, #e0e7ff);
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  </style>
 </head>
 <body class="bg-gradient-to-tr from-pink-50 via-white to-purple-100 text-gray-800 min-h-screen flex flex-col">
 
   <!-- Header -->
   <header class="fixed w-full z-50 bg-white bg-opacity-90 backdrop-blur shadow-md px-4 py-3 flex justify-between items-center">
     <div class="flex items-center space-x-3">
-      <img src="cd3de2ad-d71e-4c62-b675-218d7b5a62ac.jpg" alt="Logo" class="w-10 h-10 rounded-full border-2 border-pink-500 shadow-sm">
+      <img src="cd3de2ad-d71e-4c62-b675-218d7b5a62ac.jpg" alt="Logo" class="w-10 h-10 rounded-full border-2 border-pink-500 shadow-sm" />
       <h1 class="text-xl font-bold text-pink-600">THP-STARLET BSC</h1>
     </div>
     <a href="resistor.html" class="bg-gradient-to-r from-pink-500 to-purple-500 hover:opacity-90 text-white px-5 py-2 rounded-full font-semibold text-sm shadow transition-transform transform hover:scale-105">Login</a>
   </header>
 
   <!-- Main Content -->
-  <main class="mt-20 px-4 pb-24 space-y-8">
+  <main class="mt-20 px-4 pb-24 space-y-8 max-w-screen-sm mx-auto w-full">
 
     <!-- Hero Section -->
     <section class="relative h-64 rounded-3xl overflow-hidden shadow-lg" data-aos="fade-up">
-      <img src="4647c102-5bb7-4e0e-8655-426f5af57ddd.jpg" class="absolute inset-0 w-full h-full object-cover" alt="Hero">
+      <img src="4647c102-5bb7-4e0e-8655-426f5af57ddd.jpg" class="absolute inset-0 w-full h-full object-cover" alt="Hero" />
       <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-white text-center p-4 backdrop-blur">
         <h2 class="text-4xl font-extrabold">THP-STARLET</h2>
         <p class="text-lg mt-1">Only ₹500 per batch</p>
@@ -54,9 +64,9 @@
         <a href="https://www.upload-apk.com/en/5sF6pRe9jXM04Ks" class="inline-block mt-4 bg-gradient-to-r from-pink-500 to-purple-600 hover:opacity-90 text-white px-6 py-2 rounded-full font-semibold shadow transform hover:scale-105 transition">Download App</a>
       </div>
 
-      <div class="mt-4 text-center">
+      <div class="mt-4 text-center max-w-md mx-auto">
         <h3 class="font-bold text-pink-600 mb-2">How to Join:</h3>
-        <ol class="list-decimal list-inside space-y-1 text-gray-700 text-left max-w-md mx-auto">
+        <ol class="list-decimal list-inside space-y-1 text-gray-700 text-left">
           <li>Download the THP-STARLET App</li>
           <li>Make the payment</li>
           <li>Login & start learning</li>
@@ -69,7 +79,7 @@
     <section class="bg-white p-6 rounded-2xl shadow-md" data-aos="fade-up">
       <h2 class="text-2xl font-bold text-center text-pink-600 mb-4">About Us</h2>
       <p class="text-center mb-4">Top-quality B.Sc. Bio education from expert faculty. Clarity, concept-building, and affordability – just ₹500/batch.</p>
-      <img src="fa511bac-7af4-439e-9320-9ff4c60e67eb.png" class="rounded-xl mx-auto shadow-lg" alt="About Poster">
+      <img src="fa511bac-7af4-439e-9320-9ff4c60e67eb.png" class="rounded-xl mx-auto shadow-lg max-w-full h-auto" alt="About Poster" />
     </section>
 
     <!-- Teachers -->
@@ -77,17 +87,17 @@
       <h2 class="text-2xl font-bold text-center text-pink-600 mb-6">Meet Our Teachers</h2>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div class="text-center" data-aos="flip-left">
-          <img src="manshi.jpg" class="h-32 mx-auto mb-2 rounded-xl border-4 border-pink-300 shadow">
+          <img src="manshi.jpg" class="h-32 mx-auto mb-2 rounded-xl border-4 border-pink-300 shadow max-w-full object-cover" alt="Manshi Ma'am" />
           <h3 class="text-lg font-semibold">Manshi Ma'am</h3>
           <p class="text-pink-600">M.Sc. Zoology</p>
         </div>
         <div class="text-center" data-aos="flip-left" data-aos-delay="100">
-          <img src="himanshu.jpg" class="h-32 mx-auto mb-2 rounded-xl border-4 border-pink-300 shadow">
+          <img src="himanshu.jpg" class="h-32 mx-auto mb-2 rounded-xl border-4 border-pink-300 shadow max-w-full object-cover" alt="Himanshu Sir" />
           <h3 class="text-lg font-semibold">Himanshu Sir</h3>
           <p class="text-pink-600">M.Sc. Zoology</p>
         </div>
         <div class="text-center" data-aos="flip-left" data-aos-delay="200">
-          <img src="mohit.jpg" class="h-32 mx-auto mb-2 rounded-xl border-4 border-pink-300 shadow">
+          <img src="mohit.jpg" class="h-32 mx-auto mb-2 rounded-xl border-4 border-pink-300 shadow max-w-full object-cover" alt="Mohit Sir" />
           <h3 class="text-lg font-semibold">Mohit Sir</h3>
           <p class="text-pink-600">M.Sc. Zoology</p>
         </div>
@@ -97,41 +107,17 @@
     <!-- Testimonials -->
     <section class="bg-white p-6 rounded-2xl shadow-md" data-aos="fade-up">
       <h2 class="text-2xl font-bold text-center text-pink-600 mb-4">Testimonials</h2>
-      <div class="space-y-4 text-center text-gray-700">
-        <blockquote class="italic">"THP-STARLET helped me understand complex topics easily!"<br><strong>-- Sweta Singh</strong></blockquote>
-        <blockquote class="italic">"Interactive and engaging online classes!"<br><strong>-- Vivek Kumar</strong></blockquote>
-        <blockquote class="italic">"Affordable and organized coaching!"<br><strong>-- Mayank Mishra</strong></blockquote>
+      <div class="space-y-4 text-center text-gray-700 max-w-md mx-auto">
+        <blockquote class="italic">"THP-STARLET helped me understand complex topics easily!"<br /><strong>-- Sweta Singh</strong></blockquote>
+        <blockquote class="italic">"Interactive and engaging online classes!"<br /><strong>-- Vivek Kumar</strong></blockquote>
+        <blockquote class="italic">"Affordable and organized coaching!"<br /><strong>-- Mayank Mishra</strong></blockquote>
       </div>
-      <img src="testimonial-poster.jpg" alt="Testimonials" class="mt-6 w-full rounded-xl shadow-md">
+      <img src="testimonial-poster.jpg" alt="Testimonials" class="mt-6 w-full rounded-xl shadow-md max-w-full h-auto" />
       <div class="text-center mt-6">
         <a href="https://chat.whatsapp.com/HbSNkHQ3xAIF7SVk9VX4AJ" class="inline-block bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full font-semibold shadow transform hover:scale-105 transition">Join WhatsApp Group</a>
       </div>
     </section>
-    </main>
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>THP-STARLET Slim Bar</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
-  <style>
-    body {
-      background: linear-gradient(to bottom right, #fdf2f8, #e0e7ff);
-    }
-    .glass {
-      background: rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-  </style>
-</head>
-<body class="min-h-screen flex flex-col justify-between items-center text-gray-800">
-
-  
+  </main>
 
   <!-- Slim Bottom Navigation -->
   <nav class="fixed bottom-3 left-1/2 transform -translate-x-1/2 w-[94%] max-w-xl flex justify-between items-center px-4 py-2 rounded-full glass shadow-lg z-50 text-xs">
@@ -145,42 +131,22 @@
       <div class="bg-gradient-to-br from-pink-500 to-purple-600 text-white p-3 rounded-full shadow-xl hover:scale-110 transition">
         <i class="fas fa-tachometer-alt text-xl"></i>
       </div>
-      <span class="block text-[11px] text-purple-700 font-semibold mt-0.5">Desk</span>
+      <span class="block text-[11px] mt-1 font-semibold">Login</span>
     </a>
-    <a href="notes.html" class="flex flex-col items-center text-gray-700 hover:text-purple-600 transition">
-      <i class="fas fa-book text-base"></i><span class="mt-0.5">Notes</span>
+    <a href="video.html" class="flex flex-col items-center text-gray-700 hover:text-blue-600 transition">
+      <i class="fas fa-video text-base"></i><span class="mt-0.5">Video</span>
     </a>
-    <button id="whatsappRedirect" class="flex flex-col items-center text-green-600 hover:text-green-700 transition">
-      <i class="fab fa-whatsapp text-base"></i><span class="mt-0.5">Contact</span>
-    </button>
+    <a href="contact.html" class="flex flex-col items-center text-gray-700 hover:text-green-600 transition">
+      <i class="fas fa-envelope text-base"></i><span class="mt-0.5">Contact</span>
+    </a>
   </nav>
 
-  <!-- WhatsApp Redirect Script -->
-  <script>
-    document.getElementById("whatsappRedirect").addEventListener("click", function () {
-      let phoneNumber = "919648837922";
-      let message = encodeURIComponent("Hello Sir, I'm interested in THP-STARLET Classes.");
-      window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
-    });
-  </script>
-
-  <!-- AOS JS -->
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>
     AOS.init({
       duration: 1000,
-      offset: 120,
-      once: true
+      once: true,
     });
   </script>
-
-  <style>
-    .glass {
-      background: rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-  </style>
-
 </body>
 </html>
