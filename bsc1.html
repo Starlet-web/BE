@@ -3,109 +3,124 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Starlet B.Sc. 1st Year Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <title>Starlet B.Sc. Biology Dashboard</title>
 
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- AOS Animation -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
+
+  <!-- Custom Style -->
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #001f1f, #013220);
     }
 
-    .stylish-logo {
+    .bio-logo {
       font-size: 2.2rem;
-      font-weight: 800;
-      background: linear-gradient(to right, #00f0ff, #00ff94);
+      font-weight: 900;
+      background: linear-gradient(to right, #7fff00, #00fa9a);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 10px rgba(0, 255, 200, 0.4);
+      text-shadow: 0 0 10px rgba(0, 255, 140, 0.5);
     }
 
-    .glass-card {
-      backdrop-filter: blur(10px);
+    .bio-card {
+      backdrop-filter: blur(14px);
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    @keyframes glow {
-      0% { text-shadow: 0 0 5px #00ffc3; }
-      50% { text-shadow: 0 0 20px #00ffc3; }
-      100% { text-shadow: 0 0 5px #00ffc3; }
+    .bio-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 25px rgba(0, 255, 123, 0.2);
     }
 
-    .neon-text {
-      animation: glow 3s ease-in-out infinite;
+    .leafy {
+      background-image: url('https://www.transparenttextures.com/patterns/green-dust-and-scratches.png');
+    }
+
+    @keyframes plantGlow {
+      0% { text-shadow: 0 0 5px #00ffae; }
+      50% { text-shadow: 0 0 20px #00ffae; }
+      100% { text-shadow: 0 0 5px #00ffae; }
+    }
+
+    .glow-text {
+      animation: plantGlow 4s ease-in-out infinite;
     }
   </style>
 </head>
 
-<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white min-h-screen p-6">
+<body class="text-white leafy min-h-screen p-6">
 
-  <div class="max-w-5xl mx-auto space-y-10 animate-fadeIn">
+  <div class="max-w-5xl mx-auto space-y-10">
 
     <!-- Header -->
-    <header class="flex justify-between items-center" data-aos="fade-down">
-      <h1 class="stylish-logo neon-text">Starlet</h1>
-      <div class="flex items-center space-x-4">
-        <button onclick="logout()" class="px-5 py-2 rounded-full bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300">Logout</button>
-        <img src="https://i.pravatar.cc/50" alt="User" class="w-10 h-10 rounded-full border-2 border-teal-400" />
+    <header class="flex justify-between items-center" data-aos="fade-down" data-aos-duration="1200">
+      <h1 class="bio-logo glow-text">Starlet Bio</h1>
+      <div class="flex items-center gap-4">
+        <button onclick="logout()" class="px-4 py-2 rounded-full bg-gradient-to-r from-green-500 to-lime-500 shadow-lg hover:shadow-xl transition-all font-semibold">
+          Logout
+        </button>
+        <img src="https://i.pravatar.cc/50" alt="User" class="w-10 h-10 rounded-full border-2 border-lime-400"/>
       </div>
     </header>
 
     <!-- Poster -->
-    <div class="p-4 rounded-2xl shadow-2xl glass-card" data-aos="zoom-in">
-      <img src="IMG_20250417_015130.png" alt="Poster" class="rounded-xl w-full object-cover transition-transform duration-300 hover:scale-105" />
+    <div class="bio-card rounded-2xl p-3 shadow-xl" data-aos="zoom-in-up">
+      <img src="IMG_20250417_015130.png" alt="Poster" class="rounded-xl w-full object-cover"/>
     </div>
 
-    <!-- Welcome Section -->
-    <div class="p-6 rounded-2xl glass-card shadow-xl" data-aos="fade-up">
-      <h2 class="text-xl font-bold text-cyan-400">Welcome, 1st Year Students!</h2>
-      <p class="text-sm text-gray-300 mt-2">Access your lecture links, notes, and seminar sessions below.</p>
+    <!-- Welcome Message -->
+    <div class="bio-card rounded-xl p-6" data-aos="fade-up-right">
+      <h2 class="text-xl font-bold text-lime-400">🌱 Welcome Biologists!</h2>
+      <p class="text-sm text-green-200 mt-2">Explore lectures, notes, and seminars for 1st Year B.Sc. Biology. Dive into the science of life!</p>
     </div>
 
-    <!-- Lecture Link -->
-    <div class="p-6 rounded-2xl glass-card shadow-xl" data-aos="fade-up">
-      <h2 class="text-xl font-bold text-teal-300">Live Lecture</h2>
-      <a href="zoomus://zoom.us/join?confno=4527503240&pwd=QDw5xc" class="mt-4 inline-block px-6 py-3 text-white text-sm font-semibold rounded-full bg-gradient-to-r from-blue-600 via-teal-500 to-green-500 shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300">
-        Join 1st Year Lecture
+    <!-- Live Lecture -->
+    <div class="bio-card rounded-xl p-6" data-aos="flip-left">
+      <h2 class="text-xl font-bold text-emerald-400">🔬 Live Lecture</h2>
+      <a href="zoomus://zoom.us/join?confno=4527503240&pwd=QDw5xc" class="mt-3 inline-block px-6 py-3 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 text-white font-semibold shadow hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+        Join Zoom Lecture
       </a>
     </div>
 
-    <!-- Notes -->
-    <div class="p-6 rounded-2xl glass-card shadow-xl" data-aos="fade-up">
-      <h2 class="text-xl font-bold text-purple-400">Download Notes</h2>
-      <a href="1notes.html" class="mt-4 inline-block px-6 py-3 text-white text-sm font-semibold rounded-full bg-gradient-to-r from-green-600 to-blue-600 shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300">
-        1st Year Notes
+    <!-- Notes Section -->
+    <div class="bio-card rounded-xl p-6" data-aos="zoom-in-right">
+      <h2 class="text-xl font-bold text-green-300">📚 Download Notes</h2>
+      <a href="1notes.html" class="mt-3 inline-block px-6 py-3 rounded-full bg-gradient-to-r from-lime-500 to-teal-500 text-white font-semibold shadow hover:shadow-xl transform hover:scale-105 transition duration-300">
+        1st Year Biology Notes
       </a>
     </div>
 
     <!-- Seminar -->
-    <div class="p-6 rounded-2xl glass-card shadow-xl" data-aos="fade-up">
-      <h2 class="text-xl font-bold text-indigo-400">Seminar</h2>
-      <a href="zoomus://zoom.us/join?confno=9876543210&pwd=xyz123" class="mt-4 inline-block px-6 py-3 text-white text-sm font-semibold rounded-full bg-gradient-to-r from-pink-600 to-purple-600 shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300">
+    <div class="bio-card rounded-xl p-6" data-aos="fade-up-left">
+      <h2 class="text-xl font-bold text-teal-300">🌍 Biology Seminar</h2>
+      <a href="zoomus://zoom.us/join?confno=9876543210&pwd=xyz123" class="mt-3 inline-block px-6 py-3 rounded-full bg-gradient-to-r from-teal-600 to-green-400 text-white font-semibold shadow hover:shadow-xl transform hover:scale-105 transition duration-300">
         Join Seminar
       </a>
     </div>
 
     <!-- Notice Board -->
-    <div class="p-6 rounded-2xl glass-card shadow-xl" data-aos="fade-up">
-      <h2 class="text-xl font-bold text-yellow-400">Notice Board</h2>
-      <ul class="mt-4 list-disc list-inside space-y-2 text-sm text-gray-300">
-        <li>📢 <strong>NOTICE:</strong> Classes begin from <span class="text-white font-bold">1st June 2025</span>.</li>
-        <li>All students must attend from day one 📚.</li>
-        <li>Contact:<br>
+    <div class="bio-card rounded-xl p-6" data-aos="fade-zoom-in">
+      <h2 class="text-xl font-bold text-yellow-400">📣 Notice Board</h2>
+      <ul class="mt-4 list-disc list-inside space-y-2 text-sm text-green-100">
+        <li><strong>Class Begins:</strong> June 1, 2025</li>
+        <li>All students must join with their biology kits and ID.</li>
+        <li>💬 <strong>Contacts:</strong><br>
           Mohit Sir: +91 9648837922<br>
-          Himanshu Sir: +91 70079 25727
+          Himanshu Sir: +91 7007925727
         </li>
       </ul>
     </div>
   </div>
 
-  <!-- Firebase and AOS Script -->
+  <!-- Firebase and AOS Init -->
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
@@ -115,6 +130,7 @@
       messagingSenderId: "904193225045",
       appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc"
     };
+
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
@@ -123,7 +139,7 @@
         window.location.href = "index.html";
       }).catch(error => {
         console.error("Logout Error:", error);
-        alert("Logout failed. Please try again.");
+        alert("Logout failed. Try again.");
       });
     }
 
@@ -135,8 +151,8 @@
 
     AOS.init({
       once: true,
-      delay: 100,
-      duration: 800,
+      delay: 200,
+      duration: 1000,
       easing: 'ease-in-out'
     });
   </script>
