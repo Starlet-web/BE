@@ -175,7 +175,7 @@
 
     auth.onAuthStateChanged(user => {
       if (!user) {
-        window.location.href = "login.html"; // Not logged in
+        window.location.href = "resistor.html"; // Not logged in
       } else {
         db.collection("users").doc(user.uid).get().then(doc => {
           if (doc.exists && doc.data().paymentDone === true) {
