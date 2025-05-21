@@ -157,3 +157,79 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>THP-STARLET Slim Bar</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #fdf2f8, #e0e7ff);
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between items-center text-gray-800">
+
+  
+
+  <!-- Slim Bottom Navigation -->
+  <nav class="fixed bottom-3 left-1/2 transform -translate-x-1/2 w-[94%] max-w-xl flex justify-between items-center px-4 py-2 rounded-full glass shadow-lg z-50 text-xs">
+    <a href="index.html" class="flex flex-col items-center text-gray-700 hover:text-pink-600 transition">
+      <i class="fas fa-home text-base"></i><span class="mt-0.5">Home</span>
+    </a>
+    <a href="demo.html" class="flex flex-col items-center text-gray-700 hover:text-purple-600 transition">
+      <i class="fas fa-play text-base"></i><span class="mt-0.5">Demo</span>
+    </a>
+    <a href="dashboard.html" class="absolute -top-6 left-1/2 transform -translate-x-1/2 text-center">
+      <div class="bg-gradient-to-br from-pink-500 to-purple-600 text-white p-3 rounded-full shadow-xl hover:scale-110 transition">
+        <i class="fas fa-tachometer-alt text-xl"></i>
+      </div>
+      <span class="block text-[11px] text-purple-700 font-semibold mt-0.5">Desk</span>
+    </a>
+    <a href="notes.html" class="flex flex-col items-center text-gray-700 hover:text-purple-600 transition">
+      <i class="fas fa-book text-base"></i><span class="mt-0.5">Notes</span>
+    </a>
+    <button id="whatsappRedirect" class="flex flex-col items-center text-green-600 hover:text-green-700 transition">
+      <i class="fab fa-whatsapp text-base"></i><span class="mt-0.5">Contact</span>
+    </button>
+  </nav>
+
+  <!-- WhatsApp Redirect Script -->
+  <script>
+    document.getElementById("whatsappRedirect").addEventListener("click", function () {
+      let phoneNumber = "919648837922";
+      let message = encodeURIComponent("Hello Sir, I'm interested in THP-STARLET Classes.");
+      window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+    });
+  </script>
+
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,
+      offset: 120,
+      once: true
+    });
+  </script>
+
+  <style>
+    .glass {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  </style>
+
+</body>
+</html>
