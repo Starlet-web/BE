@@ -5,211 +5,416 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>STARLET - Login & Signup</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <style>
-    body { font-family: 'Poppins', sans-serif; }
-    .fade { transition: all 0.5s ease-in-out; }
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --primary-light: #818cf8;
+      --secondary: #f43f5e;
+      --dark: #1e293b;
+      --light: #f8fafc;
+    }
+    
+    body { 
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f9fafb, #f3f4f6);
+    }
+    
+    .fade { 
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .form-input {
+      transition: all 0.3s ease;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+    
+    .form-input:focus {
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+    }
+    
+    .btn-primary {
+      background-image: linear-gradient(to right, var(--primary), var(--primary-dark));
+      box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3), 0 2px 4px -1px rgba(99, 102, 241, 0.2);
+    }
+    
+    .btn-primary:hover {
+      background-image: linear-gradient(to right, var(--primary-dark), var(--primary));
+      transform: translateY(-1px);
+      box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3), 0 4px 6px -2px rgba(99, 102, 241, 0.2);
+    }
+    
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+    
+    .btn-secondary {
+      background-image: linear-gradient(to right, #f43f5e, #e11d48);
+      box-shadow: 0 4px 6px -1px rgba(244, 63, 94, 0.3), 0 2px 4px -1px rgba(244, 63, 94, 0.2);
+    }
+    
+    .btn-secondary:hover {
+      background-image: linear-gradient(to right, #e11d48, #f43f5e);
+    }
+    
+    .floating-label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translate(12px, 12px);
+      transition: all 0.2s ease-out;
+      pointer-events: none;
+      color: #64748b;
+      font-size: 14px;
+    }
+    
+    .input-filled + .floating-label,
+    .form-input:focus + .floating-label {
+      transform: translate(8px, -8px) scale(0.85);
+      background-color: white;
+      padding: 0 4px;
+      color: var(--primary);
+    }
+    
+    .input-group {
+      position: relative;
+    }
+    
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 5px solid #e0e7ff;
+      border-bottom-color: var(--primary);
+      border-radius: 50%;
+      display: inline-block;
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+    }
+    
+    @keyframes rotation {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .card {
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      border: 1px solid rgba(209, 213, 219, 0.3);
+    }
+    
+    .wave {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+      transform: rotate(180deg);
+    }
+    
+    .wave svg {
+      position: relative;
+      display: block;
+      width: calc(100% + 1.3px);
+      height: 150px;
+    }
+    
+    .wave .shape-fill {
+      fill: rgba(99, 102, 241, 0.1);
+    }
   </style>
 </head>
-<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 via-white to-gray-200 p-4 relative text-gray-800">
-
-<!-- Loader -->
-<div id="loader" class="absolute inset-0 flex items-center justify-center bg-white z-50">
-  <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-indigo-600"></div>
-</div>
-
-<!-- Form Container -->
-<div class="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 fade opacity-0 border border-gray-200" id="formContainer">
-  <div class="text-center mb-6">
-    <h2 class="text-4xl font-bold text-indigo-700">STARLET</h2>
-    <p class="text-gray-600" id="formTitle">Login to your account</p>
+<body class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+  <!-- Background Elements -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute top-0 left-0 w-64 h-64 bg-indigo-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+    <div class="absolute top-0 right-0 w-64 h-64 bg-pink-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+    <div class="absolute bottom-0 right-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
   </div>
 
-  <form id="authForm" class="space-y-5">
-    <div id="nameField" class="hidden">
-      <label class="block text-sm font-medium">Full Name</label>
-      <input type="text" id="name" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Your Name" />
+  <!-- Loader -->
+  <div id="loader" class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-90 z-50 transition-opacity duration-500">
+    <div class="text-center">
+      <div class="loader mb-4"></div>
+      <p class="text-indigo-600 font-medium">Loading STARLET...</p>
     </div>
+  </div>
 
-    <div id="mobileField" class="hidden">
-      <label class="block text-sm font-medium">Mobile Number</label>
-      <input type="text" id="mobile" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="10-digit mobile" />
+  <!-- Form Container -->
+  <div class="w-full max-w-md card shadow-2xl fade opacity-0 transform translate-y-4" id="formContainer">
+    <div class="p-8">
+      <div class="text-center mb-8">
+        <div class="flex justify-center mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+          </svg>
+        </div>
+        <h2 class="text-3xl font-bold text-indigo-700 mb-2">STARLET</h2>
+        <p class="text-gray-500" id="formTitle">Login to your account</p>
+      </div>
+
+      <form id="authForm" class="space-y-6">
+        <div id="nameField" class="hidden">
+          <div class="input-group">
+            <input type="text" id="name" class="form-input w-full p-3 border border-gray-200 rounded-lg focus:outline-none" />
+            <label class="floating-label">Full Name</label>
+          </div>
+        </div>
+
+        <div id="mobileField" class="hidden">
+          <div class="input-group">
+            <input type="text" id="mobile" class="form-input w-full p-3 border border-gray-200 rounded-lg focus:outline-none" />
+            <label class="floating-label">Mobile Number</label>
+          </div>
+        </div>
+
+        <div id="courseField" class="hidden">
+          <div class="input-group">
+            <select id="course" class="form-input w-full p-3 border border-gray-200 rounded-lg focus:outline-none appearance-none">
+              <option value=""></option>
+              <option value="BSc 1st Year">BSc 1st Year</option>
+              <option value="BSc 2nd Year">BSc 2nd Year</option>
+              <option value="BSc 3rd Year">BSc 3rd Year</option>
+            </select>
+            <label class="floating-label">Choose Course</label>
+            <div class="absolute right-3 top-3 text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <input type="email" id="email" class="form-input w-full p-3 border border-gray-200 rounded-lg focus:outline-none" required />
+          <label class="floating-label">Email Address</label>
+        </div>
+
+        <div class="input-group">
+          <input type="password" id="password" class="form-input w-full p-3 border border-gray-200 rounded-lg focus:outline-none" required />
+          <label class="floating-label">Password</label>
+        </div>
+
+        <div class="flex justify-between items-center text-sm">
+          <div class="flex items-center">
+            <input id="remember" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+            <label for="remember" class="ml-2 block text-gray-600">Remember me</label>
+          </div>
+          <button type="button" id="forgotPassword" class="text-indigo-600 hover:text-indigo-800 transition-colors">Forgot Password?</button>
+        </div>
+
+        <button type="submit" id="authBtn" class="btn-primary w-full text-white p-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2">
+          <span id="authText">Login</span>
+          <svg id="spinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0h8z"/>
+          </svg>
+        </button>
+
+        <div class="text-center text-sm text-gray-600">
+          <span id="toggleFormText">Don't have an account?</span>
+          <button type="button" id="toggleForm" class="ml-1 text-indigo-600 hover:text-indigo-800 font-medium transition-colors">Sign Up</button>
+        </div>
+
+        <div id="payNow" class="hidden text-center pt-4 border-t border-gray-100">
+          <p class="text-gray-600 mb-3">You haven't purchased access yet.</p>
+          <a href="GPay.html" class="btn-secondary inline-block px-6 py-2 text-white rounded-lg transition-all">Pay Now</a>
+        </div>
+      </form>
+
+      <div id="popupMessage" class="hidden mt-6 text-center text-white px-4 py-3 rounded-lg transition-all duration-300 shadow-lg"></div>
     </div>
+  </div>
 
-    <div id="courseField" class="hidden">
-      <label class="block text-sm font-medium">Choose Course</label>
-      <select id="course" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-        <option value="">Select</option>
-        <option value="BSc 1st Year">BSc 1st Year</option>
-        <option value="BSc 2nd Year">BSc 2nd Year</option>
-        <option value="BSc 3rd Year">BSc 3rd Year</option>
-      </select>
-    </div>
+  <!-- Wave Decoration -->
+  <div class="wave">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>
+      <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="shape-fill"></path>
+      <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="shape-fill"></path>
+    </svg>
+  </div>
 
-    <div>
-      <label class="block text-sm font-medium">Email</label>
-      <input type="email" id="email" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="email@example.com" required />
-    </div>
+  <!-- Firebase Auth & Logic -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+    import { getFirestore, setDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-    <div>
-      <label class="block text-sm font-medium">Password</label>
-      <input type="password" id="password" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="********" required />
-    </div>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
+      authDomain: "starlet-registor.firebaseapp.com",
+      projectId: "starlet-registor",
+      storageBucket: "starlet-registor.appspot.com",
+      messagingSenderId: "904193225045",
+      appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc"
+    };
 
-    <div class="flex justify-between text-sm">
-      <a href="#" id="forgotPassword" class="text-indigo-600 hover:underline">Forgot Password?</a>
-      <button type="button" id="toggleForm" class="text-indigo-600 hover:underline">Don't have an account? Sign Up</button>
-    </div>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    <button type="submit" id="authBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2">
-      <span id="authText">Login</span>
-      <svg id="spinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
-      </svg>
-    </button>
-
-    <div id="payNow" class="hidden text-center">
-      <p class="text-red-600 font-semibold mt-4">You haven't purchased access yet.</p>
-      <a href="GPay.html" class="inline-block mt-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">Pay Now</a>
-    </div>
-  </form>
-
-  <div id="popupMessage" class="hidden mt-4 text-center text-white px-4 py-3 rounded-lg transition-all duration-300"></div>
-</div>
-
-<!-- Firebase Auth & Logic -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-  import { getFirestore, setDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
-    authDomain: "starlet-registor.firebaseapp.com",
-    projectId: "starlet-registor",
-    storageBucket: "starlet-registor.appspot.com",
-    messagingSenderId: "904193225045",
-    appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      const docSnap = await getDoc(doc(db, "users", user.uid));
-      if (docSnap.exists() && docSnap.data().hasAccess) {
-        const course = docSnap.data().course;
-        let redirectPage = "dashboard.html";
-        if (course === "BSc 1st Year") redirectPage = "bsc1.html";
-        else if (course === "BSc 2nd Year") redirectPage = "bsc2.html";
-        else if (course === "BSc 3rd Year") redirectPage = "bsc3.html";
-        window.location.replace(redirectPage);
-      } else {
-        await signOut(auth);
-        document.getElementById("loader").classList.add("hidden");
-        document.getElementById("formContainer").classList.remove("opacity-0");
+    // Floating label functionality
+    document.querySelectorAll('.form-input').forEach(input => {
+      // Check if input has value on page load
+      if(input.value) {
+        input.classList.add('input-filled');
       }
-    } else {
-      document.getElementById("loader").classList.add("hidden");
-      document.getElementById("formContainer").classList.remove("opacity-0");
-    }
-  });
+      
+      // Add event listeners
+      input.addEventListener('input', () => {
+        if(input.value) {
+          input.classList.add('input-filled');
+        } else {
+          input.classList.remove('input-filled');
+        }
+      });
+    });
 
-  let isLogin = true;
-  const toggleFormBtn = document.getElementById("toggleForm");
-  const authText = document.getElementById("authText");
-  const formTitle = document.getElementById("formTitle");
-  const popup = document.getElementById("popupMessage");
-
-  function showMessage(msg, bg = 'bg-green-600') {
-    popup.textContent = msg;
-    popup.className = `block mt-4 text-center text-white px-4 py-3 rounded-lg ${bg}`;
-    popup.classList.remove("hidden");
-    setTimeout(() => popup.classList.add("hidden"), 3000);
-  }
-
-  function toggleForm() {
-    isLogin = !isLogin;
-    document.getElementById("nameField").classList.toggle("hidden", isLogin);
-    document.getElementById("mobileField").classList.toggle("hidden", isLogin);
-    document.getElementById("courseField").classList.toggle("hidden", isLogin);
-    formTitle.textContent = isLogin ? "Login to your account" : "Create a new account";
-    authText.textContent = isLogin ? "Login" : "Sign Up";
-    toggleFormBtn.textContent = isLogin ? "Don't have an account? Sign Up" : "Already have an account? Login";
-  }
-
-  toggleFormBtn.addEventListener("click", () => {
-    document.getElementById("formContainer").classList.add("opacity-0");
-    setTimeout(() => {
-      toggleForm();
-      document.getElementById("formContainer").classList.remove("opacity-0");
-    }, 300);
-  });
-
-  document.getElementById("authForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-    const spinner = document.getElementById("spinner");
-    const authBtn = document.getElementById("authBtn");
-
-    authText.textContent = isLogin ? "Logging in..." : "Signing up...";
-    spinner.classList.remove("hidden");
-    authBtn.disabled = true;
-
-    try {
-      if (isLogin) {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const docSnap = await getDoc(doc(db, "users", userCredential.user.uid));
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const docSnap = await getDoc(doc(db, "users", user.uid));
         if (docSnap.exists() && docSnap.data().hasAccess) {
           const course = docSnap.data().course;
-          showMessage("Login successful!");
-
           let redirectPage = "dashboard.html";
           if (course === "BSc 1st Year") redirectPage = "bsc1.html";
           else if (course === "BSc 2nd Year") redirectPage = "bsc2.html";
           else if (course === "BSc 3rd Year") redirectPage = "bsc3.html";
-
-          setTimeout(() => window.location.replace(redirectPage), 500);
+          window.location.replace(redirectPage);
         } else {
-          document.getElementById("payNow").classList.remove("hidden");
           await signOut(auth);
+          document.getElementById("loader").classList.add("hidden");
+          document.getElementById("formContainer").classList.remove("opacity-0");
+          document.getElementById("formContainer").classList.remove("translate-y-4");
         }
       } else {
-        const name = document.getElementById("name").value.trim();
-        const mobile = document.getElementById("mobile").value.trim();
-        const course = document.getElementById("course").value;
-
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        await setDoc(doc(db, "users", userCredential.user.uid), {
-          name, email, mobile, course, hasAccess: false
-        });
-        showMessage("Signup successful! Now login.");
-        toggleForm();
+        document.getElementById("loader").classList.add("hidden");
+        document.getElementById("formContainer").classList.remove("opacity-0");
+        document.getElementById("formContainer").classList.remove("translate-y-4");
       }
-    } catch (error) {
-      showMessage(error.message, 'bg-red-600');
-    } finally {
-      authText.textContent = isLogin ? "Login" : "Sign Up";
-      spinner.classList.add("hidden");
-      authBtn.disabled = false;
-    }
-  });
+    });
 
-  document.getElementById("forgotPassword").addEventListener("click", async () => {
-    const email = prompt("Enter your email to receive reset link:");
-    if (email) {
+    let isLogin = true;
+    const toggleFormBtn = document.getElementById("toggleForm");
+    const toggleFormText = document.getElementById("toggleFormText");
+    const authText = document.getElementById("authText");
+    const formTitle = document.getElementById("formTitle");
+    const popup = document.getElementById("popupMessage");
+
+    function showMessage(msg, bg = 'bg-green-600') {
+      popup.textContent = msg;
+      popup.className = `block mt-6 text-center text-white px-4 py-3 rounded-lg transition-all duration-300 shadow-lg ${bg}`;
+      popup.classList.remove("hidden");
+      setTimeout(() => popup.classList.add("hidden"), 3000);
+    }
+
+    function toggleForm() {
+      isLogin = !isLogin;
+      document.getElementById("nameField").classList.toggle("hidden", isLogin);
+      document.getElementById("mobileField").classList.toggle("hidden", isLogin);
+      document.getElementById("courseField").classList.toggle("hidden", isLogin);
+      formTitle.textContent = isLogin ? "Login to your account" : "Create a new account";
+      authText.textContent = isLogin ? "Login" : "Sign Up";
+      toggleFormText.textContent = isLogin ? "Don't have an account?" : "Already have an account?";
+      toggleFormBtn.textContent = isLogin ? "Sign Up" : "Login";
+      
+      // Reset form fields when toggling
+      if(isLogin) {
+        document.getElementById("name").value = "";
+        document.getElementById("mobile").value = "";
+        document.getElementById("course").value = "";
+        document.getElementById("name").classList.remove('input-filled');
+        document.getElementById("mobile").classList.remove('input-filled');
+        document.getElementById("course").classList.remove('input-filled');
+      }
+    }
+
+    toggleFormBtn.addEventListener("click", () => {
+      document.getElementById("formContainer").classList.add("opacity-0");
+      document.getElementById("formContainer").classList.add("translate-y-4");
+      setTimeout(() => {
+        toggleForm();
+        document.getElementById("formContainer").classList.remove("opacity-0");
+        document.getElementById("formContainer").classList.remove("translate-y-4");
+      }, 300);
+    });
+
+    document.getElementById("authForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const spinner = document.getElementById("spinner");
+      const authBtn = document.getElementById("authBtn");
+
+      authText.textContent = isLogin ? "Logging in..." : "Signing up...";
+      spinner.classList.remove("hidden");
+      authBtn.disabled = true;
+
+      try {
+        if (isLogin) {
+          const userCredential = await signInWithEmailAndPassword(auth, email, password);
+          const docSnap = await getDoc(doc(db, "users", userCredential.user.uid));
+          if (docSnap.exists() && docSnap.data().hasAccess) {
+            const course = docSnap.data().course;
+            showMessage("Login successful! Redirecting...");
+
+            let redirectPage = "dashboard.html";
+            if (course === "BSc 1st Year") redirectPage = "bsc1.html";
+            else if (course === "BSc 2nd Year") redirectPage = "bsc2.html";
+            else if (course === "BSc 3rd Year") redirectPage = "bsc3.html";
+
+            setTimeout(() => window.location.replace(redirectPage), 1000);
+          } else {
+            document.getElementById("payNow").classList.remove("hidden");
+            await signOut(auth);
+            showMessage("Please complete your payment to access content", 'bg-indigo-600');
+          }
+        } else {
+          const name = document.getElementById("name").value.trim();
+          const mobile = document.getElementById("mobile").value.trim();
+          const course = document.getElementById("course").value;
+
+          if(!name || !mobile || !course) {
+            throw new Error("Please fill all required fields");
+          }
+
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+          await setDoc(doc(db, "users", userCredential.user.uid), {
+            name, email, mobile, course, hasAccess: false
+          });
+          showMessage("Account created successfully! Please login.");
+          setTimeout(() => toggleForm(), 1500);
+        }
+      } catch (error) {
+        showMessage(error.message, 'bg-red-500');
+      } finally {
+        authText.textContent = isLogin ? "Login" : "Sign Up";
+        spinner.classList.add("hidden");
+        authBtn.disabled = false;
+      }
+    });
+
+    document.getElementById("forgotPassword").addEventListener("click", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      
+      if(!email) {
+        showMessage("Please enter your email in the email field first", 'bg-indigo-600');
+        document.getElementById("email").focus();
+        return;
+      }
+      
       try {
         await sendPasswordResetEmail(auth, email);
-        showMessage("Password reset email sent.");
+        showMessage("Password reset email sent. Check your inbox.", 'bg-indigo-600');
       } catch (error) {
-        showMessage("Error: " + error.message, 'bg-red-600');
+        showMessage("Error: " + error.message, 'bg-red-500');
       }
-    }
-  });
-</script>
+    });
+  </script>
 </body>
 </html>
