@@ -6,46 +6,82 @@
   <title>STARLET B.Sc. Notes Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
   <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    }
     .accordion-content {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.4s ease;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .accordion-content.show {
       max-height: 1000px;
     }
     .glass-card {
-      backdrop-filter: blur(20px);
-      background: rgba(255, 255, 255, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(16px);
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
     }
     .subject-icon {
-      width: 24px;
-      height: 24px;
-      object-fit: cover;
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
     }
     .paper-icon {
       font-size: 1.5rem;
-      margin-right: 0.5rem;
+      margin-right: 0.75rem;
+    }
+    .unit-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(245,245,245,0.9) 100%);
+      border-left: 4px solid;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .unit-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+    }
+    .subject-btn {
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .subject-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
     }
   </style>
 </head>
-<body class="bg-white text-[#1F2937] min-h-screen p-6 sm:p-8 font-sans">
+<body class="text-gray-800 min-h-screen p-4 sm:p-8">
 
   <div class="max-w-6xl mx-auto">
     <!-- Header -->
-    <header class="text-center mb-10">
-      <h1 class="text-5xl font-bold text-[#1F2937] drop-shadow-md">STARLET B.Sc. Notes</h1>
-      <p class="text-lg text-gray-600 mt-2">Zoology, Botany & Chemistry | All Papers & Units</p>
+    <header class="text-center mb-12">
+      <h1 class="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent drop-shadow-md mb-3">STARLET B.Sc. Notes</h1>
+      <p class="text-lg text-gray-600 mt-2 max-w-2xl mx-auto">Comprehensive study materials for Zoology, Botany & Chemistry - All Papers & Units organized for your success</p>
+      <div class="mt-6 flex justify-center space-x-4">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+          <i data-lucide="book-open" class="w-4 h-4 mr-1"></i> Zoology
+        </span>
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+          <i data-lucide="leaf" class="w-4 h-4 mr-1"></i> Botany
+        </span>
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+          <i data-lucide="flask-conical" class="w-4 h-4 mr-1"></i> Chemistry
+        </span>
+      </div>
     </header>
 
     <!-- Subjects -->
-    <div id="subjects" class="space-y-8"></div>
+    <div id="subjects" class="space-y-6"></div>
 
     <!-- Footer -->
-    <footer class="mt-16 text-center text-sm text-gray-500">
-      &copy; 2025 STARLET B.Sc. Bio Classes. All rights reserved.
+    <footer class="mt-16 text-center text-sm text-gray-500 border-t border-gray-200 pt-6">
+      <p>&copy; 2025 STARLET B.Sc. Bio Classes. All rights reserved.</p>
+      <p class="mt-1 text-xs text-gray-400">Designed with <i data-lucide="heart" class="w-3 h-3 inline fill-red-500 text-red-500"></i> for students</p>
     </footer>
   </div>
 
@@ -63,19 +99,55 @@
           { title: "Special Topics", link: "https://online.pubhtml5.com/yamxd/emmx/" }
         ],
         paper3: [
-          { title: "Cell Bio", link: "https://online.pubhtml5.com/yamxd/wtld/" },
+          { title: "Cell Biology", link: "https://online.pubhtml5.com/yamxd/wtld/" },
           { title: "Genetics", link: "https://online.pubhtml5.com/yamxd/innh/" }
         ]
       },
       Botany: {
-        paper1: ["Plant Diversity", "Algae & Fungi", "Bryophytes", "Pteridophytes", "Gymnosperms"],
-        paper2: ["Plant Anatomy", "Embryology", "Plant Physiology", "Genetics", "Ecology"],
-        paper3: ["Biotechnology", "Molecular Biology", "Economic Botany", "Plant Pathology", "Plant Breeding"]
+        paper1: [
+          { title: "Plant Diversity", link: "#" },
+          { title: "Algae & Fungi", link: "#" },
+          { title: "Bryophytes", link: "#" },
+          { title: "Pteridophytes", link: "#" },
+          { title: "Gymnosperms", link: "#" }
+        ],
+        paper2: [
+          { title: "Plant Anatomy", link: "#" },
+          { title: "Embryology", link: "#" },
+          { title: "Plant Physiology", link: "#" },
+          { title: "Genetics", link: "#" },
+          { title: "Ecology", link: "#" }
+        ],
+        paper3: [
+          { title: "Biotechnology", link: "#" },
+          { title: "Molecular Biology", link: "#" },
+          { title: "Economic Botany", link: "#" },
+          { title: "Plant Pathology", link: "#" },
+          { title: "Plant Breeding", link: "#" }
+        ]
       },
       Chemistry: {
-        paper1: ["Atomic Structure", "Periodic Table", "Chemical Bonding", "Stoichiometry", "Redox Reactions"],
-        paper2: ["Organic Basics", "Hydrocarbons", "Alcohols & Ethers", "Carbonyl Compounds", "Amines"],
-        paper3: ["Thermodynamics", "Electrochemistry", "Kinetics", "Surface Chemistry", "Coordination Chemistry"]
+        paper1: [
+          { title: "Atomic Structure", link: "#" },
+          { title: "Periodic Table", link: "#" },
+          { title: "Chemical Bonding", link: "#" },
+          { title: "Stoichiometry", link: "#" },
+          { title: "Redox Reactions", link: "#" }
+        ],
+        paper2: [
+          { title: "Organic Basics", link: "#" },
+          { title: "Hydrocarbons", link: "#" },
+          { title: "Alcohols & Ethers", link: "#" },
+          { title: "Carbonyl Compounds", link: "#" },
+          { title: "Amines", link: "#" }
+        ],
+        paper3: [
+          { title: "Thermodynamics", link: "#" },
+          { title: "Electrochemistry", link: "#" },
+          { title: "Kinetics", link: "#" },
+          { title: "Surface Chemistry", link: "#" },
+          { title: "Coordination Chemistry", link: "#" }
+        ]
       }
     };
 
@@ -83,6 +155,24 @@
       paper1: "📚",
       paper2: "🔬",
       paper3: "🧪"
+    };
+
+    const subjectColors = {
+      Zoology: {
+        bg: "bg-gradient-to-r from-blue-600 to-indigo-700",
+        border: "border-blue-500",
+        hover: "hover:from-blue-700 hover:to-indigo-800"
+      },
+      Botany: {
+        bg: "bg-gradient-to-r from-green-600 to-teal-700",
+        border: "border-green-500",
+        hover: "hover:from-green-700 hover:to-teal-800"
+      },
+      Chemistry: {
+        bg: "bg-gradient-to-r from-purple-600 to-violet-700",
+        border: "border-purple-500",
+        hover: "hover:from-purple-700 hover:to-violet-800"
+      }
     };
 
     const subjectIcons = {
@@ -95,25 +185,29 @@
 
     for (const subject in data) {
       const subjectSection = document.createElement("div");
-      subjectSection.className = "glass-card rounded-2xl p-6 shadow-lg";
+      subjectSection.className = "glass-card rounded-2xl p-6 shadow-xl overflow-hidden";
+      
       const subjectContent = Object.entries(data[subject]).map(([paper, units]) => {
         return `
-          <div class="bg-white/70 rounded-xl p-4 shadow hover:shadow-md transition">
-            <button class="w-full flex justify-between items-center text-lg font-semibold text-[#3B82F6] paper-btn">
+          <div class="bg-white/80 rounded-xl p-4 shadow-sm hover:shadow-md transition-all mb-4">
+            <button class="w-full flex justify-between items-center text-lg font-semibold text-gray-700 paper-btn px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors">
               <span class="flex items-center">
                 <span class="paper-icon">${paperEmojis[paper]}</span>
                 ${paper.replace("paper", "Paper ")}
+                <span class="ml-2 text-xs font-normal bg-gray-100 text-gray-600 px-2 py-1 rounded-full">${units.length} Units</span>
               </span>
-              <i class="lucide lucide-plus transition-transform"></i>
+              <i class="lucide lucide-chevron-down transition-transform transform"></i>
             </button>
-            <div class="accordion-content mt-3 pl-4 space-y-2">
+            <div class="accordion-content mt-2 pl-2 pr-2 space-y-3">
               ${units.map((unit, i) => {
                 const title = typeof unit === "string" ? unit : unit.title;
                 const link = typeof unit === "string" ? `src/${subject.toLowerCase()}/${paper}/unit${i+1}.html` : unit.link;
                 return `
                   <a href="${link}" target="_blank"
-                    class="block rounded-lg bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] text-white px-4 py-2 font-medium hover:from-[#1D4ED8] hover:to-[#3B82F6] transition duration-200">
-                    <i class="lucide lucide-file-check mr-1"></i>Unit ${i + 1}: ${title}
+                    class="flex items-center unit-card rounded-lg px-4 py-3 font-medium transition-all duration-200 ${subjectColors[subject].border}">
+                    <span class="flex-shrink-0 w-8 h-8 rounded-full ${subjectColors[subject].bg} flex items-center justify-center text-white mr-3 text-sm font-bold">${i+1}</span>
+                    <span class="flex-grow text-gray-700">${title}</span>
+                    <i class="lucide lucide-arrow-up-right text-gray-400 ml-2"></i>
                   </a>
                 `;
               }).join("")}
@@ -123,14 +217,14 @@
       }).join("");
 
       subjectSection.innerHTML = `
-        <button class="w-full flex justify-between items-center text-2xl font-bold text-white bg-[#9B4DFF] hover:bg-[#7C32D1] py-3 px-4 rounded-lg subject-btn transition-all duration-300 ease-in-out transform hover:scale-105">
+        <button class="w-full flex justify-between items-center text-xl font-bold text-white ${subjectColors[subject].bg} ${subjectColors[subject].hover} py-4 px-6 rounded-xl subject-btn transition-all duration-300">
           <span class="flex items-center">
-            <img src="${subjectIcons[subject]}" alt="${subject} icon" class="subject-icon mr-2">
+            <img src="${subjectIcons[subject]}" alt="${subject} icon" class="subject-icon mr-3">
             ${subject}
           </span>
-          <i class="lucide lucide-plus transition-transform"></i>
+          <i class="lucide lucide-chevron-down transition-transform transform"></i>
         </button>
-        <div class="accordion-content mt-4 space-y-4">
+        <div class="accordion-content mt-4 space-y-3">
           ${subjectContent}
         </div>
       `;
@@ -142,8 +236,7 @@
         const content = btn.nextElementSibling;
         const icon = btn.querySelector("i");
         content.classList.toggle("show");
-        icon.classList.toggle("lucide-plus");
-        icon.classList.toggle("lucide-minus");
+        icon.classList.toggle("rotate-180");
       });
     });
 
@@ -152,8 +245,7 @@
         const content = btn.nextElementSibling;
         const icon = btn.querySelector("i");
         content.classList.toggle("show");
-        icon.classList.toggle("lucide-plus");
-        icon.classList.toggle("lucide-minus");
+        icon.classList.toggle("rotate-180");
       });
     });
 
