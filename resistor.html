@@ -20,6 +20,7 @@
     body { 
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #f9fafb, #f3f4f6);
+      overflow-x: hidden;
     }
     
     .fade { 
@@ -38,6 +39,7 @@
     .btn-primary {
       background-image: linear-gradient(to right, var(--primary), var(--primary-dark));
       box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3), 0 2px 4px -1px rgba(99, 102, 241, 0.2);
+      cursor: pointer;
     }
     
     .btn-primary:hover {
@@ -53,6 +55,7 @@
     .btn-secondary {
       background-image: linear-gradient(to right, #f43f5e, #e11d48);
       box-shadow: 0 4px 6px -1px rgba(244, 63, 94, 0.3), 0 2px 4px -1px rgba(244, 63, 94, 0.2);
+      cursor: pointer;
     }
     
     .btn-secondary:hover {
@@ -104,16 +107,35 @@
       background-color: rgba(255, 255, 255, 0.95);
       border-radius: 12px;
       border: 1px solid rgba(209, 213, 219, 0.3);
+      max-height: 90vh;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary) #f1f1f1;
+    }
+    
+    .card::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .card::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    
+    .card::-webkit-scrollbar-thumb {
+      background-color: var(--primary);
+      border-radius: 10px;
     }
     
     .wave {
-      position: absolute;
+      position: fixed;
       bottom: 0;
       left: 0;
       width: 100%;
       overflow: hidden;
       line-height: 0;
       transform: rotate(180deg);
+      z-index: -1;
     }
     
     .wave svg {
@@ -126,18 +148,38 @@
     .wave .shape-fill {
       fill: rgba(99, 102, 241, 0.1);
     }
+    
+    .clickable {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .clickable:hover {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+    
+    .clickable:active {
+      transform: scale(0.98);
+    }
+    
+    @media (max-height: 700px) {
+      .card {
+        max-height: 80vh;
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
   <!-- Background Elements -->
-  <div class="absolute inset-0 overflow-hidden">
+  <div class="absolute inset-0 overflow-hidden z-0">
     <div class="absolute top-0 left-0 w-64 h-64 bg-indigo-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
     <div class="absolute top-0 right-0 w-64 h-64 bg-pink-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
     <div class="absolute bottom-0 right-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
   </div>
 
   <!-- Loader -->
-  <div id="loader" class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-90 z-50 transition-opacity duration-500">
+  <div id="loader" class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-90 z-50 transition-opacity duration-500">
     <div class="text-center">
       <div class="loader mb-4"></div>
       <p class="text-indigo-600 font-medium">Loading STARLET...</p>
@@ -145,15 +187,15 @@
   </div>
 
   <!-- Form Container -->
-  <div class="w-full max-w-md card shadow-2xl fade opacity-0 transform translate-y-4" id="formContainer">
+  <div class="w-full max-w-md card shadow-2xl fade opacity-0 transform translate-y-4 mx-auto my-8" id="formContainer">
     <div class="p-8">
       <div class="text-center mb-8">
-        <div class="flex justify-center mb-4">
+        <div class="flex justify-center mb-4 clickable" onclick="window.location.reload()">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
           </svg>
         </div>
-        <h2 class="text-3xl font-bold text-indigo-700 mb-2">STARLET</h2>
+        <h2 class="text-3xl font-bold text-indigo-700 mb-2 clickable" onclick="window.location.reload()">STARLET</h2>
         <p class="text-gray-500" id="formTitle">Login to your account</p>
       </div>
 
@@ -201,13 +243,13 @@
 
         <div class="flex justify-between items-center text-sm">
           <div class="flex items-center">
-            <input id="remember" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-            <label for="remember" class="ml-2 block text-gray-600">Remember me</label>
+            <input id="remember" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded clickable">
+            <label for="remember" class="ml-2 block text-gray-600 clickable">Remember me</label>
           </div>
-          <button type="button" id="forgotPassword" class="text-indigo-600 hover:text-indigo-800 transition-colors">Forgot Password?</button>
+          <button type="button" id="forgotPassword" class="text-indigo-600 hover:text-indigo-800 transition-colors clickable">Forgot Password?</button>
         </div>
 
-        <button type="submit" id="authBtn" class="btn-primary w-full text-white p-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2">
+        <button type="submit" id="authBtn" class="btn-primary w-full text-white p-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 clickable">
           <span id="authText">Login</span>
           <svg id="spinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
@@ -217,16 +259,21 @@
 
         <div class="text-center text-sm text-gray-600">
           <span id="toggleFormText">Don't have an account?</span>
-          <button type="button" id="toggleForm" class="ml-1 text-indigo-600 hover:text-indigo-800 font-medium transition-colors">Sign Up</button>
+          <button type="button" id="toggleForm" class="ml-1 text-indigo-600 hover:text-indigo-800 font-medium transition-colors clickable">Sign Up</button>
         </div>
 
         <div id="payNow" class="hidden text-center pt-4 border-t border-gray-100">
           <p class="text-gray-600 mb-3">You haven't purchased access yet.</p>
-          <a href="GPay.html" class="btn-secondary inline-block px-6 py-2 text-white rounded-lg transition-all">Pay Now</a>
+          <a href="GPay.html" class="btn-secondary inline-block px-6 py-2 text-white rounded-lg transition-all clickable">Pay Now</a>
         </div>
       </form>
 
       <div id="popupMessage" class="hidden mt-6 text-center text-white px-4 py-3 rounded-lg transition-all duration-300 shadow-lg"></div>
+      
+      <div class="mt-8 text-center text-xs text-gray-400">
+        <p class="clickable" onclick="window.location.href='terms.html'">Terms of Service</p>
+        <p class="clickable mt-1" onclick="window.location.href='privacy.html'">Privacy Policy</p>
+      </div>
     </div>
   </div>
 
@@ -414,6 +461,19 @@
       } catch (error) {
         showMessage("Error: " + error.message, 'bg-red-500');
       }
+    });
+
+    // Add click effects to all clickable elements
+    document.querySelectorAll('.clickable').forEach(element => {
+      element.addEventListener('mousedown', () => {
+        element.classList.add('active:scale-95');
+      });
+      element.addEventListener('mouseup', () => {
+        element.classList.remove('active:scale-95');
+      });
+      element.addEventListener('mouseleave', () => {
+        element.classList.remove('active:scale-95');
+      });
     });
   </script>
 </body>
