@@ -2,158 +2,258 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Secure GPay UPI Payment</title>
+  <title>Google Pay - B.Sc Course Payment</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="https://www.gstatic.com/images/branding/product/1x/gpay_2020_24dp.png" type="image/png">
   <style>
+    :root {
+      --gpay-blue: #4285F4;
+      --gpay-dark-blue: #3367D6;
+      --gpay-green: #34A853;
+      --gpay-yellow: #FBBC05;
+      --gpay-red: #EA4335;
+      --gpay-light-bg: #f8f9fa;
+      --gpay-card-bg: #ffffff;
+      --gpay-text-primary: #202124;
+      --gpay-text-secondary: #5f6368;
+    }
+
     body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(to bottom right, #e0f7fa, #ffffff);
+      font-family: 'Google Sans', Arial, sans-serif;
+      background-color: var(--gpay-light-bg);
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       margin: 0;
       padding: 20px;
+      color: var(--gpay-text-primary);
     }
 
     .container {
-      background: #fff;
+      background: var(--gpay-card-bg);
       border-radius: 16px;
-      padding: 40px 30px;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+      padding: 24px;
+      box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
       width: 100%;
-      max-width: 480px;
-      animation: fadeIn 0.6s ease;
+      max-width: 420px;
+      animation: fadeIn 0.4s ease;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      margin-right: 12px;
+    }
+
+    .header-text {
+      flex-grow: 1;
+    }
+
     h2 {
-      color: #1a237e;
-      font-size: 24px;
-      margin-bottom: 8px;
-      text-align: center;
+      color: var(--gpay-text-primary);
+      font-size: 20px;
+      font-weight: 500;
+      margin: 0;
+      line-height: 1.4;
     }
 
     .subtext {
-      color: #555;
+      color: var(--gpay-text-secondary);
       font-size: 14px;
-      text-align: center;
-      margin-bottom: 20px;
+      margin-top: 4px;
     }
 
-    .offer {
-      background: #e8f5e9;
-      color: green;
+    .offer-banner {
+      background: linear-gradient(135deg, #E8F0FE 0%, #E6F4EA 100%);
+      border-left: 4px solid var(--gpay-green);
+      color: var(--gpay-text-primary);
       font-size: 14px;
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+    }
+
+    .offer-badge {
+      background-color: var(--gpay-green);
+      color: white;
+      font-size: 12px;
       font-weight: 500;
-      padding: 8px 14px;
-      border-radius: 8px;
-      display: inline-block;
-      margin-bottom: 20px;
-      text-align: center;
+      padding: 2px 8px;
+      border-radius: 12px;
+      margin-right: 10px;
     }
 
     label {
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       font-size: 14px;
-      font-weight: 600;
-      color: #333;
+      font-weight: 500;
+      color: var(--gpay-text-secondary);
       text-align: left;
     }
 
     input, select {
       width: 100%;
-      padding: 12px;
-      margin-bottom: 16px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      font-size: 15px;
-      background-color: #f8f8f8;
-      transition: 0.3s ease;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      font-size: 14px;
+      background-color: transparent;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
     }
 
     input:focus, select:focus {
-      border-color: #1a73e8;
+      border-color: var(--gpay-blue);
       background: #fff;
       outline: none;
-      box-shadow: 0 0 8px rgba(26, 115, 232, 0.2);
+      box-shadow: 0 0 0 2px #e8f0fe;
     }
 
     .payment-summary {
-      background: #f1f8ff;
-      padding: 14px 20px;
+      background: #f8f9fa;
+      padding: 16px;
       border-radius: 12px;
-      margin-top: 10px;
-      font-size: 15px;
+      margin: 20px 0;
+      font-size: 14px;
       line-height: 1.5;
-      color: #1a237e;
     }
 
-    .payment-summary span {
-      font-weight: 600;
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .total-row {
+      border-top: 1px solid #e0e0e0;
+      padding-top: 12px;
+      margin-top: 12px;
+      font-weight: 500;
+    }
+
+    .discount {
+      color: var(--gpay-green);
+    }
+
+    .original-price {
+      text-decoration: line-through;
+      color: var(--gpay-text-secondary);
     }
 
     button {
       width: 100%;
       padding: 14px;
-      background: #1a73e8;
+      background: var(--gpay-blue);
       color: white;
-      font-size: 16px;
+      font-size: 15px;
+      font-weight: 500;
       border: none;
-      border-radius: 12px;
+      border-radius: 8px;
       cursor: pointer;
-      font-weight: 600;
-      transition: 0.3s;
+      transition: background-color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     button:hover {
-      background: #0d47a1;
+      background: var(--gpay-dark-blue);
     }
 
-    .upi-link {
+    .upi-section {
       text-align: center;
-      margin-top: 25px;
+      margin-top: 24px;
       display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .upi-title {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 16px;
+      color: var(--gpay-text-primary);
+    }
+
+    .qr-container {
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      display: inline-block;
+      margin-bottom: 16px;
     }
 
     .upi-btn {
-      display: inline-block;
-      background: #00c853;
-      padding: 12px 26px;
-      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      background: var(--gpay-blue);
+      padding: 12px 24px;
+      border-radius: 8px;
       color: white;
       text-decoration: none;
-      font-weight: 600;
-      font-size: 16px;
-      margin-top: 12px;
-      transition: 0.3s;
+      font-weight: 500;
+      font-size: 15px;
+      transition: background-color 0.2s;
     }
 
     .upi-btn:hover {
-      background: #009624;
+      background: var(--gpay-dark-blue);
     }
 
-    canvas {
-      margin-top: 15px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 8px;
-      background: #fff;
+    .upi-icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+    }
+
+    .security-note {
+      font-size: 12px;
+      color: var(--gpay-text-secondary);
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lock-icon {
+      width: 14px;
+      height: 14px;
+      margin-right: 4px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>B.Sc Course UPI Payment</h2>
-    <div class="offer">Early Bird Discount: Pay ₹500 instead of ₹800 (Save ₹300)</div>
-    <div class="subtext">Secure UPI Payment via Google Pay</div>
+    <div class="header">
+      <img src="https://www.gstatic.com/images/branding/product/1x/gpay_2020_40dp.png" alt="Google Pay" class="logo">
+      <div class="header-text">
+        <h2>B.Sc Course Payment</h2>
+        <div class="subtext">Secure payment by Google Pay</div>
+      </div>
+    </div>
+
+    <div class="offer-banner">
+      <span class="offer-badge">OFFER</span>
+      Early Bird Discount: Pay ₹500 instead of ₹800 (Save ₹300)
+    </div>
 
     <label for="name">Full Name</label>
     <input type="text" id="name" placeholder="Enter your full name" required>
@@ -173,18 +273,40 @@
     </select>
 
     <div class="payment-summary">
-      <div>Original Price: <s>₹800</s></div>
-      <div>Discount: <span>₹300 (37.5%)</span></div>
-      <div>Total Payable: <span>₹500</span></div>
+      <div class="summary-row">
+        <span>Original Price</span>
+        <span class="original-price">₹800</span>
+      </div>
+      <div class="summary-row discount">
+        <span>Discount</span>
+        <span>-₹300 (37.5%)</span>
+      </div>
+      <div class="summary-row total-row">
+        <span>Amount to pay</span>
+        <span>₹500</span>
+      </div>
     </div>
 
-    <button onclick="generateUPILink()">Proceed to Payment</button>
+    <button onclick="generateUPILink()">
+      Proceed to Pay ₹500
+    </button>
 
-    <div class="upi-link" id="upiSection">
-      <p>Scan QR or tap below to pay:</p>
-      <canvas id="qrCode"></canvas>
-      <br>
-      <a id="upiLink" class="upi-btn" href="#" target="_blank">Pay with GPay</a>
+    <div class="upi-section" id="upiSection">
+      <div class="upi-title">Complete your payment</div>
+      <div class="qr-container">
+        <canvas id="qrCode"></canvas>
+      </div>
+      <p>OR</p>
+      <a id="upiLink" class="upi-btn" href="#" target="_blank">
+        <img src="https://www.gstatic.com/images/branding/product/1x/gpay_2020_24dp.png" class="upi-icon" alt="">
+        Pay with Google Pay
+      </a>
+      <div class="security-note">
+        <svg class="lock-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#5f6368">
+          <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+        </svg>
+        Payment secured by Google Pay
+      </div>
     </div>
   </div>
 
@@ -202,17 +324,30 @@
         return;
       }
 
-      const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(course)}`;
+      if (!/^\d{10}$/.test(mobile)) {
+        alert("Please enter a valid 10-digit mobile number.");
+        return;
+      }
+
+      const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent("B.Sc Course Payment: " + course)}`;
 
       document.getElementById("upiLink").href = upiUrl;
       document.getElementById("upiSection").style.display = "block";
 
+      // Scroll to UPI section
+      document.getElementById("upiSection").scrollIntoView({ behavior: 'smooth' });
+
+      // Generate QR code
       new QRious({
         element: document.getElementById("qrCode"),
         value: upiUrl,
-        size: 200,
+        size: 180,
+        background: 'white',
+        foreground: '#202124',
+        level: 'H'
       });
 
+      // Simulate payment completion after 15 seconds
       setTimeout(() => {
         window.location.href = "success.html";
       }, 15000);
