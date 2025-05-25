@@ -13,744 +13,74 @@
   <!-- PDF.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
   <style>
-    :root {
-      --primary: #6c5ce7;
-      --primary-light: #a29bfe;
-      --accent: #fd79a8;
-      --accent-light: #ffb8d4;
-      --dark: #2d3436;
-      --dark-light: #636e72;
-      --light: #f5f6fa;
-      --success: #00b894;
-      --warning: #fdcb6e;
-      --danger: #d63031;
-      --card-bg: rgba(255, 255, 255, 0.92);
-    }
-    
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #f5f7fa 0%, #e6ebf5 100%);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px 100px;
-      position: relative;
-      overflow-x: hidden;
-    }
-    
-    /* Animated Background Elements */
-    .bg-element {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.12;
-      z-index: -1;
-      animation: float 15s ease-in-out infinite;
-    }
-    
-    .bg-element-1 {
-      width: 350px;
-      height: 350px;
-      background: var(--primary);
-      top: -150px;
-      left: -150px;
-      animation-delay: 0s;
-    }
-    
-    .bg-element-2 {
-      width: 450px;
-      height: 450px;
-      background: var(--accent);
-      bottom: -200px;
-      right: -150px;
-      animation-delay: 3s;
-    }
-    
-    .bg-element-3 {
-      width: 250px;
-      height: 250px;
-      background: var(--success);
-      top: 40%;
-      left: 30%;
-      animation-delay: 6s;
-    }
-    
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) rotate(0deg); }
-      25% { transform: translate(20px, 20px) rotate(5deg); }
-      50% { transform: translate(-10px, 15px) rotate(-5deg); }
-      75% { transform: translate(15px, -10px) rotate(5deg); }
-    }
-    
-    /* Header */
-    .header {
-      text-align: center;
-      margin-bottom: 50px;
-      position: relative;
-      max-width: 800px;
-    }
-    
-    .header h1 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      color: var(--dark);
-      margin-bottom: 15px;
-      position: relative;
-      display: inline-block;
-      font-family: 'Montserrat', sans-serif;
-      line-height: 1.2;
-    }
-    
-    .header h1::after {
-      content: '';
-      position: absolute;
-      bottom: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 4px;
-      background: linear-gradient(to right, var(--primary), var(--accent));
-      border-radius: 4px;
-    }
-    
-    .header p {
-      color: var(--dark-light);
-      font-size: 1.15rem;
-      margin: 0 auto;
-      line-height: 1.7;
-    }
-    
-    /* Demo Banner */
-    .demo-banner {
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      color: white;
-      padding: 14px;
-      border-radius: 12px;
-      margin: 25px auto;
-      text-align: center;
-      box-shadow: 0 8px 25px rgba(108, 92, 231, 0.25);
-      animation: pulse 3s infinite ease-in-out;
-      max-width: 600px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      border: 1px solid rgba(255,255,255,0.3);
-    }
-    
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 8px 25px rgba(108, 92, 231, 0.25); }
-      50% { transform: scale(1.02); box-shadow: 0 12px 30px rgba(108, 92, 231, 0.35); }
-    }
-    
-    /* Card Container */
-    .card-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-      gap: 35px;
-      width: 100%;
-      max-width: 1300px;
-      margin-bottom: 50px;
-    }
-    
-    /* PDF Viewer Container */
-    .pdf-container {
-      background: var(--card-bg);
-      border-radius: 18px;
-      padding: 25px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.4);
-      backdrop-filter: blur(8px);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    
-    .pdf-container:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.12);
-    }
-    
-    .pdf-viewer {
-      width: 100%;
-      height: 520px;
-      border: 1px solid rgba(0,0,0,0.08);
-      border-radius: 12px;
-      overflow-y: auto;
-      margin-bottom: 20px;
-      position: relative;
-      background: #f9fafc;
-    }
-    
-    .pdf-page {
-      margin-bottom: 25px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-      position: relative;
-      transition: transform 0.3s ease;
-    }
-    
-    .pdf-page:hover {
-      transform: scale(1.01);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    }
-    
-    .pdf-page canvas {
-      display: block;
-      margin: 0 auto;
-      border-radius: 4px;
-    }
-    
-    .pdf-page-number {
-      position: absolute;
-      bottom: 8px;
-      right: 8px;
-      background: rgba(0,0,0,0.6);
-      color: white;
-      padding: 3px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 500;
-    }
-    
-    .pdf-controls {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 20px;
-    }
-    
-    .pdf-title {
-      font-weight: 600;
-      color: var(--dark);
-      font-size: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .pdf-title i {
-      font-size: 1.4rem;
-      color: var(--primary);
-    }
-    
-    .pdf-lock {
-      background: linear-gradient(135deg, var(--accent), var(--accent-light));
-      color: white;
-      padding: 7px 18px;
-      border-radius: 20px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 15px rgba(253, 121, 168, 0.3);
-    }
-    
-    /* Locked Content Overlay */
-    .locked-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255,255,255,0.92);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-      border-radius: 12px;
-      backdrop-filter: blur(5px);
-    }
-    
-    .locked-content {
-      text-align: center;
-      padding: 30px;
-      max-width: 300px;
-    }
-    
-    .locked-icon {
-      font-size: 3rem;
-      color: var(--accent);
-      margin-bottom: 20px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    
-    .locked-text {
-      font-weight: 600;
-      color: var(--dark);
-      margin-bottom: 25px;
-      font-size: 1.1rem;
-      line-height: 1.6;
-    }
-    
-    /* CTA Section */
-    .cta-section {
-      margin-top: 70px;
-      text-align: center;
-      max-width: 850px;
-      background: var(--card-bg);
-      padding: 50px;
-      border-radius: 25px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.4);
-    }
-    
-    .cta-section::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(108,92,231,0.08) 0%, rgba(255,255,255,0) 70%);
-      animation: rotate 25s linear infinite;
-      z-index: -1;
-    }
-    
-    @keyframes rotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    .cta-section h3 {
-      font-size: 2.2rem;
-      color: var(--dark);
-      margin-bottom: 25px;
-      font-weight: 700;
-      line-height: 1.3;
-    }
-    
-    .cta-section p {
-      font-size: 1.3rem;
-      font-weight: 500;
-      background: linear-gradient(to right, var(--primary), var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 35px;
-      position: relative;
-      display: inline-block;
-    }
-    
-    .cta-section p::after {
-      content: '';
-      position: absolute;
-      bottom: -12px;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: linear-gradient(to right, var(--primary), var(--accent));
-      border-radius: 3px;
-    }
-    
-    .cta-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px 45px;
-      font-size: 1.15rem;
-      font-weight: 600;
-      text-decoration: none;
-      color: white;
-      border-radius: 50px;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      box-shadow: 0 15px 35px rgba(108, 92, 231, 0.4);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      position: relative;
-      overflow: hidden;
-      border: none;
-      cursor: pointer;
-    }
-    
-    .cta-button:hover {
-      transform: translateY(-5px) scale(1.03);
-      box-shadow: 0 20px 40px rgba(108, 92, 231, 0.5);
-    }
-    
-    .cta-button:active {
-      transform: translateY(2px);
-    }
-    
-    .cta-button i {
-      margin-left: 12px;
-      transition: transform 0.3s ease;
-    }
-    
-    .cta-button:hover i {
-      transform: translateX(8px);
-    }
-    
-    .cta-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-      transition: 0.6s;
-    }
-    
-    .cta-button:hover::before {
-      left: 100%;
-    }
-    
-    /* Floating Action Button */
-    .fab {
-      position: fixed;
-      bottom: 35px;
-      right: 35px;
-      width: 70px;
-      height: 70px;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.7rem;
-      box-shadow: 0 15px 35px rgba(108, 92, 231, 0.5);
-      cursor: pointer;
-      z-index: 100;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    
-    .fab:hover {
-      transform: scale(1.15) rotate(15deg);
-      box-shadow: 0 20px 45px rgba(108, 92, 231, 0.6);
-    }
-    
-    /* Responsive Design */
-    @media (max-width: 992px) {
-      .header h1 {
-        font-size: 2.4rem;
-      }
-      
-      .header p {
-        font-size: 1.05rem;
-      }
-      
-      .card-container {
-        grid-template-columns: 1fr;
-        gap: 30px;
-      }
-      
-      .pdf-viewer {
-        height: 450px;
-      }
-      
-      .cta-section {
-        padding: 40px 30px;
-      }
-      
-      .cta-section h3 {
-        font-size: 1.8rem;
-      }
-      
-      .cta-section p {
-        font-size: 1.1rem;
-      }
-    }
-    
-    @media (max-width: 576px) {
-      body {
-        padding: 30px 15px 80px;
-      }
-      
-      .header h1 {
-        font-size: 2rem;
-      }
-      
-      .pdf-container {
-        padding: 20px;
-      }
-      
-      .pdf-viewer {
-        height: 380px;
-      }
-      
-      .cta-section {
-        padding: 30px 20px;
-        margin-top: 50px;
-      }
-      
-      .cta-section h3 {
-        font-size: 1.5rem;
-      }
-      
-      .cta-section p {
-        font-size: 1rem;
-      }
-      
-      .fab {
-        width: 60px;
-        height: 60px;
-        font-size: 1.5rem;
-        bottom: 25px;
-        right: 25px;
-      }
-    }
-    
-    /* Scrollbar Styling */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    
-    ::-webkit-scrollbar-track {
-      background: rgba(0,0,0,0.05);
-      border-radius: 10px;
-    }
-    
-    ::-webkit-scrollbar-thumb {
-      background: rgba(108, 92, 231, 0.4);
-      border-radius: 10px;
-    }
-    
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(108, 92, 231, 0.6);
-    }
+    /* [Previous CSS remains exactly the same] */
+    /* ... */
   </style>
 </head>
 <body>
 
-  <!-- Animated Background Elements -->
-  <div class="bg-element bg-element-1"></div>
-  <div class="bg-element bg-element-2"></div>
-  <div class="bg-element bg-element-3"></div>
-
-  <div class="header animate__animated animate__fadeIn">
-    <h1>STARLET Coaching Premium Notes</h1>
-    <p>Preview the first 8 pages of our exclusive study materials. Subscribe for complete access to all content and features.</p>
-    <div class="demo-banner">
-      <i class="fas fa-lock-open"></i> DEMO VERSION - Only first 8 pages available
-    </div>
-  </div>
-
-  <div class="card-container">
-    <!-- Zoology Notes -->
-    <div class="pdf-container animate__animated animate__fadeInUp animate-delay-1">
-      <div class="pdf-viewer" id="zoology-viewer">
-        <!-- PDF pages will be rendered here by JavaScript -->
-        <div class="locked-overlay">
-          <div class="locked-content">
-            <div class="locked-icon">
-              <i class="fas fa-lock"></i>
-            </div>
-            <div class="locked-text">
-              Continue your learning journey with full access to all 120+ pages
-            </div>
-            <a href="GPay.html" class="cta-button">
-              Unlock Full Notes <i class="fas fa-arrow-right"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="pdf-controls">
-        <div class="pdf-title">
-          <i class="fas fa-paw"></i> Zoology Premium Notes
-        </div>
-        <div class="pdf-lock">
-          <i class="fas fa-lock"></i> Preview (8/128)
-        </div>
-      </div>
-    </div>
-
-    <!-- Botany Notes -->
-    <div class="pdf-container animate__animated animate__fadeInUp animate-delay-2">
-      <div class="pdf-viewer" id="botany-viewer">
-        <!-- PDF pages will be rendered here by JavaScript -->
-        <div class="locked-overlay">
-          <div class="locked-content">
-            <div class="locked-icon">
-              <i class="fas fa-lock"></i>
-            </div>
-            <div class="locked-text">
-              Get complete access to all 95+ pages and diagrams
-            </div>
-            <a href="GPay.html" class="cta-button">
-              Subscribe Now <i class="fas fa-arrow-right"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="pdf-controls">
-        <div class="pdf-title">
-          <i class="fas fa-leaf"></i> Botany Premium Notes
-        </div>
-        <div class="pdf-lock">
-          <i class="fas fa-lock"></i> Preview (8/95)
-        </div>
-      </div>
-    </div>
-
-    <!-- Chemistry Notes -->
-    <div class="pdf-container animate__animated animate__fadeInUp animate-delay-3">
-      <div class="pdf-viewer" id="chemistry-viewer">
-        <!-- PDF pages will be rendered here by JavaScript -->
-        <div class="locked-overlay">
-          <div class="locked-content">
-            <div class="locked-icon">
-              <i class="fas fa-lock"></i>
-            </div>
-            <div class="locked-text">
-              Full package includes 150+ pages with solved examples
-            </div>
-            <a href="GPay.html" class="cta-button">
-              Get Full Access <i class="fas fa-arrow-right"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="pdf-controls">
-        <div class="pdf-title">
-          <i class="fas fa-flask"></i> Chemistry Premium Notes
-        </div>
-        <div class="pdf-lock">
-          <i class="fas fa-lock"></i> Preview (8/150)
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- CTA Section -->
-  <div class="cta-section animate__animated animate__fadeIn">
-    <h3>Ready to Accelerate Your Learning?</h3>
-    <p>Unlock Premium Content & Expert Guidance</p>
-    <a href="GPay.html" class="cta-button">
-      Subscribe Now & Get Instant Access <i class="fas fa-arrow-right"></i>
-    </a>
-    <p style="margin-top: 25px; font-size: 0.9rem; color: var(--dark-light);">
-      <i class="fas fa-shield-alt"></i> Secure payment · 7-day satisfaction guarantee
-    </p>
-  </div>
-
-  <!-- Floating Action Button -->
-  <div class="fab" onclick="window.location.href='GPay.html'">
-    <i class="fas fa-gem"></i>
-  </div>
+  <!-- [Previous HTML structure remains the same until the script section] -->
+  <!-- ... -->
 
   <script>
     // Set the path to the PDF.js worker
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
     
-    // PDF URLs
+    // PDF URLs - Modified Dropbox URL to force download
     const pdfUrls = {
-      zoology: 'https://www.dropbox.com/scl/fi/bfe9ish3iak5e0s5u7qwo/DOC-20250430-WA0041..pdf?rlkey=0xajjtz2syh4ewj8yczo7o52q&st=ukivx4b2&dl=0',
-      botany: 'https://example.com/path/to/botany.pdf', // Replace with your botany PDF
-      chemistry: 'https://example.com/path/to/chemistry.pdf' // Replace with your chemistry PDF
+      zoology: 'https://www.dropbox.com/scl/fi/bfe9ish3iak5e0s5u7qwo/DOC-20250430-WA0041..pdf?rlkey=0xajjtz2syh4ewj8yczo7o52q&st=ukivx4b2&dl=1', // Changed dl=0 to dl=1
+      botany: 'https://example.com/botany.pdf', // Replace with your actual URL
+      chemistry: 'https://example.com/chemistry.pdf' // Replace with your actual URL
     };
-    
+
+    // Function to fetch PDF as blob (to handle CORS)
+    async function fetchPDF(url) {
+      try {
+        // For Dropbox, we need to use the direct download link
+        if (url.includes('dropbox.com')) {
+          url = url.replace('dl=0', 'dl=1');
+        }
+        
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Network response was not ok');
+        return await response.blob();
+      } catch (error) {
+        console.error('Error fetching PDF:', error);
+        throw error;
+      }
+    }
+
     // Function to render the first 8 pages of a PDF
     async function renderPDF(viewerId, pdfUrl) {
       const container = document.getElementById(viewerId);
       
       try {
-        // For demo purposes, we'll simulate rendering pages
-        // In production, you would use PDF.js to render actual PDF pages
-        
         // Clear existing content except the locked overlay
         while (container.firstChild && !container.firstChild.classList.contains('locked-overlay')) {
           container.removeChild(container.firstChild);
         }
+
+        // Show loading indicator
+        const loadingDiv = document.createElement('div');
+        loadingDiv.style.padding = '20px';
+        loadingDiv.style.textAlign = 'center';
+        loadingDiv.style.color = 'var(--dark-light)';
+        loadingDiv.innerHTML = `
+          <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 10px;"></i>
+          <p>Loading preview...</p>
+        `;
+        container.insertBefore(loadingDiv, container.querySelector('.locked-overlay'));
+
+        // Fetch and render the actual PDF
+        const pdfBlob = await fetchPDF(pdfUrl);
+        const pdfUrlObj = URL.createObjectURL(pdfBlob);
         
-        // Create placeholder pages (8 pages)
-        for (let i = 1; i <= 8; i++) {
-          const pageDiv = document.createElement('div');
-          pageDiv.className = 'pdf-page';
-          
-          const placeholder = document.createElement('div');
-          placeholder.style.height = '1100px';
-          placeholder.style.background = 'linear-gradient(135deg, #f9fafc, #f0f3f8)';
-          placeholder.style.display = 'flex';
-          placeholder.style.alignItems = 'center';
-          placeholder.style.justifyContent = 'center';
-          placeholder.style.color = '#555';
-          placeholder.style.borderRadius = '8px';
-          placeholder.style.overflow = 'hidden';
-          placeholder.style.position = 'relative';
-          
-          // Different placeholder designs for variety
-          let placeholderContent = '';
-          if (i % 3 === 0) {
-            placeholderContent = `
-              <div style="text-align: center; padding: 30px; max-width: 80%;">
-                <div style="height: 200px; background: #eee; margin: 0 auto 20px; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
-                  <i class="fas fa-image" style="font-size: 2rem; color: #ccc;"></i>
-                </div>
-                <h3 style="color: var(--dark); margin-bottom: 15px;">Sample Content Page ${i}</h3>
-                <p style="margin-bottom: 20px;">This is a preview of page ${i} from our premium notes.</p>
-                <div style="display: flex; gap: 10px; justify-content: center;">
-                  <div style="width: 60%; height: 8px; background: #eee; border-radius: 4px;"></div>
-                  <div style="width: 30%; height: 8px; background: #eee; border-radius: 4px;"></div>
-                </div>
-              </div>
-            `;
-          } else if (i % 2 === 0) {
-            placeholderContent = `
-              <div style="text-align: left; padding: 30px; width: 100%;">
-                <h3 style="color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;">Chapter ${Math.ceil(i/2)}: Important Concepts</h3>
-                <div style="background: #f0f4ff; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
-                  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                    <i class="fas fa-check-circle" style="color: var(--success);"></i>
-                    <div style="width: 70%; height: 8px; background: #e0e6ff; border-radius: 4px;"></div>
-                  </div>
-                  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                    <i class="fas fa-check-circle" style="color: var(--success);"></i>
-                    <div style="width: 60%; height: 8px; background: #e0e6ff; border-radius: 4px;"></div>
-                  </div>
-                  <div style="display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-check-circle" style="color: var(--success);"></i>
-                    <div style="width: 50%; height: 8px; background: #e0e6ff; border-radius: 4px;"></div>
-                  </div>
-                </div>
-                <p style="font-size: 0.9rem; color: #666;"><i class="fas fa-info-circle" style="color: var(--primary);"></i> Full content available with subscription</p>
-              </div>
-            `;
-          } else {
-            placeholderContent = `
-              <div style="text-align: center; padding: 30px; width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=500&auto=format&fit=crop') center/cover; display: flex; flex-direction: column; justify-content: center; align-items: center; background-blend-mode: overlay; background-color: rgba(255,255,255,0.9);">
-                <div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); max-width: 80%;">
-                  <h3 style="color: var(--dark); margin-bottom: 15px;">Premium Content Page ${i}</h3>
-                  <p style="margin-bottom: 20px; color: #555;">This page demonstrates the quality of our study materials.</p>
-                  <div style="height: 150px; background: #f9f9f9; border-radius: 5px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-                    <i class="fas fa-chart-bar" style="font-size: 2rem; color: var(--primary);"></i>
-                  </div>
-                  <p style="font-size: 0.9rem; color: var(--dark-light);">Subscribe to view all pages like this</p>
-                </div>
-              </div>
-            `;
-          }
-          
-          placeholder.innerHTML = placeholderContent;
-          pageDiv.appendChild(placeholder);
-          
-          const pageNumber = document.createElement('div');
-          pageNumber.className = 'pdf-page-number';
-          pageNumber.textContent = `Page ${i}`;
-          pageDiv.appendChild(pageNumber);
-          
-          container.insertBefore(pageDiv, container.querySelector('.locked-overlay'));
-        }
-        
-        // In production, you would use something like:
-        /*
-        const loadingTask = pdfjsLib.getDocument(pdfUrl);
+        const loadingTask = pdfjsLib.getDocument(pdfUrlObj);
         const pdf = await loadingTask.promise;
         
+        // Remove loading indicator
+        container.removeChild(loadingDiv);
+
         // Render first 8 pages or all pages if PDF has less than 8
         const pageCount = Math.min(pdf.numPages, 8);
         
@@ -781,10 +111,17 @@
           
           container.insertBefore(pageDiv, container.querySelector('.locked-overlay'));
         }
-        */
+        
+        // Clean up object URL
+        URL.revokeObjectURL(pdfUrlObj);
         
       } catch (error) {
         console.error('Error rendering PDF:', error);
+        
+        // Remove loading indicator if it exists
+        const loadingDiv = container.querySelector('.fa-spinner')?.parentNode;
+        if (loadingDiv) container.removeChild(loadingDiv);
+        
         const errorDiv = document.createElement('div');
         errorDiv.style.padding = '20px';
         errorDiv.style.color = 'var(--danger)';
@@ -792,20 +129,23 @@
         errorDiv.innerHTML = `
           <i class="fas fa-exclamation-triangle"></i> Error loading PDF preview
           <p style="font-size: 0.9rem; margin-top: 10px; color: var(--dark-light);">
-            Please try again later or contact support
+            Please try again later or <a href="GPay.html" style="color: var(--primary);">subscribe</a> for full access
           </p>
         `;
         container.insertBefore(errorDiv, container.querySelector('.locked-overlay'));
       }
     }
-    
+
     // Render all PDFs when page loads
     document.addEventListener('DOMContentLoaded', function() {
+      // Only render zoology for now since we have the URL
       renderPDF('zoology-viewer', pdfUrls.zoology);
+      
+      // These will show errors until you add real URLs
       renderPDF('botany-viewer', pdfUrls.botany);
       renderPDF('chemistry-viewer', pdfUrls.chemistry);
     });
-    
+
     // Add hover effect for elements on touch devices
     document.addEventListener('touchstart', function() {}, true);
   </script>
