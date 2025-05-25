@@ -3,151 +3,725 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>STARLET Coaching - Premium Notes Demo</title>
+  <title>STARLET Coaching Demo Notes</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-  <!-- PDF.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <style>
-    /* [Previous CSS remains exactly the same] */
-    /* ... */
+    :root {
+      --primary: #6c5ce7;
+      --secondary: #a29bfe;
+      --accent: #fd79a8;
+      --dark: #2d3436;
+      --light: #f5f6fa;
+      --success: #00b894;
+      --warning: #fdcb6e;
+      --danger: #d63031;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px 20px 100px;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* Animated Background Elements */
+    .bg-element {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.15;
+      z-index: -1;
+    }
+    
+    .bg-element-1 {
+      width: 300px;
+      height: 300px;
+      background: var(--primary);
+      top: -100px;
+      left: -100px;
+      animation: float 8s ease-in-out infinite;
+    }
+    
+    .bg-element-2 {
+      width: 400px;
+      height: 400px;
+      background: var(--accent);
+      bottom: -150px;
+      right: -100px;
+      animation: float 10s ease-in-out infinite 2s;
+    }
+    
+    .bg-element-3 {
+      width: 200px;
+      height: 200px;
+      background: var(--success);
+      top: 40%;
+      left: 30%;
+      animation: float 12s ease-in-out infinite 1s;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(20px, 20px); }
+    }
+    
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 50px;
+      position: relative;
+    }
+    
+    .header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 15px;
+      position: relative;
+      display: inline-block;
+      font-family: 'Montserrat', sans-serif;
+    }
+    
+    .header h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+      border-radius: 2px;
+    }
+    
+    .header p {
+      color: #666;
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    
+    /* Demo Banner */
+    .demo-banner {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(108, 92, 231, 0.3);
+      animation: pulse 2s infinite;
+      max-width: 800px;
+      width: 100%;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+    
+    .demo-banner i {
+      margin-right: 10px;
+    }
+    
+    /* Card Container */
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      width: 100%;
+      max-width: 1200px;
+      margin-bottom: 50px;
+    }
+    
+    /* Card Styles */
+    .card {
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 20px;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.3);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(108, 92, 231, 0.1) 0%, rgba(253, 121, 168, 0.1) 100%);
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .card:hover::before {
+      opacity: 1;
+    }
+    
+    .card-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      color: white;
+      font-size: 2rem;
+      box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
+      transition: transform 0.3s ease;
+    }
+    
+    .card:hover .card-icon {
+      transform: rotate(15deg) scale(1.1);
+    }
+    
+    .card h2 {
+      font-size: 1.5rem;
+      color: var(--dark);
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+    
+    .card p {
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    
+    .card-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--accent);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      box-shadow: 0 3px 10px rgba(253, 121, 168, 0.3);
+    }
+    
+    .demo-watermark {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.1);
+      color: rgba(0,0,0,0.4);
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    
+    /* Subscription Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .subscription-modal {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+    
+    .modal-overlay.active .subscription-modal {
+      transform: translateY(0);
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+    }
+    
+    .subscription-modal h3 {
+      font-size: 1.8rem;
+      color: var(--dark);
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    
+    .subscription-modal p {
+      color: #666;
+      margin-bottom: 25px;
+      text-align: center;
+      line-height: 1.6;
+    }
+    
+    .subscription-features {
+      margin-bottom: 25px;
+    }
+    
+    .subscription-features li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      color: #555;
+    }
+    
+    .subscription-features i {
+      color: var(--success);
+      margin-right: 10px;
+      font-size: 1.1rem;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+      margin-top: 60px;
+      text-align: center;
+      max-width: 800px;
+      background: rgba(255,255,255,0.9);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(108,92,231,0.05) 0%, rgba(255,255,255,0) 70%);
+      animation: rotate 20s linear infinite;
+      z-index: -1;
+    }
+    
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .cta-section h3 {
+      font-size: 2rem;
+      color: var(--dark);
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    
+    .cta-section p {
+      font-size: 1.2rem;
+      font-weight: 500;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 30px;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .cta-section p::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+      border-radius: 3px;
+    }
+    
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px 40px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: white;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      box-shadow: 0 10px 25px rgba(108, 92, 231, 0.4);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(108, 92, 231, 0.5);
+    }
+    
+    .cta-button:active {
+      transform: translateY(1px);
+    }
+    
+    .cta-button i {
+      margin-left: 10px;
+      transition: transform 0.3s ease;
+    }
+    
+    .cta-button:hover i {
+      transform: translateX(5px);
+    }
+    
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: 0.5s;
+    }
+    
+    .cta-button:hover::before {
+      left: 100%;
+    }
+    
+    /* Floating Action Button */
+    .fab {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 10px 25px rgba(108, 92, 231, 0.4);
+      cursor: pointer;
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+    
+    .fab:hover {
+      transform: scale(1.1) rotate(15deg);
+      box-shadow: 0 15px 30px rgba(108, 92, 231, 0.5);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2.2rem;
+      }
+      
+      .header p {
+        font-size: 1rem;
+      }
+      
+      .card-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .cta-section {
+        padding: 30px 20px;
+      }
+      
+      .cta-section h3 {
+        font-size: 1.5rem;
+      }
+      
+      .cta-section p {
+        font-size: 1rem;
+      }
+      
+      .subscription-modal h3 {
+        font-size: 1.5rem;
+      }
+    }
+    
+    /* Animation Classes */
+    .animate-delay-1 {
+      animation-delay: 0.2s;
+    }
+    
+    .animate-delay-2 {
+      animation-delay: 0.4s;
+    }
+    
+    .animate-delay-3 {
+      animation-delay: 0.6s;
+    }
   </style>
 </head>
 <body>
 
-  <!-- [Previous HTML structure remains the same until the script section] -->
-  <!-- ... -->
+  <!-- Animated Background Elements -->
+  <div class="bg-element bg-element-1"></div>
+  <div class="bg-element bg-element-2"></div>
+  <div class="bg-element bg-element-3"></div>
 
-  <script>
-    // Set the path to the PDF.js worker
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
+  <div class="header animate__animated animate__fadeIn">
+    <h1>STARLET Coaching Demo Notes</h1>
+    <p>Explore our premium study materials - unlock full access with a subscription</p>
+  </div>
+
+  <!-- Demo Banner -->
+  <div class="demo-banner animate__animated animate__fadeIn">
+    <i class="fas fa-star"></i> This is a limited preview - Subscribe for complete access to all notes and features!
+  </div>
+
+  <div class="card-container">
+    <div class="card animate__animated animate__fadeInUp animate-delay-1" onclick="showPreview('zoology')">
+      <div class="card-icon">
+        <i class="fas fa-paw"></i>
+      </div>
+      <span class="card-badge">DEMO</span>
+      <h2>Zoology Notes</h2>
+      <p>Preview of our comprehensive zoology notes covering key concepts with detailed diagrams</p>
+      <div class="demo-watermark">SAMPLE CONTENT</div>
+    </div>
+
+    <div class="card animate__animated animate__fadeInUp animate-delay-2" onclick="showPreview('botany')">
+      <div class="card-icon">
+        <i class="fas fa-leaf"></i>
+      </div>
+      <span class="card-badge">DEMO</span>
+      <h2>Botany Notes</h2>
+      <p>Preview of plant biology notes with classification charts and important highlights</p>
+      <div class="demo-watermark">SAMPLE CONTENT</div>
+    </div>
+
+    <div class="card animate__animated animate__fadeInUp animate-delay-3" onclick="showPreview('chemistry')">
+      <div class="card-icon">
+        <i class="fas fa-flask"></i>
+      </div>
+      <span class="card-badge">DEMO</span>
+      <h2>Chemistry Notes</h2>
+      <p>Preview of chemistry notes with reaction mechanisms and formulas</p>
+      <div class="demo-watermark">SAMPLE CONTENT</div>
+    </div>
     
-    // PDF URLs - Modified Dropbox URL to force download
-    const pdfUrls = {
-      zoology: 'https://www.dropbox.com/scl/fi/bfe9ish3iak5e0s5u7qwo/DOC-20250430-WA0041..pdf?rlkey=0xajjtz2syh4ewj8yczo7o52q&st=ukivx4b2&dl=1', // Changed dl=0 to dl=1
-      botany: 'https://example.com/botany.pdf', // Replace with your actual URL
-      chemistry: 'https://example.com/chemistry.pdf' // Replace with your actual URL
+    <div class="card animate__animated animate__fadeInUp animate-delay-3" onclick="showSubscriptionModal()">
+      <div class="card-icon" style="background: linear-gradient(135deg, #e17055, #fab1a0);">
+        <i class="fas fa-lock"></i>
+      </div>
+      <h2>Full Access</h2>
+      <p>Subscribe to unlock all notes, previous year papers, and premium features</p>
+    </div>
+  </div>
+
+  <!-- CTA Section -->
+  <div class="cta-section animate__animated animate__fadeIn">
+    <h3>Ready to Boost Your BSc Preparation?</h3>
+    <p>Get Unlimited Access to All Study Materials</p>
+    <button class="cta-button" onclick="showSubscriptionModal()">
+      Subscribe Now <i class="fas fa-arrow-right"></i>
+    </button>
+  </div>
+
+  <!-- Floating Action Button -->
+  <div class="fab" onclick="showSubscriptionModal()">
+    <i class="fas fa-crown"></i>
+  </div>
+
+  <!-- Subscription Modal -->
+  <div class="modal-overlay" id="subscriptionModal">
+    <div class="subscription-modal">
+      <button class="close-modal" onclick="closeModal()">&times;</button>
+      <h3>Unlock Premium Access</h3>
+      <p>Subscribe to STARLET Coaching for complete access to all study materials and features</p>
+      
+      <div class="subscription-features">
+        <ul>
+          <li><i class="fas fa-check-circle"></i> Full access to all subject notes</li>
+          <li><i class="fas fa-check-circle"></i> Solved previous year question papers</li>
+          <li><i class="fas fa-check-circle"></i> HD video lectures</li>
+          <li><i class="fas fa-check-circle"></i> Expert mentorship</li>
+          <li><i class="fas fa-check-circle"></i> Regular updates and new content</li>
+        </ul>
+      </div>
+      
+      <a href="subscription.html" class="cta-button" style="display: block; width: 100%; text-align: center;">
+        Subscribe Now <i class="fas fa-arrow-right"></i>
+      </a>
+      
+      <p style="margin-top: 15px; font-size: 0.9rem;"></p>
+    </div>
+  </div>
+
+  <!-- Preview Modal -->
+  <div class="modal-overlay" id="previewModal">
+    <div class="subscription-modal">
+      <button class="close-modal" onclick="closeModal()">&times;</button>
+      <h3 id="previewTitle">Demo Preview</h3>
+      <div id="previewContent" style="height: 300px; overflow-y: auto; margin-bottom: 20px; text-align: left;">
+        <!-- Preview content will be inserted here -->
+      </div>
+      <button class="cta-button" onclick="showSubscriptionModal()">
+        Unlock Full Content <i class="fas fa-unlock"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Flip Sound -->
+  <audio id="flipSound" src="https://assets.mixkit.co/sfx/preview/mixkit-page-flip-1110.mp3" preload="auto"></audio>
+  
+  <script>
+    // Sample preview content
+    const previews = {
+      zoology: {
+        title: "Zoology Demo Preview",
+        content: `<h4>Animal Kingdom Classification (Sample)</h4>
+        <p>Here's a preview of our comprehensive classification system:</p>
+        <ul>
+          <li><strong>Phylum Porifera:</strong> Sponges - cellular level organization</li>
+          <li><strong>Phylum Cnidaria:</strong> Radial symmetry, cnidocytes (e.g., jellyfish)</li>
+          <li><strong>Phylum Platyhelminthes:</strong> Flatworms, bilateral symmetry</li>
+        </ul>
+        <p style="color: var(--accent); text-align: center; margin-top: 20px;">
+          <i class="fas fa-lock"></i> Subscribe to view complete classification with diagrams and examples
+        </p>`
+      },
+      botany: {
+        title: "Botany Demo Preview",
+        content: `<h4>Plant Anatomy (Sample)</h4>
+        <p>Preview of our detailed plant structure notes:</p>
+        <ul>
+          <li><strong>Root System:</strong> Taproot vs fibrous root systems</li>
+          <li><strong>Stem:</strong> Nodes, internodes, and modifications</li>
+          <li><strong>Leaves:</strong> Simple vs compound leaf structures</li>
+        </ul>
+        <p style="color: var(--accent); text-align: center; margin-top: 20px;">
+          <i class="fas fa-lock"></i> Subscribe to access full notes with illustrations and mnemonics
+        </p>`
+      },
+      chemistry: {
+        title: "Chemistry Demo Preview",
+        content: `<h4>Organic Chemistry Basics (Sample)</h4>
+        <p>Excerpt from our reaction mechanisms section:</p>
+        <ul>
+          <li><strong>Nucleophilic Substitution:</strong> SN1 vs SN2 reactions</li>
+          <li><strong>Electrophilic Addition:</strong> Markovnikov's rule application</li>
+          <li><strong>Elimination Reactions:</strong> E1 and E2 mechanisms</li>
+        </ul>
+        <p style="color: var(--accent); text-align: center; margin-top: 20px;">
+          <i class="fas fa-lock"></i> Subscribe for complete reaction mechanisms with examples
+        </p>`
+      }
     };
 
-    // Function to fetch PDF as blob (to handle CORS)
-    async function fetchPDF(url) {
-      try {
-        // For Dropbox, we need to use the direct download link
-        if (url.includes('dropbox.com')) {
-          url = url.replace('dl=0', 'dl=1');
-        }
-        
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Network response was not ok');
-        return await response.blob();
-      } catch (error) {
-        console.error('Error fetching PDF:', error);
-        throw error;
-      }
+    function showPreview(subject) {
+      const flipSound = document.getElementById("flipSound");
+      flipSound.play();
+      
+      document.getElementById('previewTitle').textContent = previews[subject].title;
+      document.getElementById('previewContent').innerHTML = previews[subject].content;
+      
+      // Close any open modals first
+      closeModal();
+      
+      // Show preview modal
+      document.getElementById('previewModal').classList.add('active');
     }
 
-    // Function to render the first 8 pages of a PDF
-    async function renderPDF(viewerId, pdfUrl) {
-      const container = document.getElementById(viewerId);
+    function showSubscriptionModal() {
+      const flipSound = document.getElementById("flipSound");
+      flipSound.play();
       
-      try {
-        // Clear existing content except the locked overlay
-        while (container.firstChild && !container.firstChild.classList.contains('locked-overlay')) {
-          container.removeChild(container.firstChild);
-        }
-
-        // Show loading indicator
-        const loadingDiv = document.createElement('div');
-        loadingDiv.style.padding = '20px';
-        loadingDiv.style.textAlign = 'center';
-        loadingDiv.style.color = 'var(--dark-light)';
-        loadingDiv.innerHTML = `
-          <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 10px;"></i>
-          <p>Loading preview...</p>
-        `;
-        container.insertBefore(loadingDiv, container.querySelector('.locked-overlay'));
-
-        // Fetch and render the actual PDF
-        const pdfBlob = await fetchPDF(pdfUrl);
-        const pdfUrlObj = URL.createObjectURL(pdfBlob);
-        
-        const loadingTask = pdfjsLib.getDocument(pdfUrlObj);
-        const pdf = await loadingTask.promise;
-        
-        // Remove loading indicator
-        container.removeChild(loadingDiv);
-
-        // Render first 8 pages or all pages if PDF has less than 8
-        const pageCount = Math.min(pdf.numPages, 8);
-        
-        for (let i = 1; i <= pageCount; i++) {
-          const page = await pdf.getPage(i);
-          const viewport = page.getViewport({ scale: 1.0 });
-          
-          const canvas = document.createElement('canvas');
-          const context = canvas.getContext('2d');
-          canvas.height = viewport.height;
-          canvas.width = viewport.width;
-          
-          const renderContext = {
-            canvasContext: context,
-            viewport: viewport
-          };
-          
-          await page.render(renderContext).promise;
-          
-          const pageDiv = document.createElement('div');
-          pageDiv.className = 'pdf-page';
-          pageDiv.appendChild(canvas);
-          
-          const pageNumber = document.createElement('div');
-          pageNumber.className = 'pdf-page-number';
-          pageNumber.textContent = `Page ${i}`;
-          pageDiv.appendChild(pageNumber);
-          
-          container.insertBefore(pageDiv, container.querySelector('.locked-overlay'));
-        }
-        
-        // Clean up object URL
-        URL.revokeObjectURL(pdfUrlObj);
-        
-      } catch (error) {
-        console.error('Error rendering PDF:', error);
-        
-        // Remove loading indicator if it exists
-        const loadingDiv = container.querySelector('.fa-spinner')?.parentNode;
-        if (loadingDiv) container.removeChild(loadingDiv);
-        
-        const errorDiv = document.createElement('div');
-        errorDiv.style.padding = '20px';
-        errorDiv.style.color = 'var(--danger)';
-        errorDiv.style.textAlign = 'center';
-        errorDiv.innerHTML = `
-          <i class="fas fa-exclamation-triangle"></i> Error loading PDF preview
-          <p style="font-size: 0.9rem; margin-top: 10px; color: var(--dark-light);">
-            Please try again later or <a href="GPay.html" style="color: var(--primary);">subscribe</a> for full access
-          </p>
-        `;
-        container.insertBefore(errorDiv, container.querySelector('.locked-overlay'));
-      }
+      closeModal();
+      document.getElementById('subscriptionModal').classList.add('active');
     }
 
-    // Render all PDFs when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-      // Only render zoology for now since we have the URL
-      renderPDF('zoology-viewer', pdfUrls.zoology);
-      
-      // These will show errors until you add real URLs
-      renderPDF('botany-viewer', pdfUrls.botany);
-      renderPDF('chemistry-viewer', pdfUrls.chemistry);
+    function closeModal() {
+      document.getElementById('subscriptionModal').classList.remove('active');
+      document.getElementById('previewModal').classList.remove('active');
+    }
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+      if (event.target.classList.contains('modal-overlay')) {
+        closeModal();
+      }
     });
 
-    // Add hover effect for elements on touch devices
+    // Add hover effect for cards on touch devices
     document.addEventListener('touchstart', function() {}, true);
+    
+    // Animate elements when they come into view
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    document.querySelectorAll('.card, .cta-section').forEach(el => {
+      observer.observe(el);
+    });
   </script>
 
 </body>
