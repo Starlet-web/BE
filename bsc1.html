@@ -10,6 +10,7 @@
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
 
   <!-- AOS CSS -->
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
@@ -135,6 +136,22 @@
       font-size: 0.75rem;
       font-weight: 500;
     }
+    
+    .user-info-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 8px;
+      background-color: #f0fdf4;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      margin-right: 6px;
+      border: 1px solid #dcfce7;
+    }
+    
+    .user-info-badge i {
+      margin-right: 4px;
+      color: #0d9488;
+    }
   </style>
 </head>
 <body>
@@ -150,12 +167,48 @@
         <h1 class="stylish-logo">Starlet</h1>
       </div>
       <div class="flex items-center gap-3">
+        <div class="hidden md:flex items-center gap-2">
+          <span class="user-info-badge">
+            <i class="fas fa-user-graduate"></i>
+            <span id="userName"></span>
+          </span>
+          <span class="user-info-badge">
+            <i class="fas fa-book"></i>
+            <span id="userCourse"></span>
+          </span>
+          <span class="user-info-badge">
+            <i class="fas fa-phone"></i>
+            <span id="userMobile"></span>
+          </span>
+        </div>
         <button onclick="logout()" class="px-4 py-2 rounded-lg btn-primary font-medium flex items-center gap-2 text-sm">
           <i class="fas fa-sign-out-alt"></i> Logout
         </button>
         <img src="https://i.pravatar.cc/150?img=32" alt="User" class="user-avatar" />
       </div>
     </header>
+
+    <!-- User Profile Info (Mobile) -->
+    <div class="glass-card p-4 md:hidden" data-aos="fade-down">
+      <div class="flex flex-wrap gap-2">
+        <div class="user-info-badge">
+          <i class="fas fa-user-graduate"></i>
+          <span id="userNameMobile"></span>
+        </div>
+        <div class="user-info-badge">
+          <i class="fas fa-book"></i>
+          <span id="userCourseMobile"></span>
+        </div>
+        <div class="user-info-badge">
+          <i class="fas fa-phone"></i>
+          <span id="userMobileMobile"></span>
+        </div>
+        <div class="user-info-badge">
+          <i class="fas fa-envelope"></i>
+          <span id="userEmailMobile"></span>
+        </div>
+      </div>
+    </div>
 
     <!-- Poster -->
     <div class="glass-card overflow-hidden" data-aos="zoom-in">
@@ -164,7 +217,7 @@
 
     <!-- Welcome -->
     <div class="glass-card p-5" data-aos="fade-up">
-      <h2 class="section-title">Welcome, Budding Biologists! <i class="fas fa-dna text-emerald-500"></i></h2>
+      <h2 class="section-title">Welcome, <span id="welcomeUserName"></span>! <i class="fas fa-dna text-emerald-500"></i></h2>
       <p class="text-gray-600 leading-relaxed text-sm">
         Embark on your exciting journey through the world of biology. Access all your course materials, live lectures, and seminars in one place. 
         Let's explore the wonders of life sciences together!
@@ -279,6 +332,7 @@
     };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
+    const db = firebase.firestore();
 
     function logout() {
       auth.signOut().then(() => {
@@ -290,7 +344,36 @@
     }
 
     auth.onAuthStateChanged(user => {
-      if (!user) {
+      if (user) {
+        // User is signed in
+        const userRef = db.collection('users').doc(user.uid);
+        
+        userRef.get().then((doc) => {
+          if (doc.exists) {
+            const userData = doc.data();
+            
+            // Update desktop view
+            document.getElementById('userName').textContent = userData.name || 'Not provided';
+            document.getElementById('userCourse').textContent = userData.course || 'Not provided';
+            document.getElementById('userMobile').textContent = userData.mobile || 'Not provided';
+            
+            // Update mobile view
+            document.getElementById('userNameMobile').textContent = userData.name || 'Not provided';
+            document.getElementById('userCourseMobile').textContent = userData.course || 'Not provided';
+            document.getElementById('userMobileMobile').textContent = userData.mobile || 'Not provided';
+            document.getElementById('userEmailMobile').textContent = user.email;
+            
+            // Update welcome message
+            const firstName = userData.name ? userData.name.split(' ')[0] : 'Budding Biologist';
+            document.getElementById('welcomeUserName').textContent = firstName;
+          } else {
+            console.log("No such document!");
+          }
+        }).catch((error) => {
+          console.log("Error getting document:", error);
+        });
+      } else {
+        // No user is signed in
         window.location.href = "login.html";
       }
     });
