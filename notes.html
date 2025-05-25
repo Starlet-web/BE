@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>STARLET Coaching - Demo Notes</title>
+  <title>STARLET Coaching - Premium Notes Demo</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <!-- Google Fonts -->
@@ -15,13 +15,16 @@
   <style>
     :root {
       --primary: #6c5ce7;
-      --secondary: #a29bfe;
+      --primary-light: #a29bfe;
       --accent: #fd79a8;
+      --accent-light: #ffb8d4;
       --dark: #2d3436;
+      --dark-light: #636e72;
       --light: #f5f6fa;
       --success: #00b894;
       --warning: #fdcb6e;
       --danger: #d63031;
+      --card-bg: rgba(255, 255, 255, 0.92);
     }
     
     * {
@@ -33,12 +36,12 @@
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      background: linear-gradient(135deg, #f5f7fa 0%, #e6ebf5 100%);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 50px 20px 100px;
+      padding: 40px 20px 100px;
       position: relative;
       overflow-x: hidden;
     }
@@ -47,41 +50,44 @@
     .bg-element {
       position: absolute;
       border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0.15;
+      filter: blur(80px);
+      opacity: 0.12;
       z-index: -1;
+      animation: float 15s ease-in-out infinite;
     }
     
     .bg-element-1 {
-      width: 300px;
-      height: 300px;
+      width: 350px;
+      height: 350px;
       background: var(--primary);
-      top: -100px;
-      left: -100px;
-      animation: float 8s ease-in-out infinite;
+      top: -150px;
+      left: -150px;
+      animation-delay: 0s;
     }
     
     .bg-element-2 {
-      width: 400px;
-      height: 400px;
+      width: 450px;
+      height: 450px;
       background: var(--accent);
-      bottom: -150px;
-      right: -100px;
-      animation: float 10s ease-in-out infinite 2s;
+      bottom: -200px;
+      right: -150px;
+      animation-delay: 3s;
     }
     
     .bg-element-3 {
-      width: 200px;
-      height: 200px;
+      width: 250px;
+      height: 250px;
       background: var(--success);
       top: 40%;
       left: 30%;
-      animation: float 12s ease-in-out infinite 1s;
+      animation-delay: 6s;
     }
     
     @keyframes float {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(20px, 20px); }
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(20px, 20px) rotate(5deg); }
+      50% { transform: translate(-10px, 15px) rotate(-5deg); }
+      75% { transform: translate(15px, -10px) rotate(5deg); }
     }
     
     /* Header */
@@ -89,148 +95,218 @@
       text-align: center;
       margin-bottom: 50px;
       position: relative;
+      max-width: 800px;
     }
     
     .header h1 {
-      font-size: 3rem;
+      font-size: 2.8rem;
       font-weight: 700;
       color: var(--dark);
       margin-bottom: 15px;
       position: relative;
       display: inline-block;
       font-family: 'Montserrat', sans-serif;
+      line-height: 1.2;
     }
     
     .header h1::after {
       content: '';
       position: absolute;
-      bottom: -10px;
+      bottom: -12px;
       left: 50%;
       transform: translateX(-50%);
-      width: 80px;
+      width: 100px;
       height: 4px;
       background: linear-gradient(to right, var(--primary), var(--accent));
-      border-radius: 2px;
+      border-radius: 4px;
     }
     
     .header p {
-      color: #666;
-      font-size: 1.1rem;
-      max-width: 700px;
+      color: var(--dark-light);
+      font-size: 1.15rem;
       margin: 0 auto;
-      line-height: 1.6;
+      line-height: 1.7;
     }
     
     /* Demo Banner */
     .demo-banner {
       background: linear-gradient(135deg, var(--primary), var(--accent));
       color: white;
-      padding: 15px;
-      border-radius: 10px;
-      margin: 20px 0;
+      padding: 14px;
+      border-radius: 12px;
+      margin: 25px auto;
       text-align: center;
-      box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
-      animation: pulse 2s infinite;
+      box-shadow: 0 8px 25px rgba(108, 92, 231, 0.25);
+      animation: pulse 3s infinite ease-in-out;
+      max-width: 600px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 1px solid rgba(255,255,255,0.3);
     }
     
     @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.02); }
-      100% { transform: scale(1); }
+      0%, 100% { transform: scale(1); box-shadow: 0 8px 25px rgba(108, 92, 231, 0.25); }
+      50% { transform: scale(1.02); box-shadow: 0 12px 30px rgba(108, 92, 231, 0.35); }
     }
     
     /* Card Container */
     .card-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 35px;
       width: 100%;
-      max-width: 1200px;
+      max-width: 1300px;
       margin-bottom: 50px;
     }
     
     /* PDF Viewer Container */
     .pdf-container {
-      background: white;
-      border-radius: 15px;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 25px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.08);
       position: relative;
       overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.4);
+      backdrop-filter: blur(8px);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .pdf-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.12);
     }
     
     .pdf-viewer {
       width: 100%;
-      height: 500px;
-      border: 1px solid #eee;
-      border-radius: 8px;
+      height: 520px;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 12px;
       overflow-y: auto;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       position: relative;
+      background: #f9fafc;
     }
     
     .pdf-page {
-      margin-bottom: 20px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      margin-bottom: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
       position: relative;
+      transition: transform 0.3s ease;
+    }
+    
+    .pdf-page:hover {
+      transform: scale(1.01);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
     
     .pdf-page canvas {
       display: block;
       margin: 0 auto;
+      border-radius: 4px;
     }
     
     .pdf-page-number {
       position: absolute;
-      bottom: 5px;
-      right: 5px;
-      background: rgba(0,0,0,0.5);
+      bottom: 8px;
+      right: 8px;
+      background: rgba(0,0,0,0.6);
       color: white;
-      padding: 2px 8px;
-      border-radius: 3px;
+      padding: 3px 12px;
+      border-radius: 20px;
       font-size: 0.8rem;
+      font-weight: 500;
     }
     
     .pdf-controls {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 15px;
+      margin-top: 20px;
     }
     
     .pdf-title {
       font-weight: 600;
       color: var(--dark);
-      font-size: 1.2rem;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .pdf-title i {
+      font-size: 1.4rem;
+      color: var(--primary);
     }
     
     .pdf-lock {
-      background: var(--accent);
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
       color: white;
-      padding: 5px 15px;
+      padding: 7px 18px;
       border-radius: 20px;
       font-size: 0.9rem;
       font-weight: 600;
       display: flex;
       align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(253, 121, 168, 0.3);
     }
     
-    .pdf-lock i {
-      margin-right: 5px;
+    /* Locked Content Overlay */
+    .locked-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.92);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      border-radius: 12px;
+      backdrop-filter: blur(5px);
+    }
+    
+    .locked-content {
+      text-align: center;
+      padding: 30px;
+      max-width: 300px;
+    }
+    
+    .locked-icon {
+      font-size: 3rem;
+      color: var(--accent);
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .locked-text {
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 25px;
+      font-size: 1.1rem;
+      line-height: 1.6;
     }
     
     /* CTA Section */
     .cta-section {
-      margin-top: 60px;
+      margin-top: 70px;
       text-align: center;
-      max-width: 800px;
-      background: rgba(255,255,255,0.9);
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      max-width: 850px;
+      background: var(--card-bg);
+      padding: 50px;
+      border-radius: 25px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.3);
+      border: 1px solid rgba(255,255,255,0.4);
     }
     
     .cta-section::before {
@@ -240,8 +316,8 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle, rgba(108,92,231,0.05) 0%, rgba(255,255,255,0) 70%);
-      animation: rotate 20s linear infinite;
+      background: radial-gradient(circle, rgba(108,92,231,0.08) 0%, rgba(255,255,255,0) 70%);
+      animation: rotate 25s linear infinite;
       z-index: -1;
     }
     
@@ -251,19 +327,20 @@
     }
     
     .cta-section h3 {
-      font-size: 2rem;
+      font-size: 2.2rem;
       color: var(--dark);
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       font-weight: 700;
+      line-height: 1.3;
     }
     
     .cta-section p {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       font-weight: 500;
       background: linear-gradient(to right, var(--primary), var(--accent));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 30px;
+      margin-bottom: 35px;
       position: relative;
       display: inline-block;
     }
@@ -271,7 +348,7 @@
     .cta-section p::after {
       content: '';
       position: absolute;
-      bottom: -10px;
+      bottom: -12px;
       left: 0;
       width: 100%;
       height: 3px;
@@ -283,15 +360,15 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 15px 40px;
-      font-size: 1.1rem;
+      padding: 16px 45px;
+      font-size: 1.15rem;
       font-weight: 600;
       text-decoration: none;
       color: white;
       border-radius: 50px;
       background: linear-gradient(135deg, var(--primary), var(--accent));
-      box-shadow: 0 10px 25px rgba(108, 92, 231, 0.4);
-      transition: all 0.3s ease;
+      box-shadow: 0 15px 35px rgba(108, 92, 231, 0.4);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       position: relative;
       overflow: hidden;
       border: none;
@@ -299,21 +376,21 @@
     }
     
     .cta-button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 30px rgba(108, 92, 231, 0.5);
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 20px 40px rgba(108, 92, 231, 0.5);
     }
     
     .cta-button:active {
-      transform: translateY(1px);
+      transform: translateY(2px);
     }
     
     .cta-button i {
-      margin-left: 10px;
+      margin-left: 12px;
       transition: transform 0.3s ease;
     }
     
     .cta-button:hover i {
-      transform: translateX(5px);
+      transform: translateX(8px);
     }
     
     .cta-button::before {
@@ -323,8 +400,8 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: 0.5s;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      transition: 0.6s;
     }
     
     .cta-button:hover::before {
@@ -334,48 +411,80 @@
     /* Floating Action Button */
     .fab {
       position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 60px;
-      height: 60px;
+      bottom: 35px;
+      right: 35px;
+      width: 70px;
+      height: 70px;
       background: linear-gradient(135deg, var(--primary), var(--accent));
       color: white;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
-      box-shadow: 0 10px 25px rgba(108, 92, 231, 0.4);
+      font-size: 1.7rem;
+      box-shadow: 0 15px 35px rgba(108, 92, 231, 0.5);
       cursor: pointer;
       z-index: 100;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     
     .fab:hover {
-      transform: scale(1.1) rotate(15deg);
-      box-shadow: 0 15px 30px rgba(108, 92, 231, 0.5);
+      transform: scale(1.15) rotate(15deg);
+      box-shadow: 0 20px 45px rgba(108, 92, 231, 0.6);
     }
     
     /* Responsive Design */
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
       .header h1 {
-        font-size: 2.2rem;
+        font-size: 2.4rem;
       }
       
       .header p {
-        font-size: 1rem;
+        font-size: 1.05rem;
       }
       
       .card-container {
         grid-template-columns: 1fr;
+        gap: 30px;
       }
       
       .pdf-viewer {
-        height: 400px;
+        height: 450px;
+      }
+      
+      .cta-section {
+        padding: 40px 30px;
+      }
+      
+      .cta-section h3 {
+        font-size: 1.8rem;
+      }
+      
+      .cta-section p {
+        font-size: 1.1rem;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      body {
+        padding: 30px 15px 80px;
+      }
+      
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .pdf-container {
+        padding: 20px;
+      }
+      
+      .pdf-viewer {
+        height: 380px;
       }
       
       .cta-section {
         padding: 30px 20px;
+        margin-top: 50px;
       }
       
       .cta-section h3 {
@@ -385,52 +494,34 @@
       .cta-section p {
         font-size: 1rem;
       }
+      
+      .fab {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+        bottom: 25px;
+        right: 25px;
+      }
     }
     
-    /* Animation Classes */
-    .animate-delay-1 {
-      animation-delay: 0.2s;
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
     }
     
-    .animate-delay-2 {
-      animation-delay: 0.4s;
+    ::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.05);
+      border-radius: 10px;
     }
     
-    .animate-delay-3 {
-      animation-delay: 0.6s;
+    ::-webkit-scrollbar-thumb {
+      background: rgba(108, 92, 231, 0.4);
+      border-radius: 10px;
     }
     
-    /* Locked Content Overlay */
-    .locked-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255,255,255,0.8);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-      border-radius: 8px;
-    }
-    
-    .locked-content {
-      text-align: center;
-      padding: 20px;
-    }
-    
-    .locked-icon {
-      font-size: 2.5rem;
-      color: var(--accent);
-      margin-bottom: 15px;
-    }
-    
-    .locked-text {
-      font-weight: 600;
-      color: var(--dark);
-      margin-bottom: 20px;
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(108, 92, 231, 0.6);
     }
   </style>
 </head>
@@ -442,10 +533,10 @@
   <div class="bg-element bg-element-3"></div>
 
   <div class="header animate__animated animate__fadeIn">
-    <h1>STARLET Coaching - Demo Notes</h1>
-    <p>Preview the first 10 pages of our premium notes. Subscribe for full access.</p>
-    <div class="demo-banner animate__animated animate__pulse animate__infinite">
-      <i class="fas fa-unlock-alt"></i> DEMO VERSION - Only first 10 pages shown
+    <h1>STARLET Coaching Premium Notes</h1>
+    <p>Preview the first 8 pages of our exclusive study materials. Subscribe for complete access to all content and features.</p>
+    <div class="demo-banner">
+      <i class="fas fa-lock-open"></i> DEMO VERSION - Only first 8 pages available
     </div>
   </div>
 
@@ -460,20 +551,20 @@
               <i class="fas fa-lock"></i>
             </div>
             <div class="locked-text">
-              Pages 11+ are locked
+              Continue your learning journey with full access to all 120+ pages
             </div>
             <a href="GPay.html" class="cta-button">
-              Subscribe to Unlock <i class="fas fa-arrow-right"></i>
+              Unlock Full Notes <i class="fas fa-arrow-right"></i>
             </a>
           </div>
         </div>
       </div>
       <div class="pdf-controls">
         <div class="pdf-title">
-          <i class="fas fa-paw"></i> Zoology Notes (Demo)
+          <i class="fas fa-paw"></i> Zoology Premium Notes
         </div>
         <div class="pdf-lock">
-          <i class="fas fa-lock"></i> Pages 1-10
+          <i class="fas fa-lock"></i> Preview (8/128)
         </div>
       </div>
     </div>
@@ -488,20 +579,20 @@
               <i class="fas fa-lock"></i>
             </div>
             <div class="locked-text">
-              Pages 11+ are locked
+              Get complete access to all 95+ pages and diagrams
             </div>
             <a href="GPay.html" class="cta-button">
-              Subscribe to Unlock <i class="fas fa-arrow-right"></i>
+              Subscribe Now <i class="fas fa-arrow-right"></i>
             </a>
           </div>
         </div>
       </div>
       <div class="pdf-controls">
         <div class="pdf-title">
-          <i class="fas fa-leaf"></i> Botany Notes (Demo)
+          <i class="fas fa-leaf"></i> Botany Premium Notes
         </div>
         <div class="pdf-lock">
-          <i class="fas fa-lock"></i> Pages 1-10
+          <i class="fas fa-lock"></i> Preview (8/95)
         </div>
       </div>
     </div>
@@ -516,20 +607,20 @@
               <i class="fas fa-lock"></i>
             </div>
             <div class="locked-text">
-              Pages 11+ are locked
+              Full package includes 150+ pages with solved examples
             </div>
             <a href="GPay.html" class="cta-button">
-              Subscribe to Unlock <i class="fas fa-arrow-right"></i>
+              Get Full Access <i class="fas fa-arrow-right"></i>
             </a>
           </div>
         </div>
       </div>
       <div class="pdf-controls">
         <div class="pdf-title">
-          <i class="fas fa-flask"></i> Chemistry Notes (Demo)
+          <i class="fas fa-flask"></i> Chemistry Premium Notes
         </div>
         <div class="pdf-lock">
-          <i class="fas fa-lock"></i> Pages 1-10
+          <i class="fas fa-lock"></i> Preview (8/150)
         </div>
       </div>
     </div>
@@ -537,56 +628,114 @@
 
   <!-- CTA Section -->
   <div class="cta-section animate__animated animate__fadeIn">
-    <h3>Ready for Full Access?</h3>
-    <p>Subscribe to unlock all pages and premium features</p>
+    <h3>Ready to Accelerate Your Learning?</h3>
+    <p>Unlock Premium Content & Expert Guidance</p>
     <a href="GPay.html" class="cta-button">
-      Get Full Access Now <i class="fas fa-arrow-right"></i>
+      Subscribe Now & Get Instant Access <i class="fas fa-arrow-right"></i>
     </a>
+    <p style="margin-top: 25px; font-size: 0.9rem; color: var(--dark-light);">
+      <i class="fas fa-shield-alt"></i> Secure payment · 7-day satisfaction guarantee
+    </p>
   </div>
 
   <!-- Floating Action Button -->
   <div class="fab" onclick="window.location.href='GPay.html'">
-    <i class="fas fa-graduation-cap"></i>
+    <i class="fas fa-gem"></i>
   </div>
 
   <script>
     // Set the path to the PDF.js worker
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
     
-    // PDF URLs (replace with your actual PDF URLs)
+    // PDF URLs
     const pdfUrls = {
-      zoology: 'RT-PCR_ Definition, Principle, Enzymes, Types, Steps, Uses.pdf',
-      botany: 'https://online.pubhtml5.com/yamxd/qzgq/',
-      chemistry: 'https://online.fliphtml5.com/nfewi/waks/'
+      zoology: 'https://www.dropbox.com/scl/fi/bfe9ish3iak5e0s5u7qwo/DOC-20250430-WA0041..pdf?rlkey=0xajjtz2syh4ewj8yczo7o52q&st=ukivx4b2&dl=0',
+      botany: 'https://example.com/path/to/botany.pdf', // Replace with your botany PDF
+      chemistry: 'https://example.com/path/to/chemistry.pdf' // Replace with your chemistry PDF
     };
     
-    // Function to render the first 10 pages of a PDF
+    // Function to render the first 8 pages of a PDF
     async function renderPDF(viewerId, pdfUrl) {
       const container = document.getElementById(viewerId);
       
       try {
         // For demo purposes, we'll simulate rendering pages
-        // In a real implementation, you would use PDF.js to render actual PDF pages
+        // In production, you would use PDF.js to render actual PDF pages
         
-        // Create placeholder pages
-        for (let i = 1; i <= 10; i++) {
+        // Clear existing content except the locked overlay
+        while (container.firstChild && !container.firstChild.classList.contains('locked-overlay')) {
+          container.removeChild(container.firstChild);
+        }
+        
+        // Create placeholder pages (8 pages)
+        for (let i = 1; i <= 8; i++) {
           const pageDiv = document.createElement('div');
           pageDiv.className = 'pdf-page';
           
           const placeholder = document.createElement('div');
-          placeholder.style.height = '1200px';
-          placeholder.style.background = 'linear-gradient(135deg, #f5f7fa, #e4e8f0)';
+          placeholder.style.height = '1100px';
+          placeholder.style.background = 'linear-gradient(135deg, #f9fafc, #f0f3f8)';
           placeholder.style.display = 'flex';
           placeholder.style.alignItems = 'center';
           placeholder.style.justifyContent = 'center';
-          placeholder.style.color = '#666';
-          placeholder.innerHTML = `<div style="text-align: center; padding: 20px;">
-            <i class="fas fa-file-pdf" style="font-size: 3rem; margin-bottom: 15px; color: var(--primary);"></i>
-            <h3>Sample Page ${i}</h3>
-            <p>This is a placeholder for page ${i} of the PDF</p>
-            <p style="font-size: 0.8rem;">(Actual PDF content would show here)</p>
-          </div>`;
+          placeholder.style.color = '#555';
+          placeholder.style.borderRadius = '8px';
+          placeholder.style.overflow = 'hidden';
+          placeholder.style.position = 'relative';
           
+          // Different placeholder designs for variety
+          let placeholderContent = '';
+          if (i % 3 === 0) {
+            placeholderContent = `
+              <div style="text-align: center; padding: 30px; max-width: 80%;">
+                <div style="height: 200px; background: #eee; margin: 0 auto 20px; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+                  <i class="fas fa-image" style="font-size: 2rem; color: #ccc;"></i>
+                </div>
+                <h3 style="color: var(--dark); margin-bottom: 15px;">Sample Content Page ${i}</h3>
+                <p style="margin-bottom: 20px;">This is a preview of page ${i} from our premium notes.</p>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                  <div style="width: 60%; height: 8px; background: #eee; border-radius: 4px;"></div>
+                  <div style="width: 30%; height: 8px; background: #eee; border-radius: 4px;"></div>
+                </div>
+              </div>
+            `;
+          } else if (i % 2 === 0) {
+            placeholderContent = `
+              <div style="text-align: left; padding: 30px; width: 100%;">
+                <h3 style="color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;">Chapter ${Math.ceil(i/2)}: Important Concepts</h3>
+                <div style="background: #f0f4ff; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                    <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                    <div style="width: 70%; height: 8px; background: #e0e6ff; border-radius: 4px;"></div>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                    <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                    <div style="width: 60%; height: 8px; background: #e0e6ff; border-radius: 4px;"></div>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                    <div style="width: 50%; height: 8px; background: #e0e6ff; border-radius: 4px;"></div>
+                  </div>
+                </div>
+                <p style="font-size: 0.9rem; color: #666;"><i class="fas fa-info-circle" style="color: var(--primary);"></i> Full content available with subscription</p>
+              </div>
+            `;
+          } else {
+            placeholderContent = `
+              <div style="text-align: center; padding: 30px; width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=500&auto=format&fit=crop') center/cover; display: flex; flex-direction: column; justify-content: center; align-items: center; background-blend-mode: overlay; background-color: rgba(255,255,255,0.9);">
+                <div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); max-width: 80%;">
+                  <h3 style="color: var(--dark); margin-bottom: 15px;">Premium Content Page ${i}</h3>
+                  <p style="margin-bottom: 20px; color: #555;">This page demonstrates the quality of our study materials.</p>
+                  <div style="height: 150px; background: #f9f9f9; border-radius: 5px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                    <i class="fas fa-chart-bar" style="font-size: 2rem; color: var(--primary);"></i>
+                  </div>
+                  <p style="font-size: 0.9rem; color: var(--dark-light);">Subscribe to view all pages like this</p>
+                </div>
+              </div>
+            `;
+          }
+          
+          placeholder.innerHTML = placeholderContent;
           pageDiv.appendChild(placeholder);
           
           const pageNumber = document.createElement('div');
@@ -597,13 +746,13 @@
           container.insertBefore(pageDiv, container.querySelector('.locked-overlay'));
         }
         
-        // In a real implementation, you would use something like:
+        // In production, you would use something like:
         /*
         const loadingTask = pdfjsLib.getDocument(pdfUrl);
         const pdf = await loadingTask.promise;
         
-        // Render first 10 pages or all pages if PDF has less than 10
-        const pageCount = Math.min(pdf.numPages, 10);
+        // Render first 8 pages or all pages if PDF has less than 8
+        const pageCount = Math.min(pdf.numPages, 8);
         
         for (let i = 1; i <= pageCount; i++) {
           const page = await pdf.getPage(i);
@@ -636,9 +785,17 @@
         
       } catch (error) {
         console.error('Error rendering PDF:', error);
-        container.innerHTML = `<div style="padding: 20px; color: var(--danger); text-align: center;">
+        const errorDiv = document.createElement('div');
+        errorDiv.style.padding = '20px';
+        errorDiv.style.color = 'var(--danger)';
+        errorDiv.style.textAlign = 'center';
+        errorDiv.innerHTML = `
           <i class="fas fa-exclamation-triangle"></i> Error loading PDF preview
-        </div>`;
+          <p style="font-size: 0.9rem; margin-top: 10px; color: var(--dark-light);">
+            Please try again later or contact support
+          </p>
+        `;
+        container.insertBefore(errorDiv, container.querySelector('.locked-overlay'));
       }
     }
     
