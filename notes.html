@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Starlet Coaching Demo Notes</title>
+  <title>STARLET Coaching - Demo Notes</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-  <!-- Animate.css -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <!-- PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
   <style>
     :root {
       --primary: #6c5ce7;
@@ -121,101 +121,102 @@
       line-height: 1.6;
     }
     
+    /* Demo Banner */
+    .demo-banner {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 20px 0;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+    
     /* Card Container */
     .card-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
       gap: 30px;
       width: 100%;
       max-width: 1200px;
       margin-bottom: 50px;
     }
     
-    /* Card Styles */
-    .card {
-      background: rgba(255, 255, 255, 0.85);
-      border-radius: 20px;
-      padding: 25px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      cursor: pointer;
-      border: 1px solid rgba(255,255,255,0.3);
+    /* PDF Viewer Container */
+    .pdf-container {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       position: relative;
       overflow: hidden;
-      z-index: 1;
     }
     
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
+    .pdf-viewer {
       width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(108, 92, 231, 0.1) 0%, rgba(253, 121, 168, 0.1) 100%);
-      z-index: -1;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    
-    .card:hover {
-      transform: translateY(-10px) scale(1.03);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-    }
-    
-    .card:hover::before {
-      opacity: 1;
-    }
-    
-    .card-icon {
-      width: 80px;
-      height: 80px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      color: white;
-      font-size: 2rem;
-      box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
-      transition: transform 0.3s ease;
-    }
-    
-    .card:hover .card-icon {
-      transform: rotate(15deg) scale(1.1);
-    }
-    
-    .card h2 {
-      font-size: 1.5rem;
-      color: var(--dark);
+      height: 500px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      overflow-y: auto;
       margin-bottom: 15px;
-      font-weight: 600;
+      position: relative;
     }
     
-    .card p {
-      color: #666;
-      font-size: 0.95rem;
+    .pdf-page {
       margin-bottom: 20px;
-      line-height: 1.6;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      position: relative;
     }
     
-    .card-badge {
+    .pdf-page canvas {
+      display: block;
+      margin: 0 auto;
+    }
+    
+    .pdf-page-number {
       position: absolute;
-      top: 15px;
-      right: 15px;
+      bottom: 5px;
+      right: 5px;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 0.8rem;
+    }
+    
+    .pdf-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+    }
+    
+    .pdf-title {
+      font-weight: 600;
+      color: var(--dark);
+      font-size: 1.2rem;
+    }
+    
+    .pdf-lock {
       background: var(--accent);
       color: white;
-      padding: 5px 10px;
+      padding: 5px 15px;
       border-radius: 20px;
-      font-size: 0.7rem;
+      font-size: 0.9rem;
       font-weight: 600;
-      box-shadow: 0 3px 10px rgba(253, 121, 168, 0.3);
+      display: flex;
+      align-items: center;
+    }
+    
+    .pdf-lock i {
+      margin-right: 5px;
     }
     
     /* CTA Section */
@@ -369,6 +370,10 @@
         grid-template-columns: 1fr;
       }
       
+      .pdf-viewer {
+        height: 400px;
+      }
+      
       .cta-section {
         padding: 30px 20px;
       }
@@ -394,6 +399,39 @@
     .animate-delay-3 {
       animation-delay: 0.6s;
     }
+    
+    /* Locked Content Overlay */
+    .locked-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      border-radius: 8px;
+    }
+    
+    .locked-content {
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .locked-icon {
+      font-size: 2.5rem;
+      color: var(--accent);
+      margin-bottom: 15px;
+    }
+    
+    .locked-text {
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
@@ -404,96 +442,215 @@
   <div class="bg-element bg-element-3"></div>
 
   <div class="header animate__animated animate__fadeIn">
-    <h1>STARLET Coaching Demo Notes</h1>
-    <p>Premium quality study materials designed to help you excel in your BSc preparation</p>
+    <h1>STARLET Coaching - Demo Notes</h1>
+    <p>Preview the first 10 pages of our premium notes. Subscribe for full access.</p>
+    <div class="demo-banner animate__animated animate__pulse animate__infinite">
+      <i class="fas fa-unlock-alt"></i> DEMO VERSION - Only first 10 pages shown
+    </div>
   </div>
 
   <div class="card-container">
-    <div class="card animate__animated animate__fadeInUp animate-delay-1" onclick="openNote('https://online.pubhtml5.com/yamxd/rswk/')">
-      <div class="card-icon">
-        <i class="fas fa-paw"></i>
+    <!-- Zoology Notes -->
+    <div class="pdf-container animate__animated animate__fadeInUp animate-delay-1">
+      <div class="pdf-viewer" id="zoology-viewer">
+        <!-- PDF pages will be rendered here by JavaScript -->
+        <div class="locked-overlay">
+          <div class="locked-content">
+            <div class="locked-icon">
+              <i class="fas fa-lock"></i>
+            </div>
+            <div class="locked-text">
+              Pages 11+ are locked
+            </div>
+            <a href="GPay.html" class="cta-button">
+              Subscribe to Unlock <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
       </div>
-      <span class="card-badge">NEW</span>
-      <h2>Zoology Notes</h2>
-      <p>Comprehensive notes covering all zoology concepts with detailed diagrams and mnemonics</p>
+      <div class="pdf-controls">
+        <div class="pdf-title">
+          <i class="fas fa-paw"></i> Zoology Notes (Demo)
+        </div>
+        <div class="pdf-lock">
+          <i class="fas fa-lock"></i> Pages 1-10
+        </div>
+      </div>
     </div>
 
-    <div class="card animate__animated animate__fadeInUp animate-delay-2" onclick="openNote('https://online.pubhtml5.com/yamxd/qzgq/')">
-      <div class="card-icon">
-        <i class="fas fa-leaf"></i>
+    <!-- Botany Notes -->
+    <div class="pdf-container animate__animated animate__fadeInUp animate-delay-2">
+      <div class="pdf-viewer" id="botany-viewer">
+        <!-- PDF pages will be rendered here by JavaScript -->
+        <div class="locked-overlay">
+          <div class="locked-content">
+            <div class="locked-icon">
+              <i class="fas fa-lock"></i>
+            </div>
+            <div class="locked-text">
+              Pages 11+ are locked
+            </div>
+            <a href="GPay.html" class="cta-button">
+              Subscribe to Unlock <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
       </div>
-      <h2>Botany Notes</h2>
-      <p>Detailed plant biology notes with classification charts and important highlights</p>
+      <div class="pdf-controls">
+        <div class="pdf-title">
+          <i class="fas fa-leaf"></i> Botany Notes (Demo)
+        </div>
+        <div class="pdf-lock">
+          <i class="fas fa-lock"></i> Pages 1-10
+        </div>
+      </div>
     </div>
 
-    <div class="card animate__animated animate__fadeInUp animate-delay-3" onclick="openNote('https://online.fliphtml5.com/nfewi/waks/')">
-      <div class="card-icon">
-        <i class="fas fa-flask"></i>
+    <!-- Chemistry Notes -->
+    <div class="pdf-container animate__animated animate__fadeInUp animate-delay-3">
+      <div class="pdf-viewer" id="chemistry-viewer">
+        <!-- PDF pages will be rendered here by JavaScript -->
+        <div class="locked-overlay">
+          <div class="locked-content">
+            <div class="locked-icon">
+              <i class="fas fa-lock"></i>
+            </div>
+            <div class="locked-text">
+              Pages 11+ are locked
+            </div>
+            <a href="GPay.html" class="cta-button">
+              Subscribe to Unlock <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
       </div>
-      <span class="card-badge">UPDATED</span>
-      <h2>Chemistry Notes</h2>
-      <p>Organic, inorganic and physical chemistry notes with reaction mechanisms and formulas</p>
-    </div>
-    
-    <!-- Additional cards can be added here -->
-  <div class="card animate__animated animate__fadeInUp animate-delay-3" onclick="openNote('#')">
-      <div class="card-icon" style="background: linear-gradient(135deg, #e17055, #fab1a0);">
-        <i class="fas fa-book-medical"></i>
+      <div class="pdf-controls">
+        <div class="pdf-title">
+          <i class="fas fa-flask"></i> Chemistry Notes (Demo)
+        </div>
+        <div class="pdf-lock">
+          <i class="fas fa-lock"></i> Pages 1-10
+        </div>
       </div>
-      <h2>Previous Year Papers</h2>
-      <p>Solved BSc previous year question papers with detailed explanations</p>
     </div>
   </div>
 
   <!-- CTA Section -->
   <div class="cta-section animate__animated animate__fadeIn">
-    <h3>Ready to Boost Your BSc Preparation?</h3>
-    <p>Experience AI-Empowered Learning with HD Lectures & Smart Mentorship</p>
+    <h3>Ready for Full Access?</h3>
+    <p>Subscribe to unlock all pages and premium features</p>
     <a href="GPay.html" class="cta-button">
-      Join STARLET Now <i class="fas fa-arrow-right"></i>
+      Get Full Access Now <i class="fas fa-arrow-right"></i>
     </a>
   </div>
 
   <!-- Floating Action Button -->
-  <div class="fab" onclick="window.location.href='resistor.html'">
+  <div class="fab" onclick="window.location.href='GPay.html'">
     <i class="fas fa-graduation-cap"></i>
   </div>
 
-  <!-- Flip Sound -->
-  <audio id="flipSound" src="https://assets.mixkit.co/sfx/preview/mixkit-page-flip-1110.mp3" preload="auto"></audio>
-  
   <script>
-    function openNote(pdfUrl) {
-      const flipSound = document.getElementById("flipSound");
-      flipSound.play();
+    // Set the path to the PDF.js worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
+    
+    // PDF URLs (replace with your actual PDF URLs)
+    const pdfUrls = {
+      zoology: 'https://online.pubhtml5.com/yamxd/rswk/',
+      botany: 'https://online.pubhtml5.com/yamxd/qzgq/',
+      chemistry: 'https://online.fliphtml5.com/nfewi/waks/'
+    };
+    
+    // Function to render the first 10 pages of a PDF
+    async function renderPDF(viewerId, pdfUrl) {
+      const container = document.getElementById(viewerId);
       
-      // Add click animation
-      const card = event.currentTarget;
-      card.style.transform = 'scale(0.95)';
-      setTimeout(() => {
-        card.style.transform = '';
-      }, 200);
-      
-      setTimeout(() => {
-        window.open(pdfUrl, '_blank');
-      }, 300);
+      try {
+        // For demo purposes, we'll simulate rendering pages
+        // In a real implementation, you would use PDF.js to render actual PDF pages
+        
+        // Create placeholder pages
+        for (let i = 1; i <= 10; i++) {
+          const pageDiv = document.createElement('div');
+          pageDiv.className = 'pdf-page';
+          
+          const placeholder = document.createElement('div');
+          placeholder.style.height = '1200px';
+          placeholder.style.background = 'linear-gradient(135deg, #f5f7fa, #e4e8f0)';
+          placeholder.style.display = 'flex';
+          placeholder.style.alignItems = 'center';
+          placeholder.style.justifyContent = 'center';
+          placeholder.style.color = '#666';
+          placeholder.innerHTML = `<div style="text-align: center; padding: 20px;">
+            <i class="fas fa-file-pdf" style="font-size: 3rem; margin-bottom: 15px; color: var(--primary);"></i>
+            <h3>Sample Page ${i}</h3>
+            <p>This is a placeholder for page ${i} of the PDF</p>
+            <p style="font-size: 0.8rem;">(Actual PDF content would show here)</p>
+          </div>`;
+          
+          pageDiv.appendChild(placeholder);
+          
+          const pageNumber = document.createElement('div');
+          pageNumber.className = 'pdf-page-number';
+          pageNumber.textContent = `Page ${i}`;
+          pageDiv.appendChild(pageNumber);
+          
+          container.insertBefore(pageDiv, container.querySelector('.locked-overlay'));
+        }
+        
+        // In a real implementation, you would use something like:
+        /*
+        const loadingTask = pdfjsLib.getDocument(pdfUrl);
+        const pdf = await loadingTask.promise;
+        
+        // Render first 10 pages or all pages if PDF has less than 10
+        const pageCount = Math.min(pdf.numPages, 10);
+        
+        for (let i = 1; i <= pageCount; i++) {
+          const page = await pdf.getPage(i);
+          const viewport = page.getViewport({ scale: 1.0 });
+          
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+          
+          const renderContext = {
+            canvasContext: context,
+            viewport: viewport
+          };
+          
+          await page.render(renderContext).promise;
+          
+          const pageDiv = document.createElement('div');
+          pageDiv.className = 'pdf-page';
+          pageDiv.appendChild(canvas);
+          
+          const pageNumber = document.createElement('div');
+          pageNumber.className = 'pdf-page-number';
+          pageNumber.textContent = `Page ${i}`;
+          pageDiv.appendChild(pageNumber);
+          
+          container.insertBefore(pageDiv, container.querySelector('.locked-overlay'));
+        }
+        */
+        
+      } catch (error) {
+        console.error('Error rendering PDF:', error);
+        container.innerHTML = `<div style="padding: 20px; color: var(--danger); text-align: center;">
+          <i class="fas fa-exclamation-triangle"></i> Error loading PDF preview
+        </div>`;
+      }
     }
     
-    // Add hover effect for cards on touch devices
-    document.addEventListener('touchstart', function() {}, true);
-    
-    // Animate elements when they come into view
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate__animated', 'animate__fadeInUp');
-        }
-      });
-    }, { threshold: 0.1 });
-    
-    document.querySelectorAll('.card, .cta-section').forEach(el => {
-      observer.observe(el);
+    // Render all PDFs when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      renderPDF('zoology-viewer', pdfUrls.zoology);
+      renderPDF('botany-viewer', pdfUrls.botany);
+      renderPDF('chemistry-viewer', pdfUrls.chemistry);
     });
+    
+    // Add hover effect for elements on touch devices
+    document.addEventListener('touchstart', function() {}, true);
   </script>
 
 </body>
