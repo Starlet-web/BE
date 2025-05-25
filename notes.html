@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>STARLET Coaching Demo Notes</title>
+  <title>Starlet Coaching Demo Notes</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <!-- Google Fonts -->
@@ -121,30 +121,6 @@
       line-height: 1.6;
     }
     
-    /* Demo Banner */
-    .demo-banner {
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      color: white;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 30px;
-      text-align: center;
-      box-shadow: 0 5px 20px rgba(108, 92, 231, 0.3);
-      animation: pulse 2s infinite;
-      max-width: 800px;
-      width: 100%;
-    }
-    
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.02); }
-      100% { transform: scale(1); }
-    }
-    
-    .demo-banner i {
-      margin-right: 10px;
-    }
-    
     /* Card Container */
     .card-container {
       display: grid;
@@ -240,98 +216,6 @@
       font-size: 0.7rem;
       font-weight: 600;
       box-shadow: 0 3px 10px rgba(253, 121, 168, 0.3);
-    }
-    
-    .demo-watermark {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      background: rgba(0,0,0,0.1);
-      color: rgba(0,0,0,0.4);
-      padding: 3px 8px;
-      border-radius: 10px;
-      font-size: 0.7rem;
-      font-weight: 600;
-    }
-    
-    /* Subscription Modal */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.7);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-    
-    .modal-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    
-    .subscription-modal {
-      background: white;
-      border-radius: 20px;
-      padding: 30px;
-      max-width: 500px;
-      width: 90%;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-      transform: translateY(20px);
-      transition: transform 0.3s ease;
-      position: relative;
-    }
-    
-    .modal-overlay.active .subscription-modal {
-      transform: translateY(0);
-    }
-    
-    .close-modal {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #666;
-    }
-    
-    .subscription-modal h3 {
-      font-size: 1.8rem;
-      color: var(--dark);
-      margin-bottom: 15px;
-      text-align: center;
-    }
-    
-    .subscription-modal p {
-      color: #666;
-      margin-bottom: 25px;
-      text-align: center;
-      line-height: 1.6;
-    }
-    
-    .subscription-features {
-      margin-bottom: 25px;
-    }
-    
-    .subscription-features li {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      color: #555;
-    }
-    
-    .subscription-features i {
-      color: var(--success);
-      margin-right: 10px;
-      font-size: 1.1rem;
     }
     
     /* CTA Section */
@@ -496,10 +380,6 @@
       .cta-section p {
         font-size: 1rem;
       }
-      
-      .subscription-modal h3 {
-        font-size: 1.5rem;
-      }
     }
     
     /* Animation Classes */
@@ -525,177 +405,80 @@
 
   <div class="header animate__animated animate__fadeIn">
     <h1>STARLET Coaching Demo Notes</h1>
-    <p>Explore our premium study materials - unlock full access with a subscription</p>
-  </div>
-
-  <!-- Demo Banner -->
-  <div class="demo-banner animate__animated animate__fadeIn">
-    <i class="fas fa-star"></i> This is a limited preview - Subscribe for complete access to all notes and features!
+    <p>Premium quality study materials designed to help you excel in your BSc preparation</p>
   </div>
 
   <div class="card-container">
-    <div class="card animate__animated animate__fadeInUp animate-delay-1" onclick="showPreview('zoology')">
+    <div class="card animate__animated animate__fadeInUp animate-delay-1" onclick="openNote('https://online.pubhtml5.com/yamxd/rswk/')">
       <div class="card-icon">
         <i class="fas fa-paw"></i>
       </div>
-      <span class="card-badge">DEMO</span>
+      <span class="card-badge">NEW</span>
       <h2>Zoology Notes</h2>
-      <p>Preview of our comprehensive zoology notes covering key concepts with detailed diagrams</p>
-      <div class="demo-watermark">SAMPLE CONTENT</div>
+      <p>Comprehensive notes covering all zoology concepts with detailed diagrams and mnemonics</p>
     </div>
 
-    <div class="card animate__animated animate__fadeInUp animate-delay-2" onclick="showPreview('botany')">
+    <div class="card animate__animated animate__fadeInUp animate-delay-2" onclick="openNote('https://online.pubhtml5.com/yamxd/qzgq/')">
       <div class="card-icon">
         <i class="fas fa-leaf"></i>
       </div>
-      <span class="card-badge">DEMO</span>
       <h2>Botany Notes</h2>
-      <p>Preview of plant biology notes with classification charts and important highlights</p>
-      <div class="demo-watermark">SAMPLE CONTENT</div>
+      <p>Detailed plant biology notes with classification charts and important highlights</p>
     </div>
 
-    <div class="card animate__animated animate__fadeInUp animate-delay-3" onclick="showPreview('chemistry')">
+    <div class="card animate__animated animate__fadeInUp animate-delay-3" onclick="openNote('https://online.fliphtml5.com/nfewi/waks/')">
       <div class="card-icon">
         <i class="fas fa-flask"></i>
       </div>
-      <span class="card-badge">DEMO</span>
+      <span class="card-badge">UPDATED</span>
       <h2>Chemistry Notes</h2>
-      <p>Preview of chemistry notes with reaction mechanisms and formulas</p>
-      <div class="demo-watermark">SAMPLE CONTENT</div>
+      <p>Organic, inorganic and physical chemistry notes with reaction mechanisms and formulas</p>
     </div>
     
-    <div class="card animate__animated animate__fadeInUp animate-delay-3" onclick="showSubscriptionModal()">
+    <!-- Additional cards can be added here -->
+  <div class="card animate__animated animate__fadeInUp animate-delay-3" onclick="openNote('#')">
       <div class="card-icon" style="background: linear-gradient(135deg, #e17055, #fab1a0);">
-        <i class="fas fa-lock"></i>
+        <i class="fas fa-book-medical"></i>
       </div>
-      <h2>Full Access</h2>
-      <p>Subscribe to unlock all notes, previous year papers, and premium features</p>
+      <h2>Previous Year Papers</h2>
+      <p>Solved BSc previous year question papers with detailed explanations</p>
     </div>
   </div>
 
-  
-
- 
-  <!-- Subscription Modal -->
-  <div class="modal-overlay" id="subscriptionModal">
-    <div class="subscription-modal">
-      <button class="close-modal" onclick="closeModal()">&times;</button>
-      <h3>Unlock Premium Access</h3>
-      <p>Subscribe to STARLET Coaching for complete access to all study materials and features</p>
-      
-      <div class="subscription-features">
-        <ul>
-          <li><i class="fas fa-check-circle"></i> Full access to all subject notes</li>
-          <li><i class="fas fa-check-circle"></i> Solved previous year question papers</li>
-          <li><i class="fas fa-check-circle"></i> HD video lectures</li>
-          <li><i class="fas fa-check-circle"></i> Expert mentorship</li>
-          <li><i class="fas fa-check-circle"></i> Regular updates and new content</li>
-        </ul>
-      </div>
-      
-      <a href="subscription.html" class="cta-button" style="display: block; width: 100%; text-align: center;">
-        Subscribe Now <i class="fas fa-arrow-right"></i>
-      </a>
-      
-      <p style="margin-top: 15px; font-size: 0.9rem;"></p>
-    </div>
+  <!-- CTA Section -->
+  <div class="cta-section animate__animated animate__fadeIn">
+    <h3>Ready to Boost Your BSc Preparation?</h3>
+    <p>Experience AI-Empowered Learning with HD Lectures & Smart Mentorship</p>
+    <a href="GPay.html" class="cta-button">
+      Join STARLET Now <i class="fas fa-arrow-right"></i>
+    </a>
   </div>
 
-  <!-- Preview Modal -->
-  <div class="modal-overlay" id="previewModal">
-    <div class="subscription-modal">
-      <button class="close-modal" onclick="closeModal()">&times;</button>
-      <h3 id="previewTitle">Demo Preview</h3>
-      <div id="previewContent" style="height: 300px; overflow-y: auto; margin-bottom: 20px; text-align: left;">
-        <!-- Preview content will be inserted here -->
-      </div>
-      <button class="cta-button" onclick="showSubscriptionModal()">
-        Unlock Full Content <i class="fas fa-unlock"></i>
-      </button>
-    </div>
+  <!-- Floating Action Button -->
+  <div class="fab" onclick="window.location.href='resistor.html'">
+    <i class="fas fa-graduation-cap"></i>
   </div>
 
   <!-- Flip Sound -->
   <audio id="flipSound" src="https://assets.mixkit.co/sfx/preview/mixkit-page-flip-1110.mp3" preload="auto"></audio>
   
   <script>
-    // Sample preview content
-    const previews = {
-      zoology: {
-        title: "Zoology Demo Preview",
-        content: `<h4>Animal Kingdom Classification (Sample)</h4>
-        <p>Here's a preview of our comprehensive classification system:</p>
-        <ul>
-          <li><strong>Phylum Porifera:</strong> Sponges - cellular level organization</li>
-          <li><strong>Phylum Cnidaria:</strong> Radial symmetry, cnidocytes (e.g., jellyfish)</li>
-          <li><strong>Phylum Platyhelminthes:</strong> Flatworms, bilateral symmetry</li>
-        </ul>
-        <p style="color: var(--accent); text-align: center; margin-top: 20px;">
-          <i class="fas fa-lock"></i> Subscribe to view complete classification with diagrams and examples
-        </p>`
-      },
-      botany: {
-        title: "Botany Demo Preview",
-        content: `<h4>Plant Anatomy (Sample)</h4>
-        <p>Preview of our detailed plant structure notes:</p>
-        <ul>
-          <li><strong>Root System:</strong> Taproot vs fibrous root systems</li>
-          <li><strong>Stem:</strong> Nodes, internodes, and modifications</li>
-          <li><strong>Leaves:</strong> Simple vs compound leaf structures</li>
-        </ul>
-        <p style="color: var(--accent); text-align: center; margin-top: 20px;">
-          <i class="fas fa-lock"></i> Subscribe to access full notes with illustrations and mnemonics
-        </p>`
-      },
-      chemistry: {
-        title: "Chemistry Demo Preview",
-        content: `<h4>Organic Chemistry Basics (Sample)</h4>
-        <p>Excerpt from our reaction mechanisms section:</p>
-        <ul>
-          <li><strong>Nucleophilic Substitution:</strong> SN1 vs SN2 reactions</li>
-          <li><strong>Electrophilic Addition:</strong> Markovnikov's rule application</li>
-          <li><strong>Elimination Reactions:</strong> E1 and E2 mechanisms</li>
-        </ul>
-        <p style="color: var(--accent); text-align: center; margin-top: 20px;">
-          <i class="fas fa-lock"></i> Subscribe for complete reaction mechanisms with examples
-        </p>`
-      }
-    };
-
-    function showPreview(subject) {
+    function openNote(pdfUrl) {
       const flipSound = document.getElementById("flipSound");
       flipSound.play();
       
-      document.getElementById('previewTitle').textContent = previews[subject].title;
-      document.getElementById('previewContent').innerHTML = previews[subject].content;
+      // Add click animation
+      const card = event.currentTarget;
+      card.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        card.style.transform = '';
+      }, 200);
       
-      // Close any open modals first
-      closeModal();
-      
-      // Show preview modal
-      document.getElementById('previewModal').classList.add('active');
+      setTimeout(() => {
+        window.open(pdfUrl, '_blank');
+      }, 300);
     }
-
-    function showSubscriptionModal() {
-      const flipSound = document.getElementById("flipSound");
-      flipSound.play();
-      
-      closeModal();
-      document.getElementById('subscriptionModal').classList.add('active');
-    }
-
-    function closeModal() {
-      document.getElementById('subscriptionModal').classList.remove('active');
-      document.getElementById('previewModal').classList.remove('active');
-    }
-
-    // Close modal when clicking outside
-    window.addEventListener('click', function(event) {
-      if (event.target.classList.contains('modal-overlay')) {
-        closeModal();
-      }
-    });
-
+    
     // Add hover effect for cards on touch devices
     document.addEventListener('touchstart', function() {}, true);
     
@@ -714,4 +497,4 @@
   </script>
 
 </body>
-</html>
+</html> make this as a demo notes and ask for subscription 
