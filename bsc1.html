@@ -118,8 +118,14 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      border: 2px solid #14b8a6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: white;
       transition: all 0.3s ease;
+      background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
+      box-shadow: 0 4px 10px rgba(13, 148, 136, 0.3);
     }
     
     .user-avatar:hover {
@@ -152,6 +158,43 @@
       margin-right: 4px;
       color: #0d9488;
     }
+    
+    .user-profile-card {
+      background: linear-gradient(135deg, rgba(13, 148, 136, 0.1) 0%, rgba(20, 184, 166, 0.1) 100%);
+      border: 1px solid rgba(20, 184, 166, 0.2);
+    }
+    
+    .initials-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
+      box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3);
+      margin: 0 auto;
+    }
+    
+    .profile-detail-item {
+      display: flex;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(20, 184, 166, 0.1);
+    }
+    
+    .profile-detail-item:last-child {
+      border-bottom: none;
+    }
+    
+    .profile-detail-item i {
+      width: 24px;
+      color: #0d9488;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -176,36 +219,37 @@
             <i class="fas fa-book"></i>
             <span id="userCourse"></span>
           </span>
-          <span class="user-info-badge">
-            <i class="fas fa-phone"></i>
-            <span id="userMobile"></span>
-          </span>
         </div>
         <button onclick="logout()" class="px-4 py-2 rounded-lg btn-primary font-medium flex items-center gap-2 text-sm">
           <i class="fas fa-sign-out-alt"></i> Logout
         </button>
-        <img src="https://i.pravatar.cc/150?img=32" alt="User" class="user-avatar" />
+        <div id="userAvatar" class="user-avatar">
+          <!-- Initial will be inserted here -->
+        </div>
       </div>
     </header>
 
     <!-- User Profile Info (Mobile) -->
-    <div class="glass-card p-4 md:hidden" data-aos="fade-down">
-      <div class="flex flex-wrap gap-2">
-        <div class="user-info-badge">
-          <i class="fas fa-user-graduate"></i>
-          <span id="userNameMobile"></span>
+    <div class="glass-card p-5 md:hidden user-profile-card" data-aos="fade-down">
+      <div class="text-center mb-4">
+        <div id="mobileUserAvatar" class="initials-avatar">
+          <!-- Initial will be inserted here -->
         </div>
-        <div class="user-info-badge">
-          <i class="fas fa-book"></i>
-          <span id="userCourseMobile"></span>
-        </div>
-        <div class="user-info-badge">
-          <i class="fas fa-phone"></i>
-          <span id="userMobileMobile"></span>
-        </div>
-        <div class="user-info-badge">
+        <h3 class="text-lg font-semibold mt-3 text-gray-800" id="userNameMobile"></h3>
+        <p class="text-sm text-emerald-600" id="userCourseMobile"></p>
+      </div>
+      <div class="space-y-2">
+        <div class="profile-detail-item">
           <i class="fas fa-envelope"></i>
-          <span id="userEmailMobile"></span>
+          <span class="text-sm text-gray-600" id="userEmailMobile"></span>
+        </div>
+        <div class="profile-detail-item">
+          <i class="fas fa-phone"></i>
+          <span class="text-sm text-gray-600" id="userMobileMobile"></span>
+        </div>
+        <div class="profile-detail-item">
+          <i class="fas fa-id-card"></i>
+          <span class="text-sm text-gray-600">B.Sc. Biology 1st Year</span>
         </div>
       </div>
     </div>
@@ -217,7 +261,7 @@
 
     <!-- Welcome -->
     <div class="glass-card p-5" data-aos="fade-up">
-      <h2 class="section-title">Welcome, <span id="welcomeUserName"></span>! <i class="fas fa-dna text-emerald-500"></i></h2>
+      <h2 class="section-title">Welcome back, <span id="welcomeUserName" class="text-emerald-600"></span>! <i class="fas fa-dna text-emerald-500"></i></h2>
       <p class="text-gray-600 leading-relaxed text-sm">
         Embark on your exciting journey through the world of biology. Access all your course materials, live lectures, and seminars in one place. 
         Let's explore the wonders of life sciences together!
@@ -334,6 +378,16 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
+    function getInitials(name) {
+      if (!name) return '?';
+      const names = name.split(' ');
+      let initials = names[0].substring(0, 1).toUpperCase();
+      if (names.length > 1) {
+        initials += names[names.length - 1].substring(0, 1).toUpperCase();
+      }
+      return initials;
+    }
+
     function logout() {
       auth.signOut().then(() => {
         window.location.href = "index.html";
@@ -351,23 +405,29 @@
         userRef.get().then((doc) => {
           if (doc.exists) {
             const userData = doc.data();
+            const firstName = userData.name ? userData.name.split(' ')[0] : 'Budding Biologist';
+            const initials = getInitials(userData.name);
             
             // Update desktop view
             document.getElementById('userName').textContent = userData.name || 'Not provided';
             document.getElementById('userCourse').textContent = userData.course || 'Not provided';
-            document.getElementById('userMobile').textContent = userData.mobile || 'Not provided';
+            document.getElementById('userAvatar').textContent = initials;
             
             // Update mobile view
             document.getElementById('userNameMobile').textContent = userData.name || 'Not provided';
             document.getElementById('userCourseMobile').textContent = userData.course || 'Not provided';
             document.getElementById('userMobileMobile').textContent = userData.mobile || 'Not provided';
             document.getElementById('userEmailMobile').textContent = user.email;
+            document.getElementById('mobileUserAvatar').textContent = initials;
             
             // Update welcome message
-            const firstName = userData.name ? userData.name.split(' ')[0] : 'Budding Biologist';
             document.getElementById('welcomeUserName').textContent = firstName;
           } else {
             console.log("No such document!");
+            // Fallback if no user data
+            document.getElementById('userAvatar').textContent = '?';
+            document.getElementById('mobileUserAvatar').textContent = '?';
+            document.getElementById('welcomeUserName').textContent = 'Budding Biologist';
           }
         }).catch((error) => {
           console.log("Error getting document:", error);
