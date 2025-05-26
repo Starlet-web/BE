@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starlet B.Sc. Coaching Classes - Google Play</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --play-blue: #1a73e8;
+            --play-dark: #202124;
+            --play-gray: #5f6368;
+            --play-light-gray: #f5f5f5;
+            --play-border: #dadce0;
+            --play-green: #0b8043;
+            --play-red: #d23f31;
+            --play-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+            --play-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Google Sans', Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--play-light-gray);
+            color: var(--play-dark);
+            line-height: 1.5;
+        }
+        
+        /* Play Store Header */
+        .play-header {
+            background: white;
+            box-shadow: var(--play-shadow);
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 64px;
+        }
+        
+        .play-logo {
+            height: 24px;
+            margin-right: 24px;
+        }
+        
+        .search-bar {
+            flex-grow: 1;
+            background: #f1f3f4;
+            border-radius: 8px;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+            transition: var(--play-transition);
+            max-width: 720px;
+        }
+        
+        .search-bar:focus-within {
+            background: white;
+            box-shadow: 0 1px 1px 0 rgba(65,69,73,0.3), 0 1px 3px 1px rgba(65,69,73,0.15);
+        }
+        
+        .search-bar i {
+            color: var(--play-gray);
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .search-bar input {
+            border: none;
+            background: transparent;
+            width: 100%;
+            font-size: 16px;
+            outline: none;
+            font-family: 'Google Sans', Roboto, Arial, sans-serif;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+        
+        .header-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--play-gray);
+            margin-left: 8px;
+            cursor: pointer;
+            transition: var(--play-transition);
+        }
+        
+        .header-icon:hover {
+            background: rgba(60,64,67,0.08);
+        }
+        
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--play-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            margin-left: 16px;
+            cursor: pointer;
+        }
+        
+        /* App Container */
+        .app-container {
+            max-width: 944px;
+            margin: 24px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--play-shadow);
+            overflow: hidden;
+        }
+        
+        /* App Hero Section */
+        .app-hero {
+            padding: 24px;
+            display: flex;
+            border-bottom: 1px solid var(--play-border);
+            position: relative;
+        }
+        
+        .app-icon-container {
+            position: relative;
+            margin-right: 24px;
+            flex-shrink: 0;
+        }
+        
+        .app-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            object-fit: cover;
+            transition: var(--play-transition);
+        }
+        
+        .app-icon-container:hover .app-icon {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .app-info {
+            flex-grow: 1;
+            min-width: 0;
+        }
+        
+        .app-title {
+            font-size: 22px;
+            font-weight: 500;
+            margin: 0 0 4px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .app-developer {
+            color: var(--play-blue);
+            margin: 0 0 12px 0;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .app-developer:hover {
+            text-decoration: underline;
+        }
+        
+        .app-meta {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: var(--play-gray);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        
+        .app-meta span {
+            display: flex;
+            align-items: center;
+        }
+        
+        .app-meta i {
+            margin-right: 6px;
+            font-size: 16px;
+        }
+        
+        .rating-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .stars {
+            color: #fbbc04;
+            font-size: 16px;
+            margin-right: 8px;
+            letter-spacing: 1px;
+        }
+        
+        .reviews {
+            color: var(--play-blue);
+            font-size: 14px;
+            font-weight: 500;
+            margin-right: 16px;
+            cursor: pointer;
+        }
+        
+        .age-rating {
+            font-size: 14px;
+            color: var(--play-gray);
+        }
+        
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            margin-top: 16px;
+        }
+        
+        .install-btn {
+            background: var(--play-blue);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: var(--play-transition);
+            height: 48px;
+        }
+        
+        .install-btn:hover {
+            background: #185abc;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+        }
+        
+        .install-btn i {
+            margin-right: 8px;
+            font-size: 20px;
+        }
+        
+        .price-badge {
+            background: #e8f0fe;
+            color: var(--play-blue);
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-left: 16px;
+        }
+        
+        .wishlist-btn {
+            background: transparent;
+            border: 1px solid var(--play-border);
+            border-radius: 4px;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 12px;
+            cursor: pointer;
+            transition: var(--play-transition);
+        }
+        
+        .wishlist-btn:hover {
+            background: rgba(60,64,67,0.08);
+        }
+        
+        .wishlist-btn i {
+            color: var(--play-gray);
+            font-size: 20px;
+        }
+        
+        /* Promo Banner */
+        .promo-banner {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            border: 1px solid var(--play-border);
+        }
+        
+        .promo-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--play-dark);
+        }
+        
+        .promo-text {
+            font-size: 14px;
+            color: var(--play-gray);
+            margin-bottom: 12px;
+        }
+        
+        .promo-highlight {
+            background-color: #fff2cc;
+            padding: 2px 4px;
+            border-radius: 2px;
+            font-weight: 500;
+        }
+        
+        .promo-price {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+        }
+        
+        .current-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--play-red);
+        }
+        
+        .original-price {
+            font-size: 14px;
+            text-decoration: line-through;
+            color: var(--play-gray);
+            margin-left: 8px;
+        }
+        
+        .discount-badge {
+            background: var(--play-red);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 12px;
+        }
+        
+        /* Screenshots Section */
+        .screenshots-section {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--play-border);
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin: 0 0 16px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .screenshot-scroll {
+            display: flex;
+            overflow-x: auto;
+            padding-bottom: 16px;
+            scrollbar-width: none;
+        }
+        
+        .screenshot-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .screenshot {
+            height: 280px;
+            border-radius: 12px;
+            margin-right: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: var(--play-transition);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        
+        .screenshot:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        /* About Section */
+        .about-section {
+            padding: 24px;
+            border-bottom: 1px solid var(--play-border);
+        }
+        
+        .app-description {
+            line-height: 1.6;
+            font-size: 14px;
+            color: var(--play-dark);
+            white-space: pre-line;
+        }
+        
+        .features-list {
+            margin: 16px 0;
+            padding-left: 20px;
+        }
+        
+        .feature-item {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .feature-icon {
+            color: var(--play-blue);
+            margin-right: 8px;
+            font-size: 16px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .read-more {
+            color: var(--play-blue);
+            font-weight: 500;
+            margin-top: 8px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        /* Additional Info */
+        .more-info {
+            padding: 0 24px;
+        }
+        
+        .info-row {
+            display: flex;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--play-border);
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            width: 160px;
+            font-size: 14px;
+            color: var(--play-gray);
+            flex-shrink: 0;
+        }
+        
+        .info-value {
+            flex-grow: 1;
+            font-size: 14px;
+            color: var(--play-dark);
+        }
+        
+        .info-link {
+            color: var(--play-blue);
+            cursor: pointer;
+        }
+        
+        /* Install Modal */
+        .install-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+        
+        .install-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            padding: 24px;
+            text-align: center;
+            transform: translateY(20px);
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            opacity: 0;
+        }
+        
+        .install-modal.active .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .modal-icon {
+            font-size: 48px;
+            color: var(--play-blue);
+            margin-bottom: 16px;
+        }
+        
+        .modal-text {
+            margin-bottom: 24px;
+            line-height: 1.5;
+            color: var(--play-gray);
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        
+        .modal-btn {
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--play-transition);
+        }
+        
+        .modal-btn-primary {
+            background: var(--play-blue);
+            color: white;
+            border: none;
+        }
+        
+        .modal-btn-primary:hover {
+            background: #185abc;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .modal-btn-secondary {
+            background: transparent;
+            border: 1px solid var(--play-border);
+            color: var(--play-dark);
+        }
+        
+        .modal-btn-secondary:hover {
+            background: rgba(60,64,67,0.08);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .play-header {
+                padding: 8px;
+                height: 56px;
+            }
+            
+            .play-logo {
+                height: 20px;
+                margin-right: 12px;
+            }
+            
+            .search-bar {
+                margin-right: 8px;
+            }
+            
+            .header-icon {
+                width: 36px;
+                height: 36px;
+                margin-left: 4px;
+            }
+            
+            .user-avatar {
+                margin-left: 8px;
+            }
+            
+            .app-hero {
+                flex-direction: column;
+                padding: 16px;
+            }
+            
+            .app-icon-container {
+                margin-right: 0;
+                margin-bottom: 16px;
+                align-self: center;
+            }
+            
+            .app-title {
+                white-space: normal;
+            }
+            
+            .action-buttons {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .price-badge, .wishlist-btn {
+                margin-left: 0;
+                flex-grow: 1;
+            }
+            
+            .screenshot {
+                height: 200px;
+            }
+        }
+        
+        /* Animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Play Store Header -->
+    <header class="play-header">
+        <img src="https://www.gstatic.com/android/market_images/web/play_prism_hlock_2x.png" class="play-logo" alt="Google Play">
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search apps & games">
+        </div>
+        <div class="header-actions">
+            <div class="header-icon">
+                <i class="fas fa-bell"></i>
+            </div>
+            <div class="header-icon">
+                <i class="fas fa-shopping-bag"></i>
+            </div>
+            <div class="user-avatar">Y</div>
+        </div>
+    </header>
+    
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- App Hero Section -->
+        <div class="app-hero">
+            <div class="app-icon-container">
+                <img src="https://via.placeholder.com/120x120/4285f4/ffffff?text=SL" class="app-icon" alt="Starlet App Icon">
+            </div>
+            <div class="app-info">
+                <h1 class="app-title">Starlet B.Sc. Coaching Classes</h1>
+                <p class="app-developer">Starlet Education</p>
+                <div class="app-meta">
+                    <span><i class="fas fa-star"></i> 4.8</span>
+                    <span><i class="fas fa-download"></i> 50K+</span>
+                    <span><i class="fas fa-file-alt"></i> 15.2 MB</span>
+                    <span><i class="fas fa-user"></i> Rated for 3+</span>
+                </div>
+                <div class="rating-container">
+                    <div class="stars">★★★★★</div>
+                    <div class="reviews">2,843 reviews</div>
+                    <div class="age-rating"><i class="fas fa-info-circle"></i></div>
+                </div>
+                <div class="action-buttons">
+                    <button class="install-btn" id="installButton">
+                        <i class="fas fa-download"></i> Install
+                    </button>
+                    <span class="price-badge">Free</span>
+                    <button class="wishlist-btn" title="Add to wishlist">
+                        <i class="far fa-bookmark"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Promo Banner -->
+        <div class="promo-banner">
+            <h3 class="promo-title">Limited Time Offer!</h3>
+            <p class="promo-text">Transform your future with biological knowledge. Join our coaching classes for B.Sc. students.</p>
+            <div class="promo-price">
+                <span class="current-price">₹500/month</span>
+                <span class="original-price">₹800/month</span>
+                <span class="discount-badge">37.5% OFF</span>
+            </div>
+            <p class="promo-text"><span class="promo-highlight">Early birds only!</span> Admissions open for 2025 batch.</p>
+        </div>
+        
+        <!-- Screenshots Section -->
+        <div class="screenshots-section">
+            <h2 class="section-title">Screenshots</h2>
+            <div class="screenshot-scroll">
+                <img src="https://via.placeholder.com/540x280/4285f4/ffffff?text=Class+Schedule" class="screenshot" alt="Class Schedule">
+                <img src="https://via.placeholder.com/540x280/34a853/ffffff?text=Study+Materials" class="screenshot" alt="Study Materials">
+                <img src="https://via.placeholder.com/540x280/fbbc05/ffffff?text=Live+Classes" class="screenshot" alt="Live Classes">
+                <img src="https://via.placeholder.com/540x280/ea4335/ffffff?text=Test+Series" class="screenshot" alt="Test Series">
+                <img src="https://via.placeholder.com/540x280/673ab7/ffffff?text=Performance+Analytics" class="screenshot" alt="Performance Analytics">
+            </div>
+        </div>
+        
+        <!-- About Section -->
+        <div class="about-section">
+            <h2 class="section-title">About this app</h2>
+            <p class="app-description">
+                Starlet B.Sc. Coaching Classes provides comprehensive coaching for B.Sc. students in Biological Sciences. Our app helps you access study materials, attend live classes, and track your progress.
+                
+                Features:
+            </p>
+            <ul class="features-list">
+                <li class="feature-item">
+                    <i class="fas fa-book feature-icon"></i>
+                    <span>Complete syllabus coverage for B.Sc. 1st, 2nd & 3rd year</span>
+                </li>
+                <li class="feature-item">
+                    <i class="fas fa-chalkboard-teacher feature-icon"></i>
+                    <span>Expert faculty for Zoology, Botany & Chemistry</span>
+                </li>
+                <li class="feature-item">
+                    <i class="fas fa-video feature-icon"></i>
+                    <span>Recorded lectures and live doubt-solving sessions</span>
+                </li>
+                <li class="feature-item">
+                    <i class="fas fa-file-alt feature-icon"></i>
+                    <span>Chapter-wise notes and practice questions</span>
+                </li>
+                <li class="feature-item">
+                    <i class="fas fa-chart-line feature-icon"></i>
+                    <span>Regular tests with detailed performance analysis</span>
+                </li>
+                <li class="feature-item">
+                    <i class="fas fa-rupee-sign feature-icon"></i>
+                    <span>Affordable monthly fee with special discounts</span>
+                </li>
+            </ul>
+            <div class="read-more">Read more</div>
+        </div>
+        
+        <!-- Additional Info -->
+        <div class="more-info">
+            <div class="info-row">
+                <div class="info-label">Updated</div>
+                <div class="info-value">May 26, 2025</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Version</div>
+                <div class="info-value">2.1.0</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Requires</div>
+                <div class="info-value">Android 7.0 and up</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Downloads</div>
+                <div class="info-value">50,000+</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Content rating</div>
+                <div class="info-value">Rated for 3+ <span class="info-link">Learn more</span></div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Offered by</div>
+                <div class="info-value">Starlet Education <span class="info-link">Visit website</span></div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Contact</div>
+                <div class="info-value">Call: 9648837922</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Install Modal -->
+    <div class="install-modal" id="installModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-download"></i>
+            </div>
+            <h3>Install Starlet B.Sc. Coaching</h3>
+            <p class="modal-text">
+                Starlet B.Sc. Coaching Classes (15.2 MB) will be downloaded to your device.
+            </p>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-secondary" id="cancelInstall">Cancel</button>
+                <button class="modal-btn modal-btn-primary" id="confirmInstall">Install</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const installButton = document.getElementById('installButton');
+        const installModal = document.getElementById('installModal');
+        const confirmInstall = document.getElementById('confirmInstall');
+        const cancelInstall = document.getElementById('cancelInstall');
+        const wishlistBtn = document.querySelector('.wishlist-btn');
+        const wishlistIcon = wishlistBtn.querySelector('i');
+        
+        // Install Button Functionality
+        installButton.addEventListener('click', function() {
+            installModal.classList.add('active');
+        });
+        
+        // Confirm Installation
+        confirmInstall.addEventListener('click', function() {
+            installModal.classList.remove('active');
+            // Replace with your actual download link
+            window.location.href = 'https://play.google.com/store/apps/details?id=com.starlet.bsc.coaching';
+        });
+        
+        // Cancel Installation
+        cancelInstall.addEventListener('click', function() {
+            installModal.classList.remove('active');
+        });
+        
+        // Close modal when clicking outside
+        installModal.addEventListener('click', function(e) {
+            if (e.target === installModal) {
+                installModal.classList.remove('active');
+            }
+        });
+        
+        // Wishlist toggle
+        let isWishlisted = false;
+        wishlistBtn.addEventListener('click', function() {
+            isWishlisted = !isWishlisted;
+            if (isWishlisted) {
+                wishlistIcon.className = 'fas fa-bookmark';
+                wishlistIcon.style.color = '#fbbc04';
+                wishlistBtn.setAttribute('title', 'Remove from wishlist');
+                
+                // Pulse animation
+                wishlistBtn.classList.add('pulse');
+                setTimeout(() => {
+                    wishlistBtn.classList.remove('pulse');
+                }, 1500);
+            } else {
+                wishlistIcon.className = 'far fa-bookmark';
+                wishlistIcon.style.color = '';
+                wishlistBtn.setAttribute('title', 'Add to wishlist');
+            }
+        });
+        
+        // Simulate loading (optional)
+        setTimeout(() => {
+            document.body.style.opacity = '1';
+        }, 100);
+    </script>
+</body>
+</html>
