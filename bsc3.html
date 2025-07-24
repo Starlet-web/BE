@@ -1,329 +1,246 @@
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
-  <meta charset="UTF-8" />  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
-  <title>Starlet Coaching - B.Sc. 3rd Year Biology Dashboard</title>  
-  <script src="https://cdn.tailwindcss.com"></script>  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Starlet Coaching - B.Sc. Biology Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Firebase SDK -->  
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>  
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>  
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
   
-  <!-- AOS CSS -->  
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />  
-  
-  <style>  
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');  
-      
-    body {  
-      font-family: 'Poppins', sans-serif;  
-      background-color: #f8fafc;
-    }  
-      
-    .coaching-card {  
-      background: white;  
-      border-radius: 12px;  
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);  
-      border: 1px solid #e2e8f0;  
-      transition: all 0.3s ease;  
-    }  
-      
-    .coaching-card:hover {  
-      transform: translateY(-3px);  
-      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);  
-    }  
-      
-    .coaching-title {  
-      font-size: 1.4rem;  
-      font-weight: 600;  
-      color: #1e293b;  
-      position: relative;  
-      padding-bottom: 8px;  
-      margin-bottom: 16px;  
-    }  
-      
-    .coaching-title::after {  
-      content: '';  
-      position: absolute;  
-      bottom: 0;  
-      left: 0;  
-      width: 40px;  
-      height: 3px;  
-      background: linear-gradient(to right, #3b82f6, #6366f1);  
-      border-radius: 3px;  
-    }  
-      
-    .coaching-poster {  
-      width: 100%;  
-      height: auto;  
-      border-radius: 12px;  
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);  
-      transition: all 0.3s ease;  
-    }  
-      
-    .coaching-poster:hover {  
-      transform: scale(1.01);  
-      box-shadow: 0 8px 10px rgba(0, 0, 0, 0.1);  
-    }  
-      
-    .coaching-logo {  
-      font-size: 1.8rem;  
-      font-weight: 700;  
-      background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);  
-      -webkit-background-clip: text;  
-      -webkit-text-fill-color: transparent;  
-      display: inline-flex;  
-      align-items: center;  
-      gap: 8px;  
-    }  
-      
-    .coaching-btn {  
-      background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);  
-      color: white;  
-      transition: all 0.3s ease;  
-      box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);  
-      border: none;  
-    }  
-      
-    .coaching-btn:hover {  
-      transform: translateY(-2px);  
-      box-shadow: 0 8px 15px rgba(59, 130, 246, 0.3);  
-      background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);  
-    }  
-      
-    .coaching-notice {  
-      position: relative;  
-      padding-left: 24px;  
-      margin-bottom: 12px;  
-    }  
-      
-    .coaching-notice::before {  
-      content: '';  
-      position: absolute;  
-      left: 0;  
-      top: 8px;  
-      width: 10px;  
-      height: 10px;  
-      background: #6366f1;  
-      border-radius: 50%;  
-    }  
-      
-    .coaching-avatar {  
-      width: 40px;  
-      height: 40px;  
-      border-radius: 50%;  
-      display: flex;  
-      align-items: center;  
-      justify-content: center;  
-      font-weight: 600;  
-      color: white;  
-      transition: all 0.3s ease;  
-      background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);  
-      box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);  
-    }  
-      
-    .coaching-avatar:hover {  
-      transform: scale(1.1);  
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);  
-    }  
-      
-    .coaching-tag {  
-      display: inline-block;  
-      padding: 4px 10px;  
-      background-color: #e0e7ff;  
-      color: #4f46e5;  
-      border-radius: 20px;  
-      font-size: 0.75rem;  
-      font-weight: 500;  
-    }  
-      
-    .coaching-badge {  
-      display: inline-flex;  
-      align-items: center;  
-      padding: 4px 8px;  
-      background-color: #eff6ff;  
-      border-radius: 20px;  
-      font-size: 0.75rem;  
-      margin-right: 6px;  
-      border: 1px solid #dbeafe;  
-    }  
-      
-    .coaching-badge i {  
-      margin-right: 4px;  
-      color: #3b82f6;  
-    }  
-      
-    .coaching-profile {  
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);  
-      border: 1px solid rgba(99, 102, 241, 0.2);  
-    }  
-      
-    .coaching-initials {  
-      width: 80px;  
-      height: 80px;  
-      border-radius: 50%;  
-      display: flex;  
-      align-items: center;  
-      justify-content: center;  
-      font-size: 2rem;  
-      font-weight: 600;  
-      color: white;  
-      background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);  
-      box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);  
-      margin: 0 auto;  
-    }  
-      
-    .coaching-detail {  
-      display: flex;  
-      align-items: center;  
-      padding: 8px 0;  
-      border-bottom: 1px solid rgba(99, 102, 241, 0.1);  
-    }  
-      
-    .coaching-detail:last-child {  
-      border-bottom: none;  
-    }  
-      
-    .coaching-detail i {  
-      width: 24px;  
-      color: #3b82f6;  
-      text-align: center;  
-    }
+  <!-- AOS CSS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-    .coaching-sidebar {
-      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-      color: white;
-      min-height: 100vh;
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #6366f1;
+      --primary-dark: #4338ca;
+      --secondary: #10b981;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --gray-light: #e2e8f0;
     }
-
-    .coaching-menu-item {
-      padding: 12px 16px;
-      border-radius: 8px;
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+    }
+    
+    .sidebar {
+      background: linear-gradient(180deg, var(--dark) 0%, #0f172a 100%);
+    }
+    
+    .nav-item {
       transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 4px;
     }
-
-    .coaching-menu-item:hover {
-      background-color: rgba(255, 255, 255, 0.1);
+    
+    .nav-item:hover {
+      background-color: rgba(255, 255, 255, 0.05);
     }
-
-    .coaching-menu-item.active {
-      background-color: #3b82f6;
+    
+    .nav-item.active {
+      background-color: var(--primary);
     }
-
-    .coaching-content {
-      background-color: #f8fafc;
-      padding: 24px;
-    }
-
-    .coaching-stats-card {
+    
+    .card {
       background: white;
-      border-radius: 12px;
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-
-    .coaching-stats-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
+    
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(to right, var(--primary), var(--primary-light));
+      transition: all 0.2s;
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(to right, var(--primary-dark), var(--primary));
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+    }
+    
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    
+    .avatar {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      border-radius: 50%;
+      font-weight: 600;
       color: white;
+      background: linear-gradient(to bottom right, var(--primary), var(--primary-light));
     }
-
-    .coaching-progress {
-      height: 6px;
-      border-radius: 3px;
-      background-color: #e2e8f0;
+    
+    .progress-bar {
+      height: 0.5rem;
+      border-radius: 0.25rem;
+      background-color: var(--gray-light);
       overflow: hidden;
     }
-
-    .coaching-progress-bar {
+    
+    .progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, #3b82f6, #6366f1);
+      background: linear-gradient(to right, var(--primary), var(--primary-light));
     }
-  </style>  
-</head>  
-<body class="flex">  
+    
+    .notice-item {
+      position: relative;
+      padding-left: 1.5rem;
+    }
+    
+    .notice-item::before {
+      content: '';
+      position: absolute;
+      left: 0.5rem;
+      top: 0.75rem;
+      width: 0.5rem;
+      height: 0.5rem;
+      background-color: var(--primary);
+      border-radius: 50%;
+    }
+    
+    .course-tag {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background-color: #e0e7ff;
+      color: var(--primary);
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    
+    .stat-card-icon {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+    
+    .section-title {
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 2.5rem;
+      height: 0.25rem;
+      background: linear-gradient(to right, var(--primary), var(--primary-light));
+      border-radius: 0.25rem;
+    }
+  </style>
+</head>
+<body class="flex h-screen overflow-hidden">
   <!-- Sidebar -->
-  <div class="coaching-sidebar w-64 p-4 hidden md:block" data-aos="fade-right">
+  <aside class="sidebar w-64 flex-shrink-0 hidden md:flex flex-col p-4 text-white">
     <div class="flex items-center gap-3 mb-8">
       <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white">
         <i class="fas fa-dna text-xl"></i>
       </div>
-      <h1 class="coaching-logo">Starlet Coaching</h1>
+      <h1 class="text-xl font-bold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
+        Starlet Coaching
+      </h1>
     </div>
 
-    <div class="mb-8">
-      <div id="sidebarUserAvatar" class="coaching-initials w-12 h-12 mb-3">
+    <div class="mb-8 flex flex-col items-center">
+      <div id="sidebarUserAvatar" class="avatar w-16 h-16 mb-3 text-xl">
         <!-- Initial will be inserted here -->
       </div>
-      <h3 class="font-medium text-white" id="sidebarUserName"></h3>
-      <p class="text-sm text-blue-200" id="sidebarUserCourse"></p>
+      <h3 class="font-medium text-center" id="sidebarUserName"></h3>
+      <p class="text-sm text-blue-200 text-center" id="sidebarUserCourse"></p>
+      <div class="mt-2 flex gap-2">
+        <span class="badge bg-blue-900/20 text-blue-200">
+          <i class="fas fa-user-graduate mr-1"></i>
+          Student
+        </span>
+        <span class="badge bg-emerald-900/20 text-emerald-200">
+          <i class="fas fa-star mr-1"></i>
+          Premium
+        </span>
+      </div>
     </div>
 
-    <nav class="space-y-1">
-      <a href="#" class="coaching-menu-item active">
-        <i class="fas fa-home"></i>
+    <nav class="flex-1 space-y-1">
+      <a href="#" class="nav-item active flex items-center gap-3 p-3 rounded-lg">
+        <i class="fas fa-home w-5 text-center"></i>
         <span>Dashboard</span>
       </a>
-      <a href="#" class="coaching-menu-item">
-        <i class="fas fa-book-open"></i>
+      <a href="#" class="nav-item flex items-center gap-3 p-3 rounded-lg">
+        <i class="fas fa-book-open w-5 text-center"></i>
         <span>Study Materials</span>
       </a>
-      <a href="#" class="coaching-menu-item">
-        <i class="fas fa-video"></i>
+      <a href="#" class="nav-item flex items-center gap-3 p-3 rounded-lg">
+        <i class="fas fa-video w-5 text-center"></i>
         <span>Live Classes</span>
       </a>
-      <a href="#" class="coaching-menu-item">
-        <i class="fas fa-tasks"></i>
+      <a href="#" class="nav-item flex items-center gap-3 p-3 rounded-lg">
+        <i class="fas fa-tasks w-5 text-center"></i>
         <span>Assignments</span>
       </a>
-      <a href="#" class="coaching-menu-item">
-        <i class="fas fa-chart-line"></i>
+      <a href="#" class="nav-item flex items-center gap-3 p-3 rounded-lg">
+        <i class="fas fa-chart-line w-5 text-center"></i>
         <span>Performance</span>
       </a>
-      <a href="#" class="coaching-menu-item">
-        <i class="fas fa-calendar-alt"></i>
+      <a href="#" class="nav-item flex items-center gap-3 p-3 rounded-lg">
+        <i class="fas fa-calendar-alt w-5 text-center"></i>
         <span>Schedule</span>
       </a>
-      <a href="#" class="coaching-menu-item">
-        <i class="fas fa-question-circle"></i>
+      <a href="#" class="nav-item flex items-center gap-3 p-3 rounded-lg">
+        <i class="fas fa-question-circle w-5 text-center"></i>
         <span>Doubt Solving</span>
       </a>
-      <a href="#" class="coaching-menu-item">
-        <i class="fas fa-user-graduate"></i>
+      <a href="#" class="nav-item flex items-center gap-3 p-3 rounded-lg">
+        <i class="fas fa-user-graduate w-5 text-center"></i>
         <span>Career Guidance</span>
       </a>
     </nav>
 
-    <div class="mt-auto pt-8">
-      <button onclick="logout()" class="w-full py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white font-medium flex items-center justify-center gap-2 text-sm">
+    <div class="mt-auto pt-4">
+      <button onclick="logout()" class="w-full py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white font-medium flex items-center justify-center gap-2 text-sm transition-colors">
         <i class="fas fa-sign-out-alt"></i> Logout
       </button>
     </div>
-  </div>
+  </aside>
 
   <!-- Main Content -->
-  <div class="flex-1 flex flex-col">
+  <div class="flex-1 flex flex-col overflow-hidden">
     <!-- Mobile Header -->
-    <header class="bg-white shadow-sm p-4 flex justify-between items-center md:hidden" data-aos="fade-down">
+    <header class="bg-white shadow-sm p-4 flex justify-between items-center md:hidden">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white">
           <i class="fas fa-dna text-xl"></i>
         </div>
-        <h1 class="coaching-logo text-xl">Starlet</h1>
+        <h1 class="text-xl font-bold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
+          Starlet
+        </h1>
       </div>
       <div id="mobileMenuButton" class="text-gray-500">
         <i class="fas fa-bars text-xl"></i>
@@ -331,67 +248,114 @@
     </header>
 
     <!-- Content -->
-    <main class="coaching-content flex-1">
-      <div class="max-w-6xl mx-auto space-y-6">
+    <main class="flex-1 overflow-y-auto p-4 md:p-6 bg-gray-50">
+      <div class="max-w-7xl mx-auto">
         <!-- Welcome Header -->
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
           <div>
-            <h1 class="text-2xl font-bold text-slate-800">Welcome back, <span id="welcomeUserName" class="text-blue-600"></span>!</h1>
-            <p class="text-slate-500">Your 3rd Year Biology Coaching Dashboard</p>
+            <h1 class="text-2xl font-bold text-gray-900">Welcome back, <span id="welcomeUserName" class="text-indigo-600"></span>!</h1>
+            <p class="text-gray-500">Here's what's happening in your biology journey today</p>
           </div>
           <div class="flex items-center gap-3">
             <div class="hidden md:flex items-center gap-2">
-              <span class="coaching-badge">
-                <i class="fas fa-user-graduate"></i>
+              <span class="badge bg-indigo-100 text-indigo-800">
+                <i class="fas fa-user-graduate mr-1"></i>
                 <span id="userName"></span>
               </span>
-              <span class="coaching-badge">
-                <i class="fas fa-book"></i>
+              <span class="badge bg-emerald-100 text-emerald-800">
+                <i class="fas fa-book mr-1"></i>
                 <span id="userCourse"></span>
               </span>
             </div>
-            <div id="userAvatar" class="coaching-avatar">
+            <div id="userAvatar" class="avatar w-10 h-10">
               <!-- Initial will be inserted here -->
             </div>
           </div>
         </div>
 
         <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" data-aos="fade-up">
-          <div class="coaching-stats-card">
-            <div class="coaching-stats-icon bg-blue-100 text-blue-600">
-              <i class="fas fa-book"></i>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6" data-aos="fade-up">
+          <div class="card p-4">
+            <div class="flex items-center gap-4">
+              <div class="stat-card-icon bg-blue-100 text-blue-600">
+                <i class="fas fa-book"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">Active Subjects</p>
+                <h3 class="text-xl font-bold">4</h3>
+              </div>
             </div>
-            <div>
-              <p class="text-sm text-slate-500">Subjects</p>
-              <h3 class="text-xl font-bold">4</h3>
-            </div>
-          </div>
-          <div class="coaching-stats-card">
-            <div class="coaching-stats-icon bg-purple-100 text-purple-600">
-              <i class="fas fa-video"></i>
-            </div>
-            <div>
-              <p class="text-sm text-slate-500">Live Classes</p>
-              <h3 class="text-xl font-bold">12/week</h3>
-            </div>
-          </div>
-          <div class="coaching-stats-card">
-            <div class="coaching-stats-icon bg-green-100 text-green-600">
-              <i class="fas fa-tasks"></i>
-            </div>
-            <div>
-              <p class="text-sm text-slate-500">Assignments</p>
-              <h3 class="text-xl font-bold">3 pending</h3>
+            <div class="mt-3">
+              <div class="flex justify-between text-xs text-gray-500 mb-1">
+                <span>Completion</span>
+                <span>78%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 78%"></div>
+              </div>
             </div>
           </div>
-          <div class="coaching-stats-card">
-            <div class="coaching-stats-icon bg-amber-100 text-amber-600">
-              <i class="fas fa-chart-line"></i>
+          
+          <div class="card p-4">
+            <div class="flex items-center gap-4">
+              <div class="stat-card-icon bg-purple-100 text-purple-600">
+                <i class="fas fa-video"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">Live Classes</p>
+                <h3 class="text-xl font-bold">12/week</h3>
+              </div>
             </div>
-            <div>
-              <p class="text-sm text-slate-500">Performance</p>
-              <h3 class="text-xl font-bold">85%</h3>
+            <div class="mt-3">
+              <div class="flex justify-between text-xs text-gray-500 mb-1">
+                <span>Attendance</span>
+                <span>92%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 92%"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card p-4">
+            <div class="flex items-center gap-4">
+              <div class="stat-card-icon bg-amber-100 text-amber-600">
+                <i class="fas fa-tasks"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">Assignments</p>
+                <h3 class="text-xl font-bold">3 pending</h3>
+              </div>
+            </div>
+            <div class="mt-3">
+              <div class="flex justify-between text-xs text-gray-500 mb-1">
+                <span>On Time</span>
+                <span>85%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 85%"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card p-4">
+            <div class="flex items-center gap-4">
+              <div class="stat-card-icon bg-green-100 text-green-600">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">Performance</p>
+                <h3 class="text-xl font-bold">87%</h3>
+              </div>
+            </div>
+            <div class="mt-3">
+              <div class="flex justify-between text-xs text-gray-500 mb-1">
+                <span>Last Test</span>
+                <span>+5%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 87%"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -400,183 +364,215 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <!-- Left Column -->
           <div class="lg:col-span-2 space-y-6">
-            <!-- Poster -->  
-            <div class="coaching-card overflow-hidden" data-aos="zoom-in">  
-              <img src="IMG_20250417_015130.png" alt="Dashboard Poster" class="coaching-poster">  
-            </div>  
+            <!-- Announcement -->  
+            <div class="card overflow-hidden" data-aos="zoom-in">  
+              <img src="IMG_20250417_015130.png" alt="Biology Research Symposium" class="w-full h-auto rounded-t-lg">  
+              <div class="p-5">
+                <h2 class="text-lg font-bold mb-2">Annual Biology Research Symposium</h2>
+                <p class="text-gray-600 text-sm mb-4">Join us for the premier event showcasing cutting-edge research from our 3rd year biology students. Network with faculty and industry professionals.</p>
+                <div class="flex justify-between items-center">
+                  <span class="text-sm text-gray-500">
+                    <i class="fas fa-calendar-day mr-1 text-indigo-500"></i>
+                    June 15, 2025 | 10:00 AM
+                  </span>
+                  <button class="btn-primary px-4 py-2 rounded-lg text-white text-sm font-medium">
+                    Register Now
+                  </button>
+                </div>
+              </div>
+            </div>
 
-            <!-- Welcome -->  
-            <div class="coaching-card p-5" data-aos="fade-up">  
-              <h2 class="coaching-title">Welcome to Starlet Coaching <i class="fas fa-microscope text-blue-500"></i></h2>  
-              <p class="text-gray-600 leading-relaxed text-sm">  
-                Final year of your biological journey! Access specialized 3rd year materials, research projects,  
-                and career guidance sessions. Prepare for your future with advanced topics in biotechnology,  
-                immunology, and environmental biology.  
-              </p>  
-            </div>  
-
-            <!-- Live Lecture -->  
-            <div class="coaching-card p-5" data-aos="fade-right">  
-              <h2 class="coaching-title">Live Lecture <i class="fas fa-video text-blue-500"></i></h2>  
-              <div class="mt-4">  
-                <a href="zoomus://zoom.us/join?confno=4527503240&pwd=QDw5xc"  
-                   class="inline-flex items-center px-5 py-2.5 coaching-btn rounded-lg font-medium text-sm">  
-                  <i class="fas fa-play-circle mr-2"></i> Join 3rd Year Biology Lecture  
-                </a>  
-                <div class="mt-3 text-xs text-gray-500 flex items-center">  
-                  <i class="fas fa-clock mr-2 text-blue-500"></i> Next lecture: Today at 2:00 PM (Biotechnology)  
+            <!-- Quick Actions -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" data-aos="fade-up">
+              <!-- Live Lecture -->  
+              <div class="card p-5">  
+                <h2 class="section-title font-semibold mb-4">Live Lecture</h2>  
+                <div class="space-y-3">  
+                  <a href="zoomus://zoom.us/join?confno=4527503240&pwd=QDw5xc"  
+                     class="btn-primary inline-flex items-center justify-center px-4 py-2.5 rounded-lg font-medium text-sm w-full">  
+                    <i class="fas fa-play-circle mr-2"></i> Join Now  
+                  </a>  
+                  <div class="text-xs text-gray-500 flex items-center">  
+                    <i class="fas fa-clock mr-2 text-indigo-500"></i> 
+                    <span>Today at 2:00 PM - Biotechnology</span>
+                  </div>  
+                  <div class="text-xs text-gray-500 flex items-center">  
+                    <i class="fas fa-chalkboard-teacher mr-2 text-indigo-500"></i> 
+                    <span>Dr. Patel - Lecture Hall 3</span>
+                  </div>  
                 </div>  
-              </div>  
-            </div>  
+              </div>
 
-            <!-- Notes -->  
-            <div class="coaching-card p-5" data-aos="fade-left">  
-              <h2 class="coaching-title">Download Notes <i class="fas fa-book-open text-blue-500"></i></h2>  
-              <div class="mt-4">  
-                <a href="3notes.html"  
-                   class="inline-flex items-center px-5 py-2.5 coaching-btn rounded-lg font-medium text-sm">  
-                  <i class="fas fa-download mr-2"></i> Get 3rd Year Bio Notes  
-                </a>  
-                <div class="mt-3 flex flex-wrap gap-2">  
-                  <span class="coaching-tag">Research Papers</span>  
-                  <span class="coaching-tag">Project Guides</span>  
-                  <span class="coaching-tag">Career Resources</span>  
+              <!-- Study Materials -->  
+              <div class="card p-5">  
+                <h2 class="section-title font-semibold mb-4">Study Materials</h2>  
+                <div class="space-y-3">  
+                  <a href="3notes.html"  
+                     class="btn-primary inline-flex items-center justify-center px-4 py-2.5 rounded-lg font-medium text-sm w-full">  
+                    <i class="fas fa-download mr-2"></i> Download Notes  
+                  </a>  
+                  <div class="flex flex-wrap gap-2">  
+                    <span class="course-tag">Biotechnology</span>  
+                    <span class="course-tag">Immunology</span>  
+                    <span class="course-tag">Genetics</span>  
+                  </div>  
                 </div>  
-              </div>  
-            </div>  
+              </div>
+            </div>
+
+            <!-- Upcoming Classes -->
+            <div class="card p-5" data-aos="fade-up">
+              <h2 class="section-title font-semibold mb-4">Upcoming Classes</h2>
+              <div class="space-y-4">
+                <div class="flex items-start gap-3">
+                  <div class="w-10 h-10 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-dna"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-medium">Molecular Biology</h3>
+                    <p class="text-sm text-gray-500">Tomorrow • 10:00 AM - 11:30 AM</p>
+                    <p class="text-xs text-gray-400 mt-1">Dr. Sharma - Lecture Hall 2</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-start gap-3">
+                  <div class="w-10 h-10 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-microscope"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-medium">Microbiology Lab</h3>
+                    <p class="text-sm text-gray-500">Tomorrow • 2:00 PM - 4:00 PM</p>
+                    <p class="text-xs text-gray-400 mt-1">Lab 4 - Practical Session</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-start gap-3">
+                  <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-leaf"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-medium">Environmental Biology</h3>
+                    <p class="text-sm text-gray-500">Thursday • 9:00 AM - 10:30 AM</p>
+                    <p class="text-xs text-gray-400 mt-1">Prof. Gupta - Online</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Right Column -->
           <div class="space-y-6">
-            <!-- User Profile Info (Mobile) -->  
-            <div class="coaching-card p-5 md:hidden coaching-profile" data-aos="fade-down">  
+            <!-- User Profile -->  
+            <div class="card p-5">  
               <div class="text-center mb-4">  
-                <div id="mobileUserAvatar" class="coaching-initials">  
+                <div id="mobileUserAvatar" class="avatar w-16 h-16 mx-auto text-xl mb-3">  
                   <!-- Initial will be inserted here -->  
                 </div>  
-                <h3 class="text-lg font-semibold mt-3 text-gray-800" id="userNameMobile"></h3>  
-                <p class="text-sm text-blue-600" id="userCourseMobile"></p>  
+                <h3 class="text-lg font-semibold text-gray-800" id="userNameMobile"></h3>  
+                <p class="text-sm text-indigo-600" id="userCourseMobile"></p>  
+                <div class="mt-2 flex justify-center gap-2">
+                  <span class="badge bg-indigo-100 text-indigo-800">
+                    <i class="fas fa-id-card mr-1"></i>
+                    Student ID: BIO2023
+                  </span>
+                </div>
               </div>  
-              <div class="space-y-2">  
-                <div class="coaching-detail">  
-                  <i class="fas fa-envelope"></i>  
+              <div class="space-y-3">  
+                <div class="flex items-center gap-3">
+                  <i class="fas fa-envelope text-indigo-500 w-5 text-center"></i>  
                   <span class="text-sm text-gray-600" id="userEmailMobile"></span>  
                 </div>  
-                <div class="coaching-detail">  
-                  <i class="fas fa-phone"></i>  
+                <div class="flex items-center gap-3">
+                  <i class="fas fa-phone text-indigo-500 w-5 text-center"></i>  
                   <span class="text-sm text-gray-600" id="userMobileMobile"></span>  
                 </div>  
-                <div class="coaching-detail">  
-                  <i class="fas fa-id-card"></i>  
-                  <span class="text-sm text-gray-600">B.Sc. Biology 3rd Year</span>  
-                </div>  
+                <div class="flex items-center gap-3">
+                  <i class="fas fa-calendar-alt text-indigo-500 w-5 text-center"></i>  
+                  <span class="text-sm text-gray-600">Batch: 2023-2026</span>  
+                </div>
               </div>  
-            </div>  
+            </div>
 
             <!-- Research Project -->  
-            <div class="coaching-card p-5" data-aos="flip-left">  
-              <h2 class="coaching-title">Research Project <i class="fas fa-flask text-blue-500"></i></h2>  
-              <div class="mt-4">  
+            <div class="card p-5" data-aos="flip-left">  
+              <h2 class="section-title font-semibold mb-4">Research Project</h2>  
+              <div class="space-y-3">  
                 <a href="project_guidelines.pdf" target="_blank"  
-                   class="inline-flex items-center px-5 py-2.5 coaching-btn rounded-lg font-medium text-sm">  
-                  <i class="fas fa-file-pdf mr-2"></i> Download Project Guidelines  
+                   class="btn-primary inline-flex items-center justify-center px-4 py-2.5 rounded-lg font-medium text-sm w-full">  
+                  <i class="fas fa-file-pdf mr-2"></i> Download Guidelines  
                 </a>  
-                <div class="mt-3">  
-                  <h3 class="font-medium text-gray-700 text-sm flex items-center">  
-                    <i class="fas fa-calendar-check text-blue-500 mr-2"></i> Important Dates:  
+                <div class="space-y-2">
+                  <h3 class="font-medium text-sm flex items-center gap-2 text-gray-700">  
+                    <i class="fas fa-calendar-check text-indigo-500"></i> 
+                    Important Dates
                   </h3>  
-                  <ul class="text-xs text-gray-600 mt-1 space-y-1">  
-                    <li>• Project proposal submission: July 15, 2025</li>  
-                    <li>• Interim report: September 10, 2025</li>  
-                    <li>• Final submission: November 25, 2025</li>  
+                  <ul class="text-xs text-gray-600 space-y-1.5 pl-5">  
+                    <li class="relative before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-1 before:rounded-full before:bg-indigo-500">
+                      Proposal submission: <span class="font-medium">July 15, 2025</span>
+                    </li>  
+                    <li class="relative before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-1 before:rounded-full before:bg-indigo-500">
+                      Interim report: <span class="font-medium">September 10, 2025</span>
+                    </li>  
+                    <li class="relative before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-1 before:rounded-full before:bg-indigo-500">
+                      Final submission: <span class="font-medium">November 25, 2025</span>
+                    </li>  
                   </ul>  
-                </div>  
+                </div>
               </div>  
-            </div>  
-
-            <!-- Career Guidance -->  
-            <div class="coaching-card p-5" data-aos="fade-up">  
-              <h2 class="coaching-title">Career Guidance <i class="fas fa-briefcase text-blue-500"></i></h2>  
-              <div class="mt-4">  
-                <a href="career_session.html"  
-                   class="inline-flex items-center px-5 py-2.5 coaching-btn rounded-lg font-medium text-sm">  
-                  <i class="fas fa-chalkboard-teacher mr-2"></i> Career Session Materials  
-                </a>  
-                <div class="mt-3">  
-                  <h3 class="font-medium text-gray-700 text-sm flex items-center">  
-                    <i class="fas fa-calendar-alt text-blue-500 mr-2"></i> Upcoming Events:  
-                  </h3>  
-                  <ul class="text-xs text-gray-600 mt-1 space-y-1">  
-                    <li>• Higher Studies Seminar: June 20, 2025</li>  
-                    <li>• Resume Workshop: July 5, 2025</li>  
-                    <li>• Industry Panel Discussion: August 12, 2025</li>  
-                  </ul>  
-                </div>  
-              </div>  
-            </div>  
+            </div>
 
             <!-- Notice Board -->  
-            <div class="coaching-card p-5" data-aos="fade-up">  
-              <h2 class="coaching-title">Notice Board <i class="fas fa-thumbtack text-blue-500"></i></h2>  
-              <ul class="mt-4 space-y-3">  
-                <li class="coaching-notice">  
-                  <div class="flex items-start">  
-                    <i class="fas fa-bullhorn text-blue-500 mr-2 mt-0.5 text-sm"></i>  
-                    <span class="text-sm">3rd Year classes begin on <strong class="text-blue-600">5th June 2025</strong> with orientation.</span>  
+            <div class="card p-5" data-aos="fade-up">  
+              <h2 class="section-title font-semibold mb-4">Notice Board</h2>  
+              <ul class="space-y-4">  
+                <li class="notice-item">  
+                  <div class="flex items-start gap-2">  
+                    <i class="fas fa-bullhorn text-indigo-500 mt-0.5"></i>  
+                    <div>
+                      <p class="text-sm">3rd Year classes begin on <span class="font-medium text-indigo-600">June 5, 2025</span> with orientation.</p>
+                      <span class="text-xs text-gray-400">Posted May 28, 2025</span>
+                    </div>
                   </div>  
                 </li>  
-                <li class="coaching-notice">  
-                  <div class="flex items-start">  
-                    <i class="fas fa-clipboard-check text-blue-500 mr-2 mt-0.5 text-sm"></i>  
-                    <span class="text-sm">Project advisors will be assigned by June 15. Prepare your research interests.</span>  
+                <li class="notice-item">  
+                  <div class="flex items-start gap-2">  
+                    <i class="fas fa-clipboard-check text-indigo-500 mt-0.5"></i>  
+                    <div>
+                      <p class="text-sm">Project advisors will be assigned by June 15. Prepare your research interests.</p>
+                      <span class="text-xs text-gray-400">Posted May 25, 2025</span>
+                    </div>
                   </div>  
                 </li>  
-                <li class="coaching-notice">  
-                  <div class="flex items-start">  
-                    <i class="fas fa-phone-alt text-blue-500 mr-2 mt-0.5 text-sm"></i>  
-                    <div>  
-                      <span class="text-sm">Contact Faculty:</span>  
-                      <div class="mt-1 ml-2 space-y-1">  
-                        <div class="flex items-center">  
-                          <i class="fas fa-user-tie text-xs text-blue-400 mr-2"></i>  
-                          <span class="text-xs">Dr. Patel (Biotech): <a href="tel:+919876543212" class="text-blue-600 hover:underline">+91 9876543212</a></span>  
-                        </div>  
-                        <div class="flex items-center">  
-                          <i class="fas fa-user-tie text-xs text-blue-400 mr-2"></i>  
-                          <span class="text-xs">Prof. Joshi (Immunology): <a href="tel:+919876543213" class="text-blue-600 hover:underline">+91 9876543213</a></span>  
-                        </div>  
-                        <div class="flex items-center">  
-                          <i class="fas fa-user-tie text-xs text-blue-400 mr-2"></i>  
-                          <span class="text-xs">Career Counselor: <a href="tel:+919876543214" class="text-blue-600 hover:underline">+91 9876543214</a></span>  
-                        </div>  
-                      </div>  
-                    </div>  
-                  </div>  
-                </li>  
-                <li class="coaching-notice">  
-                  <div class="flex items-start">  
-                    <i class="fas fa-university text-blue-500 mr-2 mt-0.5 text-sm"></i>  
-                    <span class="text-sm">University exam registration deadline: <strong class="text-blue-600">August 30, 2025</strong></span>  
+                <li class="notice-item">  
+                  <div class="flex items-start gap-2">  
+                    <i class="fas fa-university text-indigo-500 mt-0.5"></i>  
+                    <div>
+                      <p class="text-sm">University exam registration deadline: <span class="font-medium text-indigo-600">August 30, 2025</span></p>
+                      <span class="text-xs text-gray-400">Posted May 20, 2025</span>
+                    </div>
                   </div>  
                 </li>  
               </ul>  
-            </div>  
+              <button class="mt-4 text-sm text-indigo-600 font-medium hover:text-indigo-800 transition-colors">
+                View All Notices <i class="fas fa-chevron-right ml-1"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </main>
 
     <!-- Footer -->  
-    <footer class="text-center pt-6 pb-4 text-gray-500 text-xs bg-white" data-aos="fade-up">  
-      <div class="flex justify-center gap-4 mb-3">  
-        <a href="#" class="text-blue-600 hover:text-blue-800"><i class="fab fa-facebook-f"></i></a>  
-        <a href="#" class="text-blue-600 hover:text-blue-800"><i class="fab fa-twitter"></i></a>  
-        <a href="#" class="text-blue-600 hover:text-blue-800"><i class="fab fa-instagram"></i></a>  
-        <a href="#" class="text-blue-600 hover:text-blue-800"><i class="fab fa-linkedin-in"></i></a>  
+    <footer class="bg-white border-t border-gray-200 py-4 px-6 text-center text-xs text-gray-500">
+      <div class="flex justify-center gap-4 mb-2">  
+        <a href="#" class="text-indigo-600 hover:text-indigo-800 transition-colors"><i class="fab fa-facebook-f"></i></a>  
+        <a href="#" class="text-indigo-600 hover:text-indigo-800 transition-colors"><i class="fab fa-twitter"></i></a>  
+        <a href="#" class="text-indigo-600 hover:text-indigo-800 transition-colors"><i class="fab fa-instagram"></i></a>  
+        <a href="#" class="text-indigo-600 hover:text-indigo-800 transition-colors"><i class="fab fa-linkedin-in"></i></a>  
       </div>  
-      <p>© 2025 Starlet Biology Coaching. All rights reserved.</p>  
+      <p>© 2025 Starlet Biology Coaching Platform. All rights reserved.</p>  
     </footer>  
-  </div>  
+  </div>
   
   <!-- Firebase Config & Auth -->  
   <script>  
@@ -660,8 +656,11 @@
 
     // Mobile menu toggle
     document.getElementById('mobileMenuButton').addEventListener('click', function() {
-      const sidebar = document.querySelector('.coaching-sidebar');
+      const sidebar = document.querySelector('.sidebar');
       sidebar.classList.toggle('hidden');
+      sidebar.classList.toggle('fixed');
+      sidebar.classList.toggle('inset-0');
+      sidebar.classList.toggle('z-50');
     });
   </script>  
   
