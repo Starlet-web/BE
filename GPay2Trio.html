@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Google Pay - TRIO 6-Month Plan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQS--cWumuknd6SmyfL00MTn6bNwXKWGW6V_Q&s" type="image/png">
+  <style>
+    :root {
+      --blue: #4285F4;
+      --green: #34A853;
+      --yellow: #FBBC05;
+      --red: #EA4335;
+      --text-primary: #202124;
+      --text-secondary: #5f6368;
+      --radius: 16px;
+      --shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+      --transition: all 0.35s ease;
+    }
+
+    body {
+      font-family: 'Google Sans', Arial, sans-serif;
+      background: radial-gradient(circle at top left, #e3f2fd, #f3e5f5, #fff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      color: var(--text-primary);
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 480px;
+      animation: fadeIn 0.5s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--blue), var(--green), var(--yellow), var(--red));
+      animation: gradientSlide 4s linear infinite;
+      background-size: 400%;
+    }
+
+    @keyframes gradientSlide {
+      0% { background-position: 0%; }
+      100% { background-position: 100%; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+
+    .logo {
+      width: 52px;
+      height: 52px;
+      margin-right: 16px;
+    }
+
+    h2 {
+      font-size: 26px;
+      font-weight: 600;
+      margin: 0;
+      color: var(--text-primary);
+    }
+
+    .subtext {
+      color: var(--text-secondary);
+      font-size: 15px;
+      margin-top: 4px;
+    }
+
+    .plan-card {
+      background: linear-gradient(135deg, #e3f2fd 0%, #e8f5e9 100%);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow);
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .plan-card:hover {
+      transform: scale(1.02);
+    }
+
+    .plan-card::after {
+      content: "PREMIUM";
+      position: absolute;
+      top: 12px; right: 16px;
+      background: var(--green);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .plan-title {
+      font-size: 20px;
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    .plan-price {
+      font-size: 32px;
+      font-weight: 700;
+      margin: 6px 0;
+    }
+
+    .plan-period {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+
+    .plan-savings {
+      display: inline-block;
+      background: var(--green);
+      color: white;
+      font-size: 13px;
+      padding: 5px 12px;
+      border-radius: 12px;
+    }
+
+    .plan-features {
+      margin-top: 16px;
+      padding-left: 20px;
+    }
+
+    .plan-features li {
+      list-style: none;
+      margin-bottom: 8px;
+      position: relative;
+    }
+
+    .plan-features li::before {
+      content: "✔";
+      position: absolute;
+      left: -20px;
+      color: var(--green);
+      font-weight: bold;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    input, select {
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      border: 1px solid #dadce0;
+      border-radius: 10px;
+      font-size: 15px;
+      transition: var(--transition);
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    input:focus, select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(66,133,244,0.2);
+      outline: none;
+    }
+
+    .payment-summary {
+      background: #f8f9fa;
+      padding: 18px;
+      border-radius: var(--radius);
+      border: 1px solid #e0e0e0;
+      font-size: 15px;
+      margin-top: 18px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .total-row {
+      border-top: 1px solid #e0e0e0;
+      margin-top: 10px;
+      padding-top: 10px;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .discount { color: var(--green); }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(to right, var(--blue), var(--green));
+      color: #fff;
+      font-size: 17px;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      margin-top: 22px;
+      transition: var(--transition);
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(66,133,244,0.3);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(66,133,244,0.4);
+    }
+
+    .upi-section {
+      text-align: center;
+      margin-top: 26px;
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .upi-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    .qr-container {
+      background: white;
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: inline-block;
+      margin-bottom: 18px;
+    }
+
+    .upi-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(to right, var(--blue), var(--green));
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      font-size: 16px;
+      transition: var(--transition);
+    }
+
+    .upi-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(66,133,244,0.4);
+    }
+
+    .divider {
+      color: var(--text-secondary);
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .divider::before, .divider::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .divider::before { margin-right: 12px; }
+    .divider::after { margin-left: 12px; }
+
+    .security-note {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="https://cdn1.iconfinder.com/data/icons/logos-brands-in-colors/217/Google_Pay_Send_logo-512.png" alt="Google Pay" class="logo">
+      <div>
+        <h2>TRIO 6-Month Plan</h2>
+        <div class="subtext">Secure payment by Google Pay</div>
+      </div>
+    </div>
+
+    <div class="plan-card">
+      <div class="plan-title">TRIO Plan • 6 Months</div>
+      <div class="plan-price">₹7,000</div>
+      <div class="plan-period">All 3 subjects • Half-yearly billing</div>
+      <div class="plan-savings">Save 22%</div>
+      <ul class="plan-features">
+        <li>Access to all 3 subjects</li>
+        <li>Live classes & full notes</li>
+        <li>6-month mentorship & guidance</li>
+        <li>Priority doubt-solving</li>
+      </ul>
+    </div>
+
+    <label for="name">Full Name</label>
+    <input type="text" id="name" placeholder="Enter your full name" required>
+
+    <label for="mobile">Mobile Number</label>
+    <input type="tel" id="mobile" placeholder="10-digit mobile number" required pattern="[0-9]{10}">
+
+    <label for="email">Email Address</label>
+    <input type="email" id="email" placeholder="example@mail.com" required>
+
+    <div class="payment-summary">
+      <div class="summary-row">
+        <span>Original Price</span>
+        <span class="original-price">₹8,975</span>
+      </div>
+      <div class="summary-row discount">
+        <span>Special Discount (22%)</span>
+        <span>-₹1,975</span>
+      </div>
+      <div class="summary-row total-row">
+        <span>Total Payable</span>
+        <span>₹7,000</span>
+      </div>
+    </div>
+
+    <button onclick="generateUPILink()">Proceed to Pay ₹7,000</button>
+
+    <div class="upi-section" id="upiSection">
+      <div class="divider">OR</div>
+      <div class="upi-title">Scan & Pay Instantly</div>
+      <div class="qr-container"><canvas id="qrCode"></canvas></div>
+      <div class="divider">OR</div>
+      <a id="upiLink" class="upi-btn" href="#" target="_blank">
+        Pay with Google Pay
+      </a>
+      <div class="security-note">🔒 Payment secured by Google Pay (256-bit encryption)</div>
+    </div>
+  </div>
+
+  <script>
+    function generateUPILink() {
+      const name = document.getElementById("name").value.trim();
+      const mobile = document.getElementById("mobile").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const amount = "7000";
+      const upiId = "mgbhaukali@oksbi";
+
+      if (!name || !mobile || !email) {
+        alert("Please fill all required fields.");
+        return;
+      }
+
+      if (!/^[0-9]{10}$/.test(mobile)) {
+        alert("Enter a valid 10-digit mobile number.");
+        return;
+      }
+
+      const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent("TRIO 6-Month Plan Payment")}`;
+
+      document.getElementById("upiLink").href = upiUrl;
+      document.getElementById("upiSection").style.display = "block";
+      document.getElementById("upiSection").scrollIntoView({ behavior: "smooth" });
+
+      new QRious({
+        element: document.getElementById("qrCode"),
+        value: upiUrl,
+        size: 200,
+        background: "white",
+        foreground: "#202124"
+      });
+
+      setTimeout(() => {
+        window.location.href = "success.html";
+      }, 15000);
+    }
+  </script>
+</body>
+</html>
