@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Google Pay – B.Sc TRIO (Year Plan) Payment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="https://cdn.iconscout.com/icon/free/png-256/google-pay-4931554-4108927.png" type="image/png">
+  <style>
+    :root {
+      --blue: #4285F4;
+      --dark-blue: #3367D6;
+      --green: #34A853;
+      --yellow: #FBBC05;
+      --red: #EA4335;
+      --bg: #f5f7fb;
+      --card: #fff;
+      --text: #202124;
+      --subtext: #5f6368;
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(0,0,0,0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {box-sizing: border-box; -webkit-tap-highlight-color: transparent;}
+    body {
+      font-family: 'Google Sans', sans-serif;
+      margin: 0;
+      background: linear-gradient(145deg,#e8f0fe,#f8f9fa);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: var(--text);
+      padding: 20px;
+    }
+
+    .container {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      max-width: 500px;
+      width: 100%;
+      padding: 36px 28px 40px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp 0.5s ease;
+    }
+
+    .container::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 5px;
+      background: linear-gradient(90deg,var(--blue),var(--green),var(--yellow),var(--red));
+      background-size: 400% 400%;
+      animation: gradientMove 6s infinite alternate;
+    }
+
+    @keyframes gradientMove {
+      0%{background-position:0% 50%;}
+      100%{background-position:100% 50%;}
+    }
+    @keyframes fadeUp {
+      from{opacity:0; transform:translateY(15px);}
+      to{opacity:1; transform:translateY(0);}
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .logo {width: 54px; margin-right: 14px;}
+    h2 {
+      font-size: 24px; font-weight: 600; margin: 0;
+    }
+    .subtext {color: var(--subtext); font-size: 14px;}
+
+    .plan-card {
+      background: linear-gradient(135deg,#fff8e6,#f0fff4);
+      padding: 22px 24px;
+      border-radius: var(--radius);
+      margin-bottom: 28px;
+      position: relative;
+      border: 1px solid rgba(251,188,5,0.4);
+      transition: var(--transition);
+    }
+    .plan-card:hover {transform: translateY(-3px); box-shadow: 0 8px 20px rgba(251,188,5,0.15);}
+    .plan-card::after {
+      content: "BEST VALUE";
+      position: absolute; top: 0; right: 0;
+      background: var(--yellow); color: #000;
+      font-size: 12px; font-weight: 600;
+      padding: 4px 12px; border-radius: 0 var(--radius) 0 8px;
+    }
+
+    .plan-title {font-size: 18px; font-weight: 500;}
+    .plan-price {font-size: 32px; font-weight: 700; margin: 8px 0 4px;}
+    .plan-period {font-size: 15px; color: var(--subtext);}
+    .plan-savings {margin-top: 8px; background: var(--yellow); padding: 4px 10px; border-radius: 12px; font-size: 13px; font-weight: 500; display: inline-block;}
+
+    input, select {
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      border: 1px solid #dadce0;
+      border-radius: 10px;
+      font-size: 15px;
+      transition: var(--transition);
+      background: transparent;
+    }
+    input:focus, select:focus {
+      border-color: var(--blue);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(66,133,244,0.2);
+    }
+    label {font-size: 14px; color: var(--subtext); font-weight: 500;}
+
+    .summary {
+      background: #f8f9fa;
+      border-radius: var(--radius);
+      padding: 20px;
+      margin: 28px 0;
+      border: 1px solid #eee;
+      font-size: 15px;
+    }
+    .row {display: flex; justify-content: space-between; margin-bottom: 10px;}
+    .total {border-top: 1px solid #ddd; margin-top: 10px; padding-top: 12px; font-weight: 600;}
+    .discount {color: var(--yellow);}
+    .cut {text-decoration: line-through; color: var(--subtext);}
+
+    button {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: var(--radius);
+      background: linear-gradient(to right,var(--blue),var(--dark-blue));
+      color: #fff;
+      font-size: 16px;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(66,133,244,0.4);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    button:hover {transform: translateY(-2px);}
+
+    .upi-section {text-align: center; margin-top: 24px; display: none; animation: fadeUp 0.5s ease;}
+    .upi-title {font-weight: 600; font-size: 18px; margin-bottom: 18px;}
+    .qr-container {background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; display: inline-block; margin-bottom: 20px;}
+    .upi-btn {
+      display: inline-flex; align-items: center;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      background: linear-gradient(to right,var(--blue),var(--dark-blue));
+      color: #fff; text-decoration: none;
+      font-weight: 500; font-size: 16px;
+      box-shadow: 0 4px 12px rgba(66,133,244,0.4);
+      transition: var(--transition);
+    }
+    .upi-btn:hover {transform: translateY(-2px);}
+    .upi-icon {width: 26px; margin-right: 10px;}
+    .divider {
+      display: flex; align-items: center; margin: 20px 0; color: var(--subtext); font-size: 14px;
+    }
+    .divider::before,.divider::after {content:""; flex:1; border-bottom:1px solid #ddd;}
+    .divider::before{margin-right:16px;} .divider::after{margin-left:16px;}
+    .security-note {font-size:13px; color: var(--subtext); margin-top: 14px; display:flex; justify-content:center; align-items:center;}
+    .lock {width:16px; margin-right:6px;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="https://cdn1.iconfinder.com/data/icons/logos-brands-in-colors/217/Google_Pay_Send_logo-512.png" class="logo">
+      <div>
+        <h2>B.Sc TRIO Plan (Yearly)</h2>
+        <div class="subtext">Secure payment via Google Pay</div>
+      </div>
+    </div>
+
+    <div class="plan-card">
+      <div class="plan-title">TRIO (All 3 Subjects)</div>
+      <div class="plan-price">₹10,000</div>
+      <div class="plan-period">per year (12 months access)</div>
+      <div class="plan-savings">Save 44.4%</div>
+      <ul style="margin-top:14px;padding-left:20px;font-size:14px;list-style:none;">
+        <li>✓ All 3 subjects access for 1 year</li>
+        <li>✓ Exclusive lectures + notes</li>
+        <li>✓ Free mock tests and mentorship</li>
+        <li>✓ Priority academic support</li>
+      </ul>
+    </div>
+
+    <label>Full Name</label>
+    <input id="name" placeholder="Enter your full name" required>
+    <label>Mobile Number</label>
+    <input id="mobile" type="tel" placeholder="10-digit number" pattern="[0-9]{10}" required>
+    <label>Email Address</label>
+    <input id="email" type="email" placeholder="example@mail.com" required>
+    <label>Select Course Year</label>
+    <select id="course" required>
+      <option value="">Choose your year</option>
+      <option>BSc 1st Year</option>
+      <option>BSc 2nd Year</option>
+      <option>BSc 3rd Year</option>
+    </select>
+
+    <div class="summary">
+      <div class="row"><span>Original Price</span><span class="cut">₹18,000</span></div>
+      <div class="row discount"><span>Discount (44.4%)</span><span>−₹8,000</span></div>
+      <div class="row total"><span>Total Amount</span><span>₹10,000</span></div>
+    </div>
+
+    <button onclick="generateUPI()">Proceed to Pay ₹10,000</button>
+
+    <div class="upi-section" id="upiSec">
+      <div class="divider">OR</div>
+      <div class="upi-title">Scan & Pay via Google Pay</div>
+      <div class="qr-container"><canvas id="qrCode"></canvas></div>
+      <div class="divider">OR</div>
+      <a id="upiLink" class="upi-btn" href="#" target="_blank">
+        <img src="https://static.cdnlogo.com/logos/g/93/google.svg" class="upi-icon">Pay with Google Pay
+      </a>
+      <div class="security-note">
+        <svg class="lock" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#5f6368"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+        Payments secured by Google Pay (256-bit Encryption)
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function generateUPI(){
+      const name=document.getElementById("name").value.trim();
+      const mobile=document.getElementById("mobile").value.trim();
+      const email=document.getElementById("email").value.trim();
+      const course=document.getElementById("course").value;
+      const amount="10000";
+      const upiId="mgbhaukali@oksbi";
+
+      if(!name||!mobile||!email||!course){alert("Please fill all fields.");return;}
+      if(!/^\d{10}$/.test(mobile)){alert("Enter a valid 10-digit mobile number.");return;}
+
+      const upiUrl=`upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent("B.Sc TRIO (Year Plan): "+course)}`;
+      document.getElementById("upiLink").href=upiUrl;
+      document.getElementById("upiSec").style.display="block";
+      document.getElementById("upiSec").scrollIntoView({behavior:'smooth'});
+      new QRious({element:document.getElementById("qrCode"),value:upiUrl,size:210,foreground:"#202124",level:"H"});
+      setTimeout(()=>{window.location.href="success.html";},15000);
+    }
+  </script>
+</body>
+</html>
