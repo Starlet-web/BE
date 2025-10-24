@@ -80,6 +80,49 @@
       0% { background-position: -200% 0; }
       100% { background-position: 200% 0; }
     }
+    .whiteboard-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 100;
+      display: none;
+      flex-direction: column;
+    }
+    .whiteboard-header {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .whiteboard-iframe {
+      flex: 1;
+      border: none;
+    }
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+    }
   </style>
 </head>
 
@@ -231,6 +274,9 @@
         <button class="btn-primary w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 mb-2" id="joinClassBtn">
           <i class="fas fa-play"></i> Join Now
         </button>
+        <button class="btn-secondary w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 mb-2" id="openWhiteboardBtn">
+          <i class="fas fa-chalkboard"></i> Open Whiteboard
+        </button>
         <div class="flex justify-between text-xs text-gray-500">
           <span class="flex items-center">
             <i class="fas fa-clock text-indigo-500 mr-1"></i>
@@ -310,6 +356,36 @@
     </footer>
   </div>
 
+  <!-- Whiteboard Container -->
+  <div class="whiteboard-container" id="whiteboardContainer">
+    <div class="whiteboard-header">
+      <h2 class="font-semibold">Interactive Whiteboard - Biotechnology</h2>
+      <button id="closeWhiteboardBtn" class="bg-white text-indigo-600 w-8 h-8 rounded-full flex items-center justify-center">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <iframe class="whiteboard-iframe" src="https://applications.zoom.us/integration/wb/embedwhiteboard/home?docId=PvyX341xQoiMaccwCCv8uA&pageId=211661377830912&embedId=1761286885485" allowfullscreen></iframe>
+  </div>
+
+  <!-- Modal for Class Options -->
+  <div class="modal-overlay" id="classOptionsModal">
+    <div class="modal-content">
+      <h3 class="font-bold text-lg text-indigo-700 mb-4">Join Live Class</h3>
+      <p class="text-gray-600 mb-6">How would you like to join the class?</p>
+      <div class="flex flex-col gap-3">
+        <button class="btn-primary w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2" id="joinZoomBtn">
+          <i class="fas fa-video"></i> Join Zoom Meeting
+        </button>
+        <button class="btn-secondary w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2" id="openWhiteboardModalBtn">
+          <i class="fas fa-chalkboard"></i> Open Whiteboard Only
+        </button>
+        <button class="text-gray-500 py-2 rounded-lg font-medium" id="cancelClassBtn">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
@@ -349,6 +425,13 @@
     const assignmentsBtn = document.getElementById('assignmentsBtn');
     const resourcesBtn = document.getElementById('resourcesBtn');
     const supportBtn = document.getElementById('supportBtn');
+    const openWhiteboardBtn = document.getElementById('openWhiteboardBtn');
+    const whiteboardContainer = document.getElementById('whiteboardContainer');
+    const closeWhiteboardBtn = document.getElementById('closeWhiteboardBtn');
+    const classOptionsModal = document.getElementById('classOptionsModal');
+    const joinZoomBtn = document.getElementById('joinZoomBtn');
+    const openWhiteboardModalBtn = document.getElementById('openWhiteboardModalBtn');
+    const cancelClassBtn = document.getElementById('cancelClassBtn');
 
     // Helper: Get initials
     function getInitials(name) {
@@ -414,11 +497,33 @@
 
     // Button actions
     joinClassBtn.addEventListener('click', () => {
+      classOptionsModal.style.display = 'flex';
+    });
+    
+    joinZoomBtn.addEventListener('click', () => {
       // Try to open Zoom, fallback to web
       window.location.href = "zoomus://zoom.us/join?confno=4527503240&pwd=QDw5xc";
       setTimeout(() => {
         window.location.href = "https://zoom.us/j/4527503240?pwd=QDw5xc";
       }, 500);
+      classOptionsModal.style.display = 'none';
+    });
+    
+    openWhiteboardModalBtn.addEventListener('click', () => {
+      whiteboardContainer.style.display = 'flex';
+      classOptionsModal.style.display = 'none';
+    });
+    
+    openWhiteboardBtn.addEventListener('click', () => {
+      whiteboardContainer.style.display = 'flex';
+    });
+    
+    closeWhiteboardBtn.addEventListener('click', () => {
+      whiteboardContainer.style.display = 'none';
+    });
+    
+    cancelClassBtn.addEventListener('click', () => {
+      classOptionsModal.style.display = 'none';
     });
     
     recordedLecturesBtn.addEventListener('click', () => window.location.href = "recorded.html");
