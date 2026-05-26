@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>CSIR NET Chemical Sciences - AI Research Assistant | NTA Approved</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0d1b3e;
+      --primary-light: #1a2f5a;
+      --accent: #e8870a;
+      --accent-glow: #f59e0b;
+      --surface: #ffffff;
+      --surface-alt: #f8fafc;
+      --text: #1e293b;
+      --text-secondary: #64748b;
+      --border: #e2e8f0;
+      --success: #10b981;
+      --danger: #ef4444;
+      --danger-hover: #dc2626;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+      --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04);
+      --shadow-xl: 0 25px 50px -12px rgba(0,0,0,0.15);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-xs: 6px;
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f1f5f9;
+      background-image: 
+        radial-gradient(ellipse at 20% 50%, rgba(13, 27, 62, 0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(232, 135, 10, 0.04) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(13, 27, 62, 0.02) 0%, transparent 50%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 960px;
+      height: 92vh;
+      max-height: 820px;
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-xl);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    /* ========== AUTH SCREEN ========== */
+    .auth-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      background: linear-gradient(160deg, #f8fafc 0%, #eef2ff 40%, #fefce8 100%);
+      padding: 24px;
+    }
+
+    .auth-wrapper {
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .auth-card {
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 40px 36px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+    }
+
+    .institution-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .institution-badge .nta-seal {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #0d1b3e, #1a2f5a);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f59e0b;
+      font-weight: 900;
+      font-size: 0.7rem;
+      letter-spacing: -0.5px;
+      box-shadow: 0 0 0 3px rgba(13,27,62,0.1);
+    }
+
+    .auth-card .org-name {
+      text-align: center;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #64748b;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .auth-card h2 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 4px;
+      letter-spacing: -0.3px;
+    }
+
+    .auth-card .subtitle {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      font-weight: 400;
+      margin-bottom: 28px;
+    }
+
+    .input-group {
+      margin-bottom: 14px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 6px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .auth-input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: var(--radius-sm);
+      background: #f8fafc;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text);
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .auth-input:focus {
+      border-color: var(--primary);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(13, 27, 62, 0.06);
+    }
+
+    .auth-input::placeholder {
+      color: #94a3b8;
+    }
+
+    .auth-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, #0d1b3e 0%, #1a2f5a 100%);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(13, 27, 62, 0.25);
+      margin-top: 4px;
+    }
+
+    .auth-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(13, 27, 62, 0.35);
+      background: linear-gradient(135deg, #122452 0%, #1f3870 100%);
+    }
+
+    .auth-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(13, 27, 62, 0.2);
+    }
+
+    .auth-toggle {
+      display: block;
+      width: 100%;
+      margin-top: 18px;
+      background: none;
+      border: none;
+      color: #475569;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      cursor: pointer;
+      text-align: center;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .auth-toggle:hover {
+      color: var(--primary);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .error-message {
+      color: var(--danger);
+      font-size: 0.78rem;
+      min-height: 22px;
+      margin-top: 8px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .govt-footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.65rem;
+      color: #94a3b8;
+      letter-spacing: 0.5px;
+    }
+
+    .govt-footer span {
+      font-weight: 600;
+      color: #64748b;
+    }
+
+    /* ========== CHAT SCREEN ========== */
+    .chat-screen {
+      display: none;
+      flex-direction: column;
+      height: 100%;
+      background: #fafbfc;
+    }
+
+    /* Professional Header */
+    .pro-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0;
+    }
+
+    .header-top {
+      background: linear-gradient(135deg, #0d1b3e 0%, #13244a 100%);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #fff;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nta-mini {
+      background: #f59e0b;
+      color: #0d1b3e;
+      font-weight: 900;
+      font-size: 0.6rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      letter-spacing: 1px;
+    }
+
+    .header-brand h3 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .ai-status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: #cbd5e1;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+      animation: pulse-dot 2s infinite;
+    }
+
+    .status-dot.offline {
+      background: #94a3b8;
+      box-shadow: none;
+      animation: none;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 4px rgba(16, 185, 129, 0.4); }
+      50% { box-shadow: 0 0 14px rgba(16, 185, 129, 0.8); }
+    }
+
+    .header-btn {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #e2e8f0;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      transition: var(--transition);
+      letter-spacing: 0.3px;
+    }
+
+    .header-btn:hover {
+      background: rgba(255,255,255,0.18);
+      border-color: rgba(255,255,255,0.3);
+      color: #fff;
+    }
+
+    .header-btn.danger {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+    }
+
+    .header-btn.danger:hover {
+      background: rgba(239, 68, 68, 0.3);
+      border-color: rgba(239, 68, 68, 0.5);
+      color: #fecaca;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb-bar {
+      padding: 8px 20px;
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.7rem;
+      color: #64748b;
+      overflow-x: auto;
+    }
+
+    .breadcrumb-bar span {
+      white-space: nowrap;
+    }
+
+    .breadcrumb-bar .separator {
+      color: #cbd5e1;
+    }
+
+    .breadcrumb-bar .active-topic {
+      color: var(--primary);
+      font-weight: 600;
+      background: #eef2ff;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.65rem;
+    }
+
+    /* AI Response Area */
+    .ai-context-bar {
+      padding: 10px 20px;
+      background: #fff;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ai-model-badge {
+      background: #fefce8;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .ai-model-badge .dot {
+      width: 5px;
+      height: 5px;
+      background: #f59e0b;
+      border-radius: 50%;
+      animation: pulse-dot 1.5s infinite;
+    }
+
+    .context-text {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      font-style: italic;
+    }
+
+    /* Messages */
+    .messages-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scroll-behavior: smooth;
+      background: linear-gradient(180deg, #fafbfc 0%, #f8fafc 100%);
+    }
+
+    .messages-container::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .messages-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .messages-container::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+
+    .message-bubble {
+      max-width: 72%;
+      padding: 14px 18px;
+      border-radius: 16px 16px 16px 2px;
+      background: #ffffff;
+      color: #334155;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      align-self: flex-start;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid #f1f5f9;
+      animation: msgIn 0.3s ease-out;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .message-bubble::before {
+      content: "🤖 CSIR NET AI";
+      font-size: 0.6rem;
+      color: #0d1b3e;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+      opacity: 0.8;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 6px;
+    }
+
+    .message-bubble.own {
+      align-self: flex-end;
+      background: linear-gradient(145deg, #eef2ff, #e0e7ff);
+      border-radius: 16px 16px 2px 16px;
+      border: 1px solid #c7d2fe;
+    }
+
+    .message-bubble.own::before {
+      content: "👤 Research Query";
+      color: #3730a3;
+      border-bottom: 1px solid #c7d2fe;
+    }
+
+    @keyframes msgIn {
+      0% { opacity: 0; transform: translateY(8px) scale(0.98); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .message-time {
+      font-size: 0.6rem;
+      color: #94a3b8;
+      margin-top: 6px;
+      text-align: right;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.3px;
+    }
+
+    .typing-indicator {
+      padding: 10px 18px;
+      font-size: 0.7rem;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border-radius: 12px;
+      align-self: flex-start;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid #f1f5f9;
+      font-weight: 500;
+    }
+
+    .typing-dots {
+      display: flex;
+      gap: 3px;
+    }
+
+    .typing-dots span {
+      width: 5px;
+      height: 5px;
+      background: #0d1b3e;
+      border-radius: 50%;
+      animation: bounce 1.2s infinite;
+    }
+
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-6px); }
+    }
+
+    /* Footer */
+    .chat-footer {
+      padding: 14px 20px;
+      background: #fff;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .query-input {
+      flex: 1;
+      padding: 13px 18px;
+      border-radius: 24px;
+      border: 2px solid #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      outline: none;
+      background: #f8fafc;
+      transition: var(--transition);
+      color: #1e293b;
+    }
+
+    .query-input:focus {
+      border-color: #0d1b3e;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(13, 27, 62, 0.04);
+    }
+
+    .query-input::placeholder {
+      color: #94a3b8;
+      font-style: italic;
+    }
+
+    .send-btn {
+      background: #0d1b3e;
+      border: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      color: #fff;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(13, 27, 62, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .send-btn:hover {
+      background: #1a2f5a;
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px rgba(13, 27, 62, 0.4);
+    }
+
+    .send-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* ========== MODAL ========== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+      text-align: center;
+      animation: modalIn 0.25s ease-out;
+    }
+
+    @keyframes modalIn {
+      0% { opacity: 0; transform: scale(0.9) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal .warning-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+    }
+
+    .modal h3 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      color: #0d1b3e;
+      margin-bottom: 8px;
+    }
+
+    .modal p {
+      font-size: 0.85rem;
+      color: #64748b;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .modal-btn {
+      padding: 10px 22px;
+      border-radius: 8px;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: var(--transition);
+      letter-spacing: 0.3px;
+    }
+
+    .modal-btn.cancel {
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    .modal-btn.cancel:hover {
+      background: #e2e8f0;
+    }
+
+    .modal-btn.confirm-delete {
+      background: #ef4444;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+
+    .modal-btn.confirm-delete:hover {
+      background: #dc2626;
+      box-shadow: 0 6px 18px rgba(239, 68, 68, 0.4);
+    }
+
+    @media (max-width: 600px) {
+      .app-container {
+        height: 100vh;
+        max-height: 100vh;
+        border-radius: 0;
+      }
+      .auth-card {
+        padding: 28px 20px;
+      }
+      .header-top {
+        padding: 8px 14px;
+      }
+      .header-brand h3 {
+        font-size: 0.7rem;
+      }
+      .message-bubble {
+        max-width: 88%;
+        font-size: 0.82rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="app-container" id="appContainer">
+
+  <!-- ============ AUTH SCREEN ============ -->
+  <div id="authScreen" class="auth-screen">
+    <div class="auth-wrapper">
+      <div class="auth-card">
+        <div class="institution-badge">
+          <div class="nta-seal">NTA</div>
+        </div>
+        <div class="org-name">National Testing Agency</div>
+        <h2>CSIR NET Research Portal</h2>
+        <p class="subtitle">Chemical Sciences • AI-Enhanced Learning Module</p>
+
+        <div class="input-group">
+          <label>Registered Email</label>
+          <input type="email" id="emailInput" class="auth-input" placeholder="researcher@institute.ac.in" autocomplete="email">
+        </div>
+        <div class="input-group">
+          <label>Access Code</label>
+          <input type="password" id="passwordInput" class="auth-input" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <button id="authActionBtn" class="auth-btn">🔐 Access Research Module</button>
+        <div class="error-message" id="authError"></div>
+        <button id="toggleAuthBtn" class="auth-toggle">New Researcher? Enroll Here</button>
+      </div>
+      <div class="govt-footer">
+        <span>🇮🇳 Govt. of India</span> • NTA • CSIR-UGC NET • Secured Portal
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CHAT SCREEN ============ -->
+  <div id="chatScreen" class="chat-screen" style="display: none;">
+    <div class="pro-header">
+      <div class="header-top">
+        <div class="header-brand">
+          <span class="nta-mini">NTA</span>
+          <h3>CSIR NET • Chemical Sciences</h3>
+        </div>
+        <div class="header-actions">
+          <div class="ai-status">
+            <span id="statusDot" class="status-dot"></span>
+            <span id="partnerDisplayName">AI Engine Active</span>
+          </div>
+          <button id="clearChatBtn" class="header-btn danger" title="Clear Research Session">
+            🗑 Clear Session
+          </button>
+          <button id="logoutButton" class="header-btn">
+            ⏻ End Session
+          </button>
+        </div>
+      </div>
+      <div class="breadcrumb-bar">
+        <span>📋 Dashboard</span><span class="separator">›</span>
+        <span>Chemical Sciences</span><span class="separator">›</span>
+        <span class="active-topic">AI Research Assistant</span>
+      </div>
+      <div class="ai-context-bar">
+        <div class="ai-model-badge">
+          <span class="dot"></span> GPT-4 Research Model
+        </div>
+        <span class="context-text">Real-time research query resolution • All responses logged for quality assurance</span>
+      </div>
+    </div>
+
+    <div id="messagesContainer" class="messages-container"></div>
+
+    <div id="typingIndicator" class="typing-indicator" style="display: none;">
+      <span>🔬 Processing research query</span>
+      <div class="typing-dots"><span></span><span></span><span></span></div>
+    </div>
+
+    <div class="chat-footer">
+      <input type="text" id="messageInput" class="query-input" placeholder="Enter your research query or doubt..." autocomplete="off">
+      <button id="sendButton" class="send-btn">▶</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ DELETE CONFIRMATION MODAL ============ -->
+<div id="deleteModal" class="modal-overlay">
+  <div class="modal">
+    <div class="warning-icon">⚠️</div>
+    <h3>Clear Entire Research Session?</h3>
+    <p>This will permanently delete all messages from both researchers' views. This action cannot be undone.</p>
+    <div class="modal-buttons">
+      <button id="cancelDeleteBtn" class="modal-btn cancel">Cancel</button>
+      <button id="confirmDeleteBtn" class="modal-btn confirm-delete">Yes, Clear All Data</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ==================== CONFIG ====================
+    const firebaseConfig = {
+      apiKey: "AIzaSyDS0rzCKglHblF2dlFEKE-ouV0yOu0z5UM",
+      authDomain: "mine-a1e68.firebaseapp.com",
+      projectId: "mine-a1e68",
+      storageBucket: "mine-a1e68.firebasestorage.app",
+      messagingSenderId: "48499757892",
+      appId: "1:48499757892:web:d0fd281ab0df945e893d11",
+      measurementId: "G-95TR94C3G6"
+    };
+
+    const ALLOWED_EMAILS = ["mgbhaukali@gmail.com", "manshi@gmail.com"];
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // ==================== DOM ====================
+    const authScreen = document.getElementById('authScreen');
+    const chatScreen = document.getElementById('chatScreen');
+    const emailInput = document.getElementById('emailInput');
+    const passwordInput = document.getElementById('passwordInput');
+    const authActionBtn = document.getElementById('authActionBtn');
+    const toggleAuthBtn = document.getElementById('toggleAuthBtn');
+    const authError = document.getElementById('authError');
+    const messagesContainer = document.getElementById('messagesContainer');
+    const messageInput = document.getElementById('messageInput');
+    const sendButton = document.getElementById('sendButton');
+    const logoutButton = document.getElementById('logoutButton');
+    const clearChatBtn = document.getElementById('clearChatBtn');
+    const typingIndicator = document.getElementById('typingIndicator');
+    const statusDot = document.getElementById('statusDot');
+    const partnerDisplayName = document.getElementById('partnerDisplayName');
+    const deleteModal = document.getElementById('deleteModal');
+    const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+    // ==================== STATE ====================
+    let currentUser = null;
+    let isLoginMode = true;
+    let unsubscribeMessages = null;
+    let unsubscribeTyping = null;
+    let unsubscribePresence = null;
+    let typingTimeoutRef = null;
+    const TYPING_TIMER_LENGTH = 2500;
+
+    // ==================== UI ====================
+    function showAuthScreen() { authScreen.style.display = 'flex'; chatScreen.style.display = 'none'; }
+    function showChatScreen() { authScreen.style.display = 'none'; chatScreen.style.display = 'flex'; }
+    function scrollToBottom() { if (messagesContainer) messagesContainer.scrollTop = messagesContainer.scrollHeight; }
+
+    // ==================== MODAL ====================
+    clearChatBtn.addEventListener('click', () => { deleteModal.classList.add('active'); });
+    cancelDeleteBtn.addEventListener('click', () => { deleteModal.classList.remove('active'); });
+    deleteModal.addEventListener('click', (e) => { if (e.target === deleteModal) deleteModal.classList.remove('active'); });
+
+    confirmDeleteBtn.addEventListener('click', async () => {
+      deleteModal.classList.remove('active');
+      if (!currentUser) return;
+      try {
+        const snapshot = await db.collection('messages').get();
+        const batch = db.batch();
+        snapshot.forEach(doc => batch.delete(doc.ref));
+        await batch.commit();
+        console.log('All messages deleted');
+      } catch (e) {
+        console.error('Delete error:', e);
+        alert('Failed to clear messages. Please try again.');
+      }
+    });
+
+    // ==================== AUTH ====================
+    function handleAuthError(error) {
+      const messages = {
+        'auth/user-not-found': 'Researcher not found. Check credentials.',
+        'auth/wrong-password': 'Invalid access code. Try again.',
+        'auth/email-already-in-use': 'This email is already enrolled.',
+        'auth/weak-password': 'Access code must be at least 6 characters.',
+        'auth/invalid-email': 'Please enter a valid institutional email.',
+        'auth/too-many-requests': 'Too many attempts. Portal locked temporarily.'
+      };
+      authError.textContent = messages[error.code] || 'Authentication failed. Contact administrator.';
+    }
+
+    authActionBtn.addEventListener('click', async () => {
+      const email = emailInput.value.trim().toLowerCase();
+      const password = passwordInput.value.trim();
+      authError.textContent = '';
+      if (!email || !password) { authError.textContent = 'All fields are required.'; return; }
+      if (!isLoginMode) {
+        if (!ALLOWED_EMAILS.some(e => e.toLowerCase() === email)) {
+          authError.textContent = '⚠️ Enrollment restricted. Only pre-approved researchers.';
+          return;
+        }
+      }
+      try {
+        if (isLoginMode) await auth.signInWithEmailAndPassword(email, password);
+        else await auth.createUserWithEmailAndPassword(email, password);
+      } catch (error) { handleAuthError(error); }
+    });
+
+    toggleAuthBtn.addEventListener('click', () => {
+      isLoginMode = !isLoginMode;
+      authActionBtn.textContent = isLoginMode ? '🔐 Access Research Module' : '📝 Enroll in Program';
+      toggleAuthBtn.textContent = isLoginMode ? 'New Researcher? Enroll Here' : 'Already Enrolled? Access Module';
+      authError.textContent = '';
+    });
+
+    passwordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') authActionBtn.click(); });
+    logoutButton.addEventListener('click', async () => {
+      if (currentUser) {
+        try { await db.collection('presence').doc(currentUser.uid).set({ online: false, email: currentUser.email, lastSeen: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true }); } catch(e){}
+      }
+      await auth.signOut();
+    });
+
+    // ==================== PRESENCE ====================
+    async function setOnline(uid, email) {
+      try { await db.collection('presence').doc(uid).set({ online: true, email, lastSeen: firebase.firestore.FieldValue.serverTimestamp() }); } catch(e){}
+    }
+
+    function getPartnerEmail() {
+      if (!currentUser) return null;
+      return ALLOWED_EMAILS.find(e => e.toLowerCase() !== currentUser.email.toLowerCase()) || null;
+    }
+
+    async function getPartnerUid() {
+      const pEmail = getPartnerEmail();
+      if (!pEmail) return null;
+      try {
+        const snap = await db.collection('presence').where('email', '==', pEmail).limit(1).get();
+        return snap.empty ? null : snap.docs[0].id;
+      } catch(e) { return null; }
+    }
+
+    function listenPartnerPresence(partnerUid) {
+      if (unsubscribePresence) unsubscribePresence();
+      if (!partnerUid) { statusDot.className = 'status-dot offline'; partnerDisplayName.textContent = 'AI Engine Idle'; return; }
+      unsubscribePresence = db.collection('presence').doc(partnerUid).onSnapshot((doc) => {
+        if (doc.exists) {
+          const online = doc.data().online === true;
+          statusDot.className = online ? 'status-dot' : 'status-dot offline';
+          partnerDisplayName.textContent = online ? 'AI Engine Active' : 'AI Engine Idle';
+        } else {
+          statusDot.className = 'status-dot offline';
+          partnerDisplayName.textContent = 'AI Engine Idle';
+        }
+      });
+    }
+
+    // ==================== MESSAGES ====================
+    function setupMessagesListener() {
+      if (unsubscribeMessages) unsubscribeMessages();
+      unsubscribeMessages = db.collection('messages').orderBy('timestamp', 'asc').onSnapshot((snapshot) => {
+        messagesContainer.innerHTML = '';
+        snapshot.forEach(doc => renderMessage(doc.data()));
+        scrollToBottom();
+      }, (e) => console.error('Messages error:', e));
+    }
+
+    function renderMessage(msg) {
+      const div = document.createElement('div');
+      div.className = `message-bubble ${msg.senderId === currentUser?.uid ? 'own' : ''}`;
+      let timeStr = '';
+      if (msg.timestamp?.toDate) timeStr = msg.timestamp.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      div.innerHTML = `${escapeHtml(msg.text)}<div class="message-time">${timeStr}</div>`;
+      messagesContainer.appendChild(div);
+    }
+
+    function escapeHtml(text) {
+      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+      return text.replace(/[&<>"']/g, m => map[m]);
+    }
+
+    async function sendMessage() {
+      const text = messageInput.value.trim();
+      if (!text || !currentUser) return;
+      messageInput.value = '';
+      if (typingTimeoutRef) clearTimeout(typingTimeoutRef);
+      try { await db.collection('typing').doc(currentUser.uid).set({ isTyping: false, timestamp: firebase.firestore.FieldValue.serverTimestamp() }); } catch(e){}
+      try {
+        await db.collection('messages').add({ text, senderId: currentUser.uid, senderEmail: currentUser.email, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+      } catch(e) { console.error('Send error:', e); }
+    }
+
+    sendButton.addEventListener('click', sendMessage);
+    messageInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+    });
+
+    // ==================== TYPING ====================
+    messageInput.addEventListener('input', () => {
+      if (!currentUser) return;
+      try { db.collection('typing').doc(currentUser.uid).set({ isTyping: true, timestamp: firebase.firestore.FieldValue.serverTimestamp() }); } catch(e){}
+      if (typingTimeoutRef) clearTimeout(typingTimeoutRef);
+      typingTimeoutRef = setTimeout(async () => {
+        try { await db.collection('typing').doc(currentUser.uid).set({ isTyping: false, timestamp: firebase.firestore.FieldValue.serverTimestamp() }); } catch(e){}
+      }, TYPING_TIMER_LENGTH);
+    });
+
+    function listenTyping(partnerUid) {
+      if (unsubscribeTyping) unsubscribeTyping();
+      if (!partnerUid) { typingIndicator.style.display = 'none'; return; }
+      unsubscribeTyping = db.collection('typing').doc(partnerUid).onSnapshot((doc) => {
+        typingIndicator.style.display = (doc.exists && doc.data().isTyping === true) ? 'flex' : 'none';
+      });
+    }
+
+    // ==================== AUTH STATE ====================
+    auth.onAuthStateChanged(async (user) => {
+      if (unsubscribeMessages) { unsubscribeMessages(); unsubscribeMessages = null; }
+      if (unsubscribeTyping) { unsubscribeTyping(); unsubscribeTyping = null; }
+      if (unsubscribePresence) { unsubscribePresence(); unsubscribePresence = null; }
+
+      if (user) {
+        if (!ALLOWED_EMAILS.some(e => e.toLowerCase() === user.email.toLowerCase())) {
+          authError.textContent = '⛔ Unauthorized. Portal restricted.';
+          await auth.signOut(); showAuthScreen(); return;
+        }
+        currentUser = user;
+        showChatScreen();
+        await setOnline(user.uid, user.email);
+        setupMessagesListener();
+        const partnerUid = await getPartnerUid();
+        listenPartnerPresence(partnerUid);
+        listenTyping(partnerUid);
+        window.addEventListener('beforeunload', async () => {
+          if (currentUser) {
+            try { await db.collection('presence').doc(currentUser.uid).set({ online: false, lastSeen: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true }); } catch(e){}
+          }
+        });
+      } else {
+        currentUser = null;
+        showAuthScreen();
+        emailInput.value = '';
+        passwordInput.value = '';
+        authError.textContent = '';
+      }
+    });
+
+    showAuthScreen();
+  })();
+</script>
+</body>
+</html>
