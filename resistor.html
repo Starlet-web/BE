@@ -1,801 +1,464 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THP Portal — Student Login</title>
-
-    <!-- Fonts & Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-
-    <style>
-        :root {
-            --indigo-50: #eef2ff; --indigo-100: #e0e7ff; --indigo-200: #c7d2fe;
-            --indigo-300: #a5b4fc; --indigo-400: #818cf8; --indigo-500: #6366f1;
-            --indigo-600: #4f46e5; --indigo-700: #4338ca; --indigo-800: #3730a3;
-            --purple-400: #c084fc; --purple-500: #a855f7; --purple-600: #9333ea;
-            --pink-400: #f472b6; --pink-500: #ec4899;
-            --slate-50: #f8fafc; --slate-100: #f1f5f9; --slate-200: #e2e8f0;
-            --slate-300: #cbd5e1; --slate-400: #94a3b8; --slate-500: #64748b;
-            --slate-600: #475569; --slate-700: #334155; --slate-800: #1e293b;
-            --slate-900: #0f172a; --slate-950: #020617;
-            --white: #ffffff;
-            --success: #10b981; --danger: #ef4444; --warning: #f59e0b;
-
-            --radius-xs: 6px; --radius-sm: 8px; --radius-md: 12px;
-            --radius-lg: 16px; --radius-xl: 20px; --radius-2xl: 24px; --radius-3xl: 32px;
-
-            --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05);
-            --shadow-lg: 0 10px 25px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.04);
-            --shadow-xl: 0 20px 50px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.06);
-            --shadow-2xl: 0 30px 70px rgba(0,0,0,0.15);
-            --shadow-glow-indigo: 0 0 0 4px rgba(99,102,241,0.12);
-            --shadow-glow-purple: 0 0 40px rgba(139,92,246,0.25);
-            --shadow-card: 0 0 0 1px rgba(0,0,0,0.03), 0 20px 60px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.04);
-
-            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--white);
-            position: relative;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* ===== BACKGROUND GRADIENT BLOBS ===== */
-        .bg-blob {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(120px);
-            z-index: 0;
-            pointer-events: none;
-            animation: blobFloat 25s infinite ease-in-out;
-        }
-        .bg-blob-1 {
-            width: 500px; height: 500px;
-            background: radial-gradient(circle at 30% 30%, rgba(99,102,241,0.25), rgba(139,92,246,0.1), transparent 70%);
-            top: -15%; right: -10%;
-        }
-        .bg-blob-2 {
-            width: 420px; height: 420px;
-            background: radial-gradient(circle at 70% 60%, rgba(236,72,153,0.2), rgba(244,114,182,0.08), transparent 70%);
-            bottom: -12%; left: -8%;
-            animation-delay: -8s;
-        }
-        .bg-blob-3 {
-            width: 360px; height: 360px;
-            background: radial-gradient(circle at 50% 50%, rgba(168,85,247,0.18), rgba(192,132,252,0.06), transparent 70%);
-            top: 45%; left: 55%;
-            animation-delay: -16s;
-        }
-        .bg-blob-4 {
-            width: 280px; height: 280px;
-            background: radial-gradient(circle at 40% 40%, rgba(99,102,241,0.15), rgba(129,140,248,0.05), transparent 70%);
-            top: 60%; left: 10%;
-            animation-delay: -4s;
-        }
-
-        @keyframes blobFloat {
-            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            25% { transform: translate(60px, -40px) scale(1.15) rotate(5deg); }
-            50% { transform: translate(-30px, 50px) scale(0.85) rotate(-3deg); }
-            75% { transform: translate(-50px, -30px) scale(1.08) rotate(2deg); }
-        }
-
-        /* ===== SVG WAVE BOTTOM ===== */
-        .wave-bottom {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            z-index: 0;
-            pointer-events: none;
-            line-height: 0;
-        }
-        .wave-bottom svg { width: 100%; height: auto; display: block; }
-        .wave-bottom .wave-fill { fill: rgba(99,102,241,0.06); }
-
-        /* ===== GRID DOTS (Subtle) ===== */
-        .grid-dots {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.25;
-            background-image: radial-gradient(circle, rgba(99,102,241,0.25) 1px, transparent 1px);
-            background-size: 32px 32px;
-        }
-
-        /* ===== AUTH CARD ===== */
-        .auth-wrapper {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 440px;
-            margin: 20px;
-        }
-
-        .auth-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border-radius: var(--radius-3xl);
-            padding: 44px 40px;
-            box-shadow: var(--shadow-card);
-            border: 1px solid rgba(255,255,255,0.6);
-            animation: cardEnter 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .auth-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(99,102,241,0.3), rgba(168,85,247,0.3), transparent);
-        }
-
-        @keyframes cardEnter {
-            from { opacity: 0; transform: translateY(30px) scale(0.96); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        /* ===== LOGO & HEADER ===== */
-        .auth-header {
-            text-align: center;
-            margin-bottom: 36px;
-        }
-
-        .logo-wrapper {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 64px; height: 64px;
-            background: linear-gradient(135deg, var(--indigo-500), var(--purple-500));
-            border-radius: 18px;
-            margin-bottom: 18px;
-            box-shadow: 0 8px 32px rgba(99,102,241,0.3), 0 2px 8px rgba(139,92,246,0.15);
-            animation: logoFloat 3s ease-in-out infinite;
-            transition: transform var(--transition-base);
-        }
-        .logo-wrapper:hover { transform: scale(1.08); }
-        .logo-wrapper .logo-text { font-size: 30px; line-height: 1; }
-
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
-        }
-
-        .auth-header h1 {
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--slate-900);
-            letter-spacing: -0.5px;
-            line-height: 1.2;
-            margin-bottom: 6px;
-        }
-
-        .auth-header p {
-            font-size: 14px;
-            color: var(--slate-500);
-            font-weight: 400;
-            line-height: 1.5;
-        }
-
-        /* ===== INPUT GROUPS (Floating Labels) ===== */
-        .input-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .input-group .input-icon {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 18px;
-            color: var(--slate-400);
-            z-index: 2;
-            transition: color var(--transition-base);
-            pointer-events: none;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 15px 16px 15px 48px;
-            background: var(--white);
-            border: 1.5px solid var(--slate-200);
-            border-radius: var(--radius-lg);
-            font-size: 15px;
-            font-family: inherit;
-            color: var(--slate-900);
-            outline: none;
-            transition: all var(--transition-base);
-            box-shadow: var(--shadow-xs);
-        }
-
-        .input-group input::placeholder { color: transparent; }
-
-        .input-group .floating-label {
-            position: absolute;
-            left: 48px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 15px;
-            color: var(--slate-400);
-            pointer-events: none;
-            transition: all var(--transition-base);
-            background: transparent;
-            padding: 0 4px;
-            z-index: 1;
-        }
-
-        .input-group input:focus,
-        .input-group input:not(:placeholder-shown) { border-color: var(--indigo-400); box-shadow: var(--shadow-glow-indigo), var(--shadow-xs); }
-
-        .input-group input:focus ~ .floating-label,
-        .input-group input:not(:placeholder-shown) ~ .floating-label {
-            top: 0;
-            transform: translateY(-50%);
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--indigo-500);
-            background: var(--white);
-        }
-
-        .input-group input:focus ~ .input-icon,
-        .input-group input:not(:placeholder-shown) ~ .input-icon { color: var(--indigo-500); }
-
-        /* ===== BUTTON ===== */
-        .btn-primary {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, var(--indigo-500) 0%, var(--purple-500) 100%);
-            color: white;
-            border: none;
-            border-radius: var(--radius-lg);
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all var(--transition-base);
-            position: relative;
-            overflow: hidden;
-            font-family: inherit;
-            letter-spacing: 0.3px;
-            box-shadow: 0 4px 20px rgba(99,102,241,0.3), 0 1px 3px rgba(139,92,246,0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 28px;
-        }
-
-        .btn-primary::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.25) 50%, transparent 100%);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(99,102,241,0.45), 0 2px 6px rgba(139,92,246,0.2); }
-        .btn-primary:hover::after { transform: translateX(100%); }
-        .btn-primary:active { transform: translateY(0) scale(0.98); }
-        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-        .btn-primary:disabled::after { display: none; }
-
-        /* Spinner */
-        .btn-spinner {
-            width: 20px; height: 20px;
-            border: 2.5px solid rgba(255,255,255,0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-            display: none;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* ===== MESSAGES ===== */
-        .message {
-            text-align: center;
-            margin-top: 16px;
-            font-size: 13px;
-            font-weight: 500;
-            padding: 10px 16px;
-            border-radius: var(--radius-md);
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-        .message.show { display: block; }
-        .message.error { background: rgba(239,68,68,0.06); color: #dc2626; border: 1px solid rgba(239,68,68,0.2); }
-        .message.success { background: rgba(16,185,129,0.06); color: #059669; border: 1px solid rgba(16,185,129,0.2); }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* ===== FOOTER LINKS ===== */
-        .auth-footer {
-            text-align: center;
-            margin-top: 24px;
-            font-size: 12px;
-            color: var(--slate-400);
-            line-height: 1.8;
-        }
-        .auth-footer a {
-            color: var(--indigo-500);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color var(--transition-fast);
-        }
-        .auth-footer a:hover { color: var(--indigo-600); }
-
-        /* ===== SKIP LOADING OVERLAY ===== */
-        .loading-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 16px;
-            transition: opacity var(--transition-slow);
-        }
-        .loading-overlay.hidden { opacity: 0; pointer-events: none; }
-        .loader-ring {
-            width: 44px; height: 44px;
-            border: 4px solid var(--slate-200);
-            border-top-color: var(--indigo-500);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        .loading-overlay p {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--slate-600);
-        }
-
-        /* ===== TOAST ===== */
-        .toast-container {
-            position: fixed;
-            top: 24px;
-            right: 24px;
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .toast {
-            background: var(--slate-900);
-            color: white;
-            padding: 12px 20px;
-            border-radius: var(--radius-md);
-            font-weight: 600;
-            font-size: 13px;
-            box-shadow: var(--shadow-xl);
-            animation: slideIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .toast.success { background: linear-gradient(135deg, #059669, var(--success)); }
-        .toast.error { background: linear-gradient(135deg, #dc2626, var(--danger)); }
-        @keyframes slideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 480px) {
-            .auth-card { padding: 32px 24px; border-radius: var(--radius-2xl); }
-            .auth-header h1 { font-size: 22px; }
-            .logo-wrapper { width: 52px; height: 52px; border-radius: 14px; }
-            .logo-wrapper .logo-text { font-size: 24px; }
-        }
-    </style>
-</head>
-<body>
-    <!-- Background Effects -->
-    <div class="grid-dots"></div>
-    <div class="bg-blob bg-blob-1"></div>
-    <div class="bg-blob bg-blob-2"></div>
-    <div class="bg-blob bg-blob-3"></div>
-    <div class="bg-blob bg-blob-4"></div>
-    <div class="wave-bottom">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 200" preserveAspectRatio="none">
-            <path class="wave-fill" d="M0,128L48,117.3C96,107,192,85,288,90.7C384,96,480,128,576,138.7C672,149,768,139,864,122.7C960,107,1056,85,1152,80C1248,75,1344,85,1392,90.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"/>
-        </svg>
-    </div>
-
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loader-ring"></div>
-        <p>Preparing your portal...</p>
-    </div>
-
-    <!-- Toast Container -->
-    <div class="toast-container" id="toastContainer"></div>
-
-    <!-- Auth Card -->
-    <div class="auth-wrapper">
-        <div class="auth-card">
-            <div class="auth-header">
-                <div class="logo-wrapper">
-                    <span class="logo-text">🎓</span>
-                </div>
-                <h1>Student Portal</h1>
-                <p>Sign in with your phone number to continue</p>
-            </div>
-
-            <form id="loginForm" autocomplete="off">
-                <!-- Phone Input -->
-                <div class="input-group">
-                    <span class="input-icon"><i class="fas fa-mobile-alt"></i></span>
-                    <input
-                        type="tel"
-                        id="phone"
-                        placeholder="Phone Number"
-                        maxlength="10"
-                        inputmode="numeric"
-                        autocomplete="off"
-                        required
-                    >
-                    <label class="floating-label" for="phone">Phone Number</label>
-                </div>
-
-                <!-- Password Input -->
-                <div class="input-group">
-                    <span class="input-icon"><i class="fas fa-lock"></i></span>
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="Password"
-                        autocomplete="off"
-                        required
-                    >
-                    <label class="floating-label" for="password">Password</label>
-                </div>
-
-                <!-- Submit Button -->
-                <button type="submit" class="btn-primary" id="loginBtn">
-                    <span id="btnText">Sign In</span>
-                    <div class="btn-spinner" id="btnSpinner"></div>
-                </button>
-            </form>
-
-            <!-- Error/Success Messages -->
-            <div class="message error" id="errorMessage"></div>
-            <div class="message success" id="successMessage"></div>
-
-            <!-- Footer -->
-            <div class="auth-footer">
-                Default password: <strong>12345678</strong><br>
-                <a href="admin.html">Admin Panel</a> &nbsp;·&nbsp;
-                <a href="teacher.html">Teacher Portal</a>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // ============================================
-        // FIREBASE INIT
-        // ============================================
-        const firebaseConfig = {
-            apiKey: "AIzaSyAjjjVn1JO3vVgO89yEqontYxwvi-fnetQ",
-            authDomain: "dumbbell-gyme.firebaseapp.com",
-            projectId: "dumbbell-gyme",
-            storageBucket: "dumbbell-gyme.firebasestorage.app",
-            messagingSenderId: "305021976299",
-            appId: "1:305021976299:web:fb85c2b332935d698088ae",
-            measurementId: "G-VEYQ7W61FD"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        // ============================================
-        // AUTO-LOGIN CHECK (Lightning Fast Redirect)
-        // ============================================
-        (function autoLoginCheck() {
-            const existingSession = localStorage.getItem('thp_current_student');
-            const adminSession = localStorage.getItem('thp_admin');
-            const teacherSession = localStorage.getItem('thp_teacher');
-
-            if (adminSession) {
-                window.location.replace('admin.html');
-                return;
-            }
-            if (teacherSession) {
-                window.location.replace('teacher.html');
-                return;
-            }
-            if (existingSession) {
-                try {
-                    const session = JSON.parse(existingSession);
-                    if (session.phone && session.name) {
-                        window.location.replace('student-dashboard.html');
-                        return;
-                    }
-                } catch (e) {
-                    localStorage.removeItem('thp_current_student');
-                }
-            }
-
-            // No session — hide loader, show login
-            document.getElementById('loadingOverlay').classList.add('hidden');
-            setTimeout(() => {
-                const overlay = document.getElementById('loadingOverlay');
-                if (overlay) overlay.remove();
-            }, 500);
-        })();
-
-        // ============================================
-        // STUDENT DATA (90 Students)
-        // ============================================
-        const allStudents = [
-            { rollNo: 1, name: "Tanisha Das", class: "10", phone: "9451231855", password: "12345678" },
-            { rollNo: 2, name: "Kavya Mishra", class: "5", phone: "9307988315", password: "12345678" },
-            { rollNo: 3, name: "Krishna Shukla", class: "12", phone: "7235053167", password: "12345678" },
-            { rollNo: 4, name: "Ammar Ali", class: "8", phone: "7007056402", password: "12345678" },
-            { rollNo: 5, name: "Akshat Kasera", class: "8", phone: "9936449709", password: "12345678" },
-            { rollNo: 6, name: "Vaishnavi Kesar", class: "12", phone: "9336962553", password: "12345678" },
-            { rollNo: 7, name: "Shifa", class: "8", phone: "8957187585", password: "12345678" },
-            { rollNo: 8, name: "Shashwat Chawla", class: "12", phone: "6306744703", password: "12345678" },
-            { rollNo: 9, name: "Divyanshi Chau", class: "12", phone: "9450801658", password: "12345678" },
-            { rollNo: 10, name: "Sheeya Kasera", class: "9", phone: "9305523233", password: "12345678" },
-            { rollNo: 11, name: "Raghav Kasera", class: "9", phone: "9565322947", password: "12345678" },
-            { rollNo: 12, name: "Aradhya Solivastan", class: "9", phone: "9565322947", password: "12345678" },
-            { rollNo: 13, name: "Arshad Solivastan", class: "5", phone: "9565322947", password: "12345678" },
-            { rollNo: 14, name: "Saketha Singh", class: "10", phone: "7317809790", password: "12345678" },
-            { rollNo: 15, name: "Jassi Gupta", class: "5", phone: "7505583637", password: "12345678" },
-            { rollNo: 16, name: "Rohit Chawla", class: "8", phone: "8840179902", password: "12345678" },
-            { rollNo: 17, name: "Amiksha Chau", class: "11", phone: "8840179902", password: "12345678" },
-            { rollNo: 18, name: "Prince Kumar", class: "3", phone: "8299253241", password: "12345678" },
-            { rollNo: 19, name: "Ofas Chawla", class: "10", phone: "949003063", password: "12345678" },
-            { rollNo: 20, name: "Akashi Aggarhani", class: "10", phone: "9335637485", password: "12345678" },
-            { rollNo: 21, name: "Vedansh Kumar", class: "4", phone: "8299589396", password: "12345678" },
-            { rollNo: 22, name: "Pujal Gupta", class: "6", phone: "8299584527", password: "12345678" },
-            { rollNo: 23, name: "Kafur Gupta", class: "6", phone: "8299584527", password: "12345678" },
-            { rollNo: 24, name: "Mohd Alfaz", class: "5", phone: "9839397462", password: "12345678" },
-            { rollNo: 25, name: "Lakshya Kesavooni", class: "10", phone: "9336616595", password: "12345678" },
-            { rollNo: 26, name: "Ansh Verma", class: "12", phone: "6392761742", password: "12345678" },
-            { rollNo: 27, name: "Yash Kumar Gupta", class: "5", phone: "6307495427", password: "12345678" },
-            { rollNo: 28, name: "Kudara Verma", class: "9", phone: "6391153210", password: "12345678" },
-            { rollNo: 29, name: "Dehna Sahu", class: "9", phone: "8317047601", password: "12345678" },
-            { rollNo: 30, name: "HPL Khan", class: "10", phone: "9565661165", password: "12345678" },
-            { rollNo: 31, name: "Ahil Khan", class: "5", phone: "9580362444", password: "12345678" },
-            { rollNo: 32, name: "Chunshila", class: "5", phone: "7392930141", password: "12345678" },
-            { rollNo: 33, name: "Boudan Kumar", class: "10", phone: "8887189920", password: "12345678" },
-            { rollNo: 34, name: "Lavi Singh", class: "8", phone: "9455327077", password: "12345678" },
-            { rollNo: 35, name: "Vanishka Singh", class: "7", phone: "7651825443", password: "12345678" },
-            { rollNo: 36, name: "Angel Kesavan", class: "6", phone: "7651825443", password: "12345678" },
-            { rollNo: 37, name: "Huzafa", class: "10", phone: "9653017839", password: "12345678" },
-            { rollNo: 38, name: "Vashu Vishwakarma", class: "8", phone: "7860900588", password: "12345678" },
-            { rollNo: 39, name: "Khal Tomar", class: "10", phone: "7007661951", password: "12345678" },
-            { rollNo: 40, name: "Asad Arman", class: "10", phone: "8303982415", password: "12345678" },
-            { rollNo: 41, name: "Hujshi Chawaria", class: "7", phone: "8303982415", password: "12345678" },
-            { rollNo: 42, name: "Piyal Kesavan", class: "10", phone: "8931983103", password: "12345678" },
-            { rollNo: 43, name: "Aman Sharma", class: "8", phone: "8127550936", password: "12345678" },
-            { rollNo: 44, name: "Ananya Kesavan", class: "12", phone: "7669986121", password: "12345678" },
-            { rollNo: 45, name: "Harsh Kumar", class: "10", phone: "8957043131", password: "12345678" },
-            { rollNo: 46, name: "Tanushka", class: "6", phone: "8756291225", password: "12345678" },
-            { rollNo: 47, name: "Sanskar Verma", class: "10", phone: "7355344453", password: "12345678" },
-            { rollNo: 48, name: "Trishab Pandey", class: "10", phone: "7839378451", password: "12345678" },
-            { rollNo: 49, name: "Aimal", class: "8", phone: "945055322", password: "12345678" },
-            { rollNo: 50, name: "Ayu Chawaria", class: "8", phone: "8009955858", password: "12345678" },
-            { rollNo: 51, name: "Satyam Pargat", class: "10", phone: "9532279912", password: "12345678" },
-            { rollNo: 52, name: "Student 52", class: "N/A", phone: "6994368944", password: "12345678" },
-            { rollNo: 53, name: "Md Afshyam", class: "10", phone: "9277226409", password: "12345678" },
-            { rollNo: 54, name: "Igwa Khan", class: "10", phone: "9793733274", password: "12345678" },
-            { rollNo: 55, name: "Student 55", class: "N/A", phone: "5500000000", password: "12345678" },
-            { rollNo: 56, name: "Anshika Pandey", class: "12", phone: "8318211500", password: "12345678" },
-            { rollNo: 57, name: "Naya", class: "5", phone: "6394621183", password: "12345678" },
-            { rollNo: 58, name: "Ansh Singh", class: "12", phone: "7992054641", password: "12345678" },
-            { rollNo: 59, name: "Khushi Reshani", class: "3", phone: "6391833973", password: "12345678" },
-            { rollNo: 60, name: "Kauya Nathore", class: "L.K.C.", phone: "8858877233", password: "12345678" },
-            { rollNo: 61, name: "Somviddhi Kesu", class: "7", phone: "8957043131", password: "12345678" },
-            { rollNo: 62, name: "Hkashi Prastogi", class: "10", phone: "9140232318", password: "12345678" },
-            { rollNo: 63, name: "Noman Khawasia", class: "10", phone: "8846055164", password: "12345678" },
-            { rollNo: 64, name: "Sauya Kesawati", class: "12", phone: "9305180866", password: "12345678" },
-            { rollNo: 65, name: "Mahi Srivastava", class: "7", phone: "9305898967", password: "12345678" },
-            { rollNo: 66, name: "Siddhi Vinayak", class: "5", phone: "9305898967", password: "12345678" },
-            { rollNo: 67, name: "Muskan Rathore", class: "12", phone: "9335780456", password: "12345678" },
-            { rollNo: 68, name: "Shubh Keshavani", class: "8", phone: "8528320651", password: "12345678" },
-            { rollNo: 69, name: "Shivam Keshavani", class: "7", phone: "8528320651", password: "12345678" },
-            { rollNo: 70, name: "Gypsiukh Kumar", class: "1", phone: "7052253241", password: "12345678" },
-            { rollNo: 71, name: "Arpit Kumar", class: "12", phone: "9956838053", password: "12345678" },
-            { rollNo: 72, name: "Tanmay Singh", class: "12", phone: "9555831536", password: "12345678" },
-            { rollNo: 73, name: "Tanvi Verma", class: "4", phone: "8881912337", password: "12345678" },
-            { rollNo: 74, name: "Piyush Yadav", class: "8", phone: "8303086631", password: "12345678" },
-            { rollNo: 75, name: "Kauya Kesawani", class: "8", phone: "7398669064", password: "12345678" },
-            { rollNo: 76, name: "Alkama", class: "5", phone: "8957187585", password: "12345678" },
-            { rollNo: 77, name: "Arshi Gupta", class: "5", phone: "8933954064", password: "12345678" },
-            { rollNo: 78, name: "Ayush Gupta", class: "1", phone: "8933954064", password: "12345678" },
-            { rollNo: 79, name: "Imilc Siddiqui", class: "1", phone: "9335958840", password: "12345678" },
-            { rollNo: 80, name: "Prakhar Kearwani", class: "1", phone: "6393742577", password: "12345678" },
-            { rollNo: 81, name: "Joyanhu Das", class: "1", phone: "9415604642", password: "12345678" },
-            { rollNo: 82, name: "Vanhika Prayapati", class: "1", phone: "8381984381", password: "12345678" },
-            { rollNo: 83, name: "Bhavya Prayapati", class: "1", phone: "8381984381", password: "12345678" },
-            { rollNo: 84, name: "Aryan Keshwanthi", class: "1", phone: "9140362202", password: "12345678" },
-            { rollNo: 85, name: "Ishika Verma", class: "1", phone: "6386942176", password: "12345678" },
-            { rollNo: 86, name: "Swasti Verma", class: "1", phone: "6386942176", password: "12345678" },
-            { rollNo: 87, name: "Sonakshi Chaudhary", class: "1", phone: "9369442416", password: "12345678" },
-            { rollNo: 88, name: "Naman Kumar Gupta", class: "1", phone: "9278033667", password: "12345678" },
-            { rollNo: 89, name: "Niti Singh Rathore", class: "1", phone: "9219140451", password: "12345678" },
-            { rollNo: 90, name: "Satvik Chaurasia", class: "1", phone: "7499513825", password: "12345678" }
-        ];
-
-        // ============================================
-        // INITIALIZE STUDENTS
-        // ============================================
-        async function initializeStudents() {
-            try {
-                const batch = db.batch();
-                allStudents.forEach(s => {
-                    batch.set(db.collection('students').doc(s.phone), {
-                        rollNo: s.rollNo, name: s.name, class: s.class,
-                        phone: s.phone, password: s.password,
-                        profilePhoto: '', email: '', address: '',
-                        fatherName: '', motherName: '', bloodGroup: '',
-                        dateOfBirth: '', gender: '',
-                        attendance: {}, testScores: {},
-                        performance: { strengths: '', weaknesses: '', remarks: '' },
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    }, { merge: true });
-                });
-                await batch.commit();
-                console.log('✅ 90 students initialized');
-                return true;
-            } catch (e) { console.error('Init error:', e); return false; }
-        }
-
-        // ============================================
-        // TOAST
-        // ============================================
-        function showToast(msg, type = 'info') {
-            const c = document.getElementById('toastContainer');
-            const t = document.createElement('div');
-            t.className = `toast ${type}`;
-            t.innerHTML = `<span>${type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ'}</span> ${msg}`;
-            c.appendChild(t);
-            setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateX(120%)'; setTimeout(() => t.remove(), 300); }, 3000);
-        }
-
-        // ============================================
-        // LOGIN HANDLER
-        // ============================================
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const phone = document.getElementById('phone').value.trim();
-            const password = document.getElementById('password').value.trim();
-            const errorDiv = document.getElementById('errorMessage');
-            const successDiv = document.getElementById('successMessage');
-            const btnText = document.getElementById('btnText');
-            const spinner = document.getElementById('btnSpinner');
-            const loginBtn = document.getElementById('loginBtn');
-
-            errorDiv.classList.remove('show');
-            successDiv.classList.remove('show');
-
-            if (!phone || !password) {
-                errorDiv.textContent = 'Please enter both phone number and password';
-                errorDiv.classList.add('show');
-                return;
-            }
-            if (phone.length !== 10 || !/^\d{10}$/.test(phone)) {
-                errorDiv.textContent = 'Please enter a valid 10-digit phone number';
-                errorDiv.classList.add('show');
-                return;
-            }
-
-            btnText.style.display = 'none';
-            spinner.style.display = 'block';
-            loginBtn.disabled = true;
-
-            try {
-                // Admin check
-                if (phone === '9999999999' && password === 'admin123') {
-                    localStorage.setItem('thp_admin', JSON.stringify({ role: 'admin', loginTime: new Date().toISOString() }));
-                    successDiv.textContent = 'Admin access granted. Redirecting…';
-                    successDiv.classList.add('show');
-                    setTimeout(() => window.location.replace('admin.html'), 600);
-                    return;
-                }
-                // Teacher check
-                if (phone === '8888888888' && password === 'teacher123') {
-                    localStorage.setItem('thp_teacher', JSON.stringify({ role: 'teacher', loginTime: new Date().toISOString() }));
-                    successDiv.textContent = 'Teacher access granted. Redirecting…';
-                    successDiv.classList.add('show');
-                    setTimeout(() => window.location.replace('teacher.html'), 600);
-                    return;
-                }
-
-                // Student check
-                let doc = await db.collection('students').doc(phone).get();
-                if (!doc.exists) {
-                    await initializeStudents();
-                    doc = await db.collection('students').doc(phone).get();
-                    if (!doc.exists) {
-                        errorDiv.textContent = 'Student not found. Contact admin.';
-                        errorDiv.classList.add('show');
-                        resetButton();
-                        return;
-                    }
-                }
-
-                const data = doc.data();
-                if (data.password !== password) {
-                    errorDiv.textContent = 'Incorrect password. Default is 12345678.';
-                    errorDiv.classList.add('show');
-                    resetButton();
-                    return;
-                }
-
-                localStorage.setItem('thp_current_student', JSON.stringify({
-                    phone, rollNo: data.rollNo, name: data.name,
-                    class: data.class, loginTime: new Date().toISOString()
-                }));
-
-                successDiv.textContent = `Welcome back, ${data.name}!`;
-                successDiv.classList.add('show');
-                loginBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-                spinner.style.display = 'none';
-                btnText.style.display = 'block';
-                btnText.textContent = '✓ Signed In';
-
-                setTimeout(() => window.location.replace('student-dashboard.html'), 500);
-            } catch (err) {
-                console.error(err);
-                errorDiv.textContent = 'Connection error. Check your internet.';
-                errorDiv.classList.add('show');
-                resetButton();
-            }
-        });
-
-        function resetButton() {
-            document.getElementById('btnText').style.display = 'block';
-            document.getElementById('btnText').textContent = 'Sign In';
-            document.getElementById('btnSpinner').style.display = 'none';
-            const btn = document.getElementById('loginBtn');
-            btn.disabled = false;
-            btn.style.background = '';
-        }
-
-        // ============================================
-        // PRE-FLIGHT INIT
-        // ============================================
-        (async () => {
-            try {
-                const snap = await db.collection('students').limit(1).get();
-                if (snap.empty) {
-                    console.log('🔄 First run — initializing student database…');
-                    await initializeStudents();
-                }
-            } catch (_) { /* will retry on login */ }
-        })();
-    </script>
-</body>
-</html>
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+  <meta charset="UTF-8" />  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>STARLET - Login & Signup</title>  
+  <script src="https://cdn.tailwindcss.com"></script>  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />  
+  <style>  
+    :root {  
+      --primary: #6366f1;  
+      --primary-dark: #4f46e5;  
+      --primary-light: #818cf8;  
+      --secondary: #f43f5e;  
+      --dark: #1e293b;  
+      --light: #f8fafc;  
+    }  body {   
+  font-family: 'Poppins', sans-serif;  
+  background: linear-gradient(135deg, #f9fafb, #f3f4f6);  
+  overflow-x: hidden;  
+}  
+  
+.fade {   
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);  
+}  
+  
+.form-input {  
+  transition: all 0.3s ease;  
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);  
+}  
+  
+.form-input:focus {  
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);  
+}  
+  
+.btn-primary {  
+  background-image: linear-gradient(to right, var(--primary), var(--primary-dark));  
+  box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3), 0 2px 4px -1px rgba(99, 102, 241, 0.2);  
+  cursor: pointer;  
+}  
+  
+.btn-primary:hover {  
+  background-image: linear-gradient(to right, var(--primary-dark), var(--primary));  
+  transform: translateY(-1px);  
+  box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3), 0 4px 6px -2px rgba(99, 102, 241, 0.2);  
+}  
+  
+.btn-primary:active {  
+  transform: translateY(0);  
+}  
+  
+.btn-secondary {  
+  background-image: linear-gradient(to right, #f43f5e, #e11d48);  
+  box-shadow: 0 4px 6px -1px rgba(244, 63, 94, 0.3), 0 2px 4px -1px rgba(244, 63, 94, 0.2);  
+  cursor: pointer;  
+}  
+  
+.btn-secondary:hover {  
+  background-image: linear-gradient(to right, #e11d48, #f43f5e);  
+}  
+  
+.floating-label {  
+  position: absolute;  
+  top: 0;  
+  left: 0;  
+  transform: translate(12px, 12px);  
+  transition: all 0.2s ease-out;  
+  pointer-events: none;  
+  color: #64748b;  
+  font-size: 14px;  
+}  
+  
+.input-filled + .floating-label,  
+.form-input:focus + .floating-label {  
+  transform: translate(8px, -8px) scale(0.85);  
+  background-color: white;  
+  padding: 0 4px;  
+  color: var(--primary);  
+}  
+  
+.input-group {  
+  position: relative;  
+}  
+  
+.loader {  
+  width: 48px;  
+  height: 48px;  
+  border: 5px solid #e0e7ff;  
+  border-bottom-color: var(--primary);  
+  border-radius: 50%;  
+  display: inline-block;  
+  box-sizing: border-box;  
+  animation: rotation 1s linear infinite;  
+}  
+  
+@keyframes rotation {  
+  0% { transform: rotate(0deg); }  
+  100% { transform: rotate(360deg); }  
+}  
+  
+.card {  
+  backdrop-filter: blur(16px) saturate(180%);  
+  -webkit-backdrop-filter: blur(16px) saturate(180%);  
+  background-color: rgba(255, 255, 255, 0.95);  
+  border-radius: 12px;  
+  border: 1px solid rgba(209, 213, 219, 0.3);  
+  max-height: 90vh;  
+  overflow-y: auto;  
+  scrollbar-width: thin;  
+  scrollbar-color: var(--primary) #f1f1f1;  
+}  
+  
+.card::-webkit-scrollbar {  
+  width: 6px;  
+}  
+  
+.card::-webkit-scrollbar-track {  
+  background: #f1f1f1;  
+  border-radius: 10px;  
+}  
+  
+.card::-webkit-scrollbar-thumb {  
+  background-color: var(--primary);  
+  border-radius: 10px;  
+}  
+  
+.wave {  
+  position: fixed;  
+  bottom: 0;  
+  left: 0;  
+  width: 100%;  
+  overflow: hidden;  
+  line-height: 0;  
+  transform: rotate(180deg);  
+  z-index: -1;  
+}  
+  
+.wave svg {  
+  position: relative;  
+  display: block;  
+  width: calc(100% + 1.3px);  
+  height: 150px;  
+}  
+  
+.wave .shape-fill {  
+  fill: rgba(99, 102, 241, 0.1);  
+}  
+  
+.clickable {  
+  cursor: pointer;  
+  transition: all 0.2s ease;  
+}  
+  
+.clickable:hover {  
+  opacity: 0.9;  
+  transform: scale(1.02);  
+}  
+  
+.clickable:active {  
+  transform: scale(0.98);  
+}  
+  
+@media (max-height: 700px) {  
+  .card {  
+    max-height: 80vh;  
+  }  
+}
+
+  </style>  
+</head>  
+<body class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">  
+  <!-- Background Elements -->  
+  <div class="absolute inset-0 overflow-hidden z-0">  
+    <div class="absolute top-0 left-0 w-64 h-64 bg-indigo-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>  
+    <div class="absolute top-0 right-0 w-64 h-64 bg-pink-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>  
+    <div class="absolute bottom-0 right-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>  
+  </div>    <!-- Loader -->    <div id="loader" class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-90 z-50 transition-opacity duration-500">  
+    <div class="text-center">  
+      <div class="loader mb-4"></div>  
+      <p class="text-indigo-600 font-medium">Loading STARLET...</p>  
+    </div>  
+  </div>    <!-- Form Container -->    <div class="w-full max-w-md card shadow-2xl fade opacity-0 transform translate-y-4 mx-auto my-8" id="formContainer">  
+    <div class="p-8">  
+      <div class="text-center mb-8">  
+        <div class="flex justify-center mb-4 clickable" onclick="window.location.reload()">  
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">  
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />  
+          </svg>  
+        </div>  
+        <h2 class="text-3xl font-bold text-indigo-700 mb-2 clickable" onclick="window.location.reload()">STARLET</h2>  
+        <p class="text-gray-500" id="formTitle">Login to your account</p>  
+      </div>  <form id="authForm" class="space-y-6">  
+    <div id="nameField" class="hidden">  
+      <div class="input-group">  
+        <input type="text" id="name" class="form-input w-full p-3 border border-gray-200 rounded-lg focus:outline-none" />  
+        <label class="floating-label">Full Name</label>  
+      </div>  
+    </div>  
+
+    <div id="mobileField" class="hidden">  
+      <div class="input-group">  
+        <input type="text" id="mobile" class="form-input w-full p-3 border border-gray-200 rounded-lg focus:outline-none" />  
+        <label class="floating-label">Mobile Number</label>  
+      </div>  
+    </div>  
+
+    <div id="courseField" class="hidden">  
+      <div class="input-group">  
+        <select id="course" class="form-input w-full p-3 border border-gray-200 rounded-lg focus:outline-none appearance-none">  
+          <option value=""></option>  
+          <option value="BSc 1st Year">BSc 1st Year</option>  
+          <option value="BSc 2nd Year">BSc 2nd Year</option>  
+          <option value="BSc 3rd Year">BSc 3rd Year</option>  
+        </select>  
+        <label class="floating-label">Choose Course</label>  
+        <div class="absolute right-3 top-3 text-gray-400">  
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">  
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />  
+          </svg>  
+        </div>  
+      </div>  
+    </div>  
+
+    <div class="input-group">  
+      <input type="email" id="email" class="form-input w-full p-3 border border-gray-200 rounded-lg focus:outline-none" required />  
+      <label class="floating-label">Email Address</label>  
+    </div>  
+
+    <div class="input-group">  
+      <input type="password" id="password" class="form-input w-full p-3 border border-gray-200 rounded-lg focus:outline-none" required />  
+      <label class="floating-label">Password</label>  
+    </div>  
+
+    <div class="flex justify-between items-center text-sm">  
+      <div class="flex items-center">  
+        <input id="remember" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded clickable">  
+        <label for="remember" class="ml-2 block text-gray-600 clickable">Remember me</label>  
+      </div>  
+      <button type="button" id="forgotPassword" class="text-indigo-600 hover:text-indigo-800 transition-colors clickable">Forgot Password?</button>  
+    </div>  
+
+    <button type="submit" id="authBtn" class="btn-primary w-full text-white p-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 clickable">  
+      <span id="authText">Login</span>  
+      <svg id="spinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">  
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>  
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0h8z"/>  
+      </svg>  
+    </button>  
+
+    <div class="text-center text-sm text-gray-600">  
+      <span id="toggleFormText">Don't have an account?</span>  
+      <button type="button" id="toggleForm" class="ml-1 text-indigo-600 hover:text-indigo-800 font-medium transition-colors clickable">Sign Up</button>  
+    </div>  
+
+    <div id="payNow" class="hidden text-center pt-4 border-t border-gray-100">  
+      <p class="text-gray-600 mb-3">You haven't purchased access yet.</p>  
+      <a href="GPay.html" class="btn-secondary inline-block px-6 py-2 text-white rounded-lg transition-all clickable">Pay Now</a>  
+    </div>  
+  </form>  
+
+  <div id="popupMessage" class="hidden mt-6 text-center text-white px-4 py-3 rounded-lg transition-all duration-300 shadow-lg"></div>  
+    
+  <div class="mt-8 text-center text-xs text-gray-400">  
+    <p class="clickable" onclick="window.location.href='terms.html'">Terms of Service</p>  
+    <p class="clickable mt-1" onclick="window.location.href='privacy.html'">Privacy Policy</p>  
+  </div>  
+</div>
+
+  </div>    <!-- Wave Decoration -->    <div class="wave">  
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">  
+      <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>  
+      <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="shape-fill"></path>  
+      <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="shape-fill"></path>  
+    </svg>  
+  </div>    <!-- Firebase Auth & Logic -->    <script type="module">  
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";  
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";  
+    import { getFirestore, setDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";  
+  
+    const firebaseConfig = {  
+      apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",  
+      authDomain: "starlet-registor.firebaseapp.com",  
+      projectId: "starlet-registor",  
+      storageBucket: "starlet-registor.appspot.com",  
+      messagingSenderId: "904193225045",  
+      appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc"  
+    };  
+  
+    const app = initializeApp(firebaseConfig);  
+    const auth = getAuth(app);  
+    const db = getFirestore(app);  
+  
+    // Floating label functionality  
+    document.querySelectorAll('.form-input').forEach(input => {  
+      // Check if input has value on page load  
+      if(input.value) {  
+        input.classList.add('input-filled');  
+      }  
+        
+      // Add event listeners  
+      input.addEventListener('input', () => {  
+        if(input.value) {  
+          input.classList.add('input-filled');  
+        } else {  
+          input.classList.remove('input-filled');  
+        }  
+      });  
+    });  
+  
+    onAuthStateChanged(auth, async (user) => {  
+      if (user) {  
+        const docSnap = await getDoc(doc(db, "users", user.uid));  
+        if (docSnap.exists() && docSnap.data().hasAccess) {  
+          const course = docSnap.data().course;  
+          let redirectPage = "dashboard.html";  
+          if (course === "BSc 1st Year") redirectPage = "bsc1.html";  
+          else if (course === "BSc 2nd Year") redirectPage = "bsc2.html";  
+          else if (course === "BSc 3rd Year") redirectPage = "bsc3.html";  
+          window.location.replace(redirectPage);  
+        } else {  
+          await signOut(auth);  
+          document.getElementById("loader").classList.add("hidden");  
+          document.getElementById("formContainer").classList.remove("opacity-0");  
+          document.getElementById("formContainer").classList.remove("translate-y-4");  
+        }  
+      } else {  
+        document.getElementById("loader").classList.add("hidden");  
+        document.getElementById("formContainer").classList.remove("opacity-0");  
+        document.getElementById("formContainer").classList.remove("translate-y-4");  
+      }  
+    });  
+  
+    let isLogin = true;  
+    const toggleFormBtn = document.getElementById("toggleForm");  
+    const toggleFormText = document.getElementById("toggleFormText");  
+    const authText = document.getElementById("authText");  
+    const formTitle = document.getElementById("formTitle");  
+    const popup = document.getElementById("popupMessage");  
+  
+    function showMessage(msg, bg = 'bg-green-600') {  
+      popup.textContent = msg;  
+      popup.className = `block mt-6 text-center text-white px-4 py-3 rounded-lg transition-all duration-300 shadow-lg ${bg}`;  
+      popup.classList.remove("hidden");  
+      setTimeout(() => popup.classList.add("hidden"), 3000);  
+    }  
+  
+    function toggleForm() {  
+      isLogin = !isLogin;  
+      document.getElementById("nameField").classList.toggle("hidden", isLogin);  
+      document.getElementById("mobileField").classList.toggle("hidden", isLogin);  
+      document.getElementById("courseField").classList.toggle("hidden", isLogin);  
+      formTitle.textContent = isLogin ? "Login to your account" : "Create a new account";  
+      authText.textContent = isLogin ? "Login" : "Sign Up";  
+      toggleFormText.textContent = isLogin ? "Don't have an account?" : "Already have an account?";  
+      toggleFormBtn.textContent = isLogin ? "Sign Up" : "Login";  
+        
+      // Reset form fields when toggling  
+      if(isLogin) {  
+        document.getElementById("name").value = "";  
+        document.getElementById("mobile").value = "";  
+        document.getElementById("course").value = "";  
+        document.getElementById("name").classList.remove('input-filled');  
+        document.getElementById("mobile").classList.remove('input-filled');  
+        document.getElementById("course").classList.remove('input-filled');  
+      }  
+    }  
+  
+    toggleFormBtn.addEventListener("click", () => {  
+      document.getElementById("formContainer").classList.add("opacity-0");  
+      document.getElementById("formContainer").classList.add("translate-y-4");  
+      setTimeout(() => {  
+        toggleForm();  
+        document.getElementById("formContainer").classList.remove("opacity-0");  
+        document.getElementById("formContainer").classList.remove("translate-y-4");  
+      }, 300);  
+    });  
+  
+    document.getElementById("authForm").addEventListener("submit", async (e) => {  
+      e.preventDefault();  
+      const email = document.getElementById("email").value.trim();  
+      const password = document.getElementById("password").value;  
+      const spinner = document.getElementById("spinner");  
+      const authBtn = document.getElementById("authBtn");  
+  
+      authText.textContent = isLogin ? "Logging in..." : "Signing up...";  
+      spinner.classList.remove("hidden");  
+      authBtn.disabled = true;  
+  
+      try {  
+        if (isLogin) {  
+          const userCredential = await signInWithEmailAndPassword(auth, email, password);  
+          const docSnap = await getDoc(doc(db, "users", userCredential.user.uid));  
+          if (docSnap.exists() && docSnap.data().hasAccess) {  
+            const course = docSnap.data().course;  
+            showMessage("Login successful! Redirecting...");  
+  
+            let redirectPage = "dashboard.html";  
+            if (course === "BSc 1st Year") redirectPage = "bsc1.html";  
+            else if (course === "BSc 2nd Year") redirectPage = "bsc2.html";  
+            else if (course === "BSc 3rd Year") redirectPage = "bsc3.html";  
+  
+            setTimeout(() => window.location.replace(redirectPage), 1000);  
+          } else {  
+            document.getElementById("payNow").classList.remove("hidden");  
+            await signOut(auth);  
+            showMessage("Please complete your payment to access content", 'bg-indigo-600');  
+          }  
+        } else {  
+          const name = document.getElementById("name").value.trim();  
+          const mobile = document.getElementById("mobile").value.trim();  
+          const course = document.getElementById("course").value;  
+  
+          if(!name || !mobile || !course) {  
+            throw new Error("Please fill all required fields");  
+          }  
+  
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);  
+          await setDoc(doc(db, "users", userCredential.user.uid), {  
+            name, email, mobile, course, hasAccess: false  
+          });  
+          showMessage("Account created successfully! Please login.");  
+          setTimeout(() => toggleForm(), 1500);  
+        }  
+      } catch (error) {  
+        showMessage(error.message, 'bg-red-500');  
+      } finally {  
+        authText.textContent = isLogin ? "Login" : "Sign Up";  
+        spinner.classList.add("hidden");  
+        authBtn.disabled = false;  
+      }  
+    });  
+  
+    document.getElementById("forgotPassword").addEventListener("click", async (e) => {  
+      e.preventDefault();  
+      const email = document.getElementById("email").value.trim();  
+        
+      if(!email) {  
+        showMessage("Please enter your email in the email field first", 'bg-indigo-600');  
+        document.getElementById("email").focus();  
+        return;  
+      }  
+        
+      try {  
+        await sendPasswordResetEmail(auth, email);  
+        showMessage("Password reset email sent. Check your inbox.", 'bg-indigo-600');  
+      } catch (error) {  
+        showMessage("Error: " + error.message, 'bg-red-500');  
+      }  
+    });  
+  
+    // Add click effects to all clickable elements  
+    document.querySelectorAll('.clickable').forEach(element => {  
+      element.addEventListener('mousedown', () => {  
+        element.classList.add('active:scale-95');  
+      });  
+      element.addEventListener('mouseup', () => {  
+        element.classList.remove('active:scale-95');  
+      });  
+      element.addEventListener('mouseleave', () => {  
+        element.classList.remove('active:scale-95');  
+      });  
+    });  
+  </script>  </body>  
+</html>  
