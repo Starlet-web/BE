@@ -5,15 +5,12 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Premium Pricing — Exclusive Offer</title>
 
-  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <!-- Razorpay -->
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
   <style>
@@ -27,52 +24,33 @@
       --accent-2: #10b981;
       --shadow: 0 10px 25px rgba(15,23,42,0.08);
       --radius: 20px;
-      --glass-blur: 12px;
       --text: #0f172a;
-      --cta-shadow: 0 10px 25px rgba(79,70,229,0.15);
       --savings-color: #059669;
       --discount-color: #dc2626;
       --featured-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
     }
-
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0;
-      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      margin:0; font-family: "Inter", system-ui, sans-serif;
       background: linear-gradient(135deg, #f0f4ff 0%, var(--bg) 100%);
-      color:var(--text);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      padding:40px 18px;
-      line-height: 1.6;
+      color:var(--text); -webkit-font-smoothing:antialiased;
+      padding:40px 18px; line-height: 1.6;
     }
-
     .wrap{ max-width:1200px; margin:0 auto; }
-
     .header{ text-align:center; margin-bottom:40px; }
     .title{
-      font-size:2.5rem;
-      font-weight:800;
-      letter-spacing:-0.5px;
+      font-size:2.5rem; font-weight:800; letter-spacing:-0.5px;
       margin:0 0 12px;
       background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-    .subtitle{
-      margin:0 auto;
-      color:var(--muted);
-      max-width:820px;
-      font-size:1.1rem;
-      line-height:1.6;
-    }
+    .subtitle{ margin:0 auto; color:var(--muted); max-width:820px; font-size:1.1rem; }
     .bar{
       width:120px; height:5px; margin:24px auto 0; border-radius:999px;
       background: linear-gradient(90deg,var(--accent-start), var(--accent-end));
       box-shadow: 0 6px 18px rgba(79,70,229,0.15);
     }
-
     .discount-banner {
       background: linear-gradient(90deg, #ef4444, #f59e0b);
       color: white; padding: 16px 24px; border-radius: 16px;
@@ -83,63 +61,36 @@
       position: relative; overflow: hidden;
     }
     .discount-banner::before {
-      content: "";
-      position: absolute; top: 0; left: -100%;
+      content: ""; position: absolute; top: 0; left: -100%;
       width: 100%; height: 100%;
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
       animation: shimmer 3s infinite;
     }
     @keyframes shimmer { 0% { left: -100%; } 100% { left: 100%; } }
-    .discount-banner i { font-size: 1.5rem; }
 
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:28px;
-      margin-top:40px;
-    }
-
+    .grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:28px; margin-top:40px; }
     .card{
-      background:var(--card-bg);
-      border-radius:var(--radius);
-      padding:28px;
-      box-shadow:var(--shadow);
-      border:1px solid var(--glass-border);
-      backdrop-filter: blur(var(--glass-blur));
-      -webkit-backdrop-filter: blur(var(--glass-blur));
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      min-height:520px;
-      transition: transform .4s cubic-bezier(.2,.9,.3,1), box-shadow .4s;
-      position: relative;
-      overflow: hidden;
+      background:var(--card-bg); border-radius:var(--radius); padding:28px;
+      box-shadow:var(--shadow); border:1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      display:flex; flex-direction:column; justify-content:space-between;
+      min-height:520px; transition: transform .4s cubic-bezier(.2,.9,.3,1), box-shadow .4s;
+      position: relative; overflow: hidden;
     }
     .card::before {
-      content: "";
-      position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+      content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
       background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
     }
-    .card:hover{
-      transform: translateY(-12px);
-      box-shadow: 0 25px 50px rgba(15,23,42,0.12);
-    }
-
+    .card:hover{ transform: translateY(-12px); box-shadow: 0 25px 50px rgba(15,23,42,0.12); }
     .badge{
-      display:inline-block; font-size:0.8rem; padding:8px 16px;
-      border-radius:999px; background: linear-gradient(90deg,var(--accent-2), #8b5cf6);
-      color:white; font-weight:700; box-shadow: 0 6px 18px rgba(16,185,129,0.2);
+      display:inline-block; font-size:0.8rem; padding:8px 16px; border-radius:999px;
+      background: linear-gradient(90deg,var(--accent-2), #8b5cf6); color:white;
+      font-weight:700; box-shadow: 0 6px 18px rgba(16,185,129,0.2);
     }
-
-    .card-head{
-      display:flex; align-items:flex-start; justify-content:space-between;
-      gap:12px; margin-bottom:22px;
-    }
+    .card-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:22px; }
     .plan{ font-size:1.5rem; font-weight:700; margin:0; }
     .tagline{ font-size:0.9rem; color:var(--muted); margin-top:6px; }
-
     .price-block{ margin:18px 0 12px; display:flex; flex-direction: column; gap: 14px; }
-
     .price-row{
       display:flex; align-items:center; justify-content:space-between;
       gap:12px; padding:16px; border-radius:14px;
@@ -147,15 +98,11 @@
       border:1px solid rgba(15,23,42,0.05);
       position:relative; transition: all 0.3s ease;
     }
-    .price-row:hover {
-      background: rgba(248,250,252,1);
-      box-shadow: 0 5px 15px rgba(15,23,42,0.05);
-    }
     .savings{
       position:absolute; top:-8px; right:12px;
       background:var(--savings-color); color:#fff;
       font-size:0.7rem; padding:4px 8px; border-radius:8px;
-      font-weight:700; z-index: 1;
+      font-weight:700;
     }
     .price-label{ display:flex; flex-direction:column; flex: 1; }
     .price-amount{
@@ -163,66 +110,34 @@
       display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
     }
     .price-desc{ font-size:0.85rem; color:var(--muted); margin-top: 4px; }
-    .original-price{
-      text-decoration: line-through; color: var(--muted);
-      font-size: 0.9rem; font-weight: 500;
-    }
+    .original-price{ text-decoration: line-through; color: var(--muted); font-size: 0.9rem; font-weight: 500; }
     .discount-tag{
       background: var(--discount-color); color: white;
-      font-size: 0.75rem; padding: 4px 8px;
-      border-radius: 6px; font-weight: 700;
+      font-size: 0.75rem; padding: 4px 8px; border-radius: 6px; font-weight: 700;
     }
-
-    .features{
-      list-style:none; padding:0; margin:20px 0 28px;
-      display:grid; gap:12px;
-    }
-    .features li{
-      font-size:0.9rem; color:#374151;
-      display:flex; gap:12px; align-items:flex-start;
-    }
-    .features i{
-      color: var(--accent-end); font-size:1rem;
-      margin-top:2px; min-width:20px;
-    }
-
+    .features{ list-style:none; padding:0; margin:20px 0 28px; display:grid; gap:12px; }
+    .features li{ font-size:0.9rem; color:#374151; display:flex; gap:12px; align-items:flex-start; }
+    .features i{ color: var(--accent-end); font-size:1rem; margin-top:2px; min-width:20px; }
     .cta-group{ display:flex; flex-direction: column; gap:10px; margin-top:auto; }
-
     .btn{
       display:inline-flex; align-items:center; justify-content:center; gap:8px;
       padding:14px 16px; font-weight:700; border-radius:12px;
       border:none; cursor:pointer; font-size:0.9rem;
-      text-decoration:none; transition: transform .2s ease, box-shadow .2s ease;
+      transition: transform .2s ease, box-shadow .2s ease;
       font-family: inherit;
     }
     .btn:active{ transform: translateY(2px); }
-
     .btn-primary{
       background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
-      color:white; box-shadow: var(--cta-shadow);
-      border: 1px solid rgba(79,70,229,0.1);
+      color:white; box-shadow: 0 10px 25px rgba(79,70,229,0.15);
     }
-    .btn-primary:hover{
-      transform: translateY(-4px);
-      box-shadow: 0 15px 30px rgba(79,70,229,0.25);
-    }
-
+    .btn-primary:hover{ transform: translateY(-4px); box-shadow: 0 15px 30px rgba(79,70,229,0.25); }
     .btn-outline{
       background:transparent; color:var(--text);
       border:1px solid rgba(15,23,42,0.1);
-      box-shadow: none;
     }
-    .btn-outline:hover{
-      transform: translateY(-4px);
-      box-shadow: 0 10px 20px rgba(15,23,42,0.08);
-      border-color: rgba(79,70,229,0.3);
-    }
-
-    .small-note{
-      display:block; text-align:center; margin-top:16px;
-      font-size:0.8rem; color:var(--muted);
-    }
-
+    .btn-outline:hover{ transform: translateY(-4px); box-shadow: 0 10px 20px rgba(15,23,42,0.08); border-color: rgba(79,70,229,0.3); }
+    .small-note{ display:block; text-align:center; margin-top:16px; font-size:0.8rem; color:var(--muted); }
     .card.featured{
       border: 1px solid rgba(79,70,229,0.15);
       background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
@@ -235,65 +150,39 @@
       background: var(--featured-gradient); color: white;
       padding: 6px 30px; font-size: 0.7rem; font-weight: 700;
       transform: rotate(45deg);
-      box-shadow: 0 5px 15px rgba(79,70,229,0.3);
     }
     .card.featured .badge{
       background: linear-gradient(90deg,#f59e0b,#d97706);
-      box-shadow: 0 8px 28px rgba(245,158,11,0.2);
     }
-
     .pricing-footer{
       text-align:center; margin-top:40px; color:var(--muted);
       font-size:0.9rem; display: flex; align-items: center;
       justify-content: center; gap: 20px; flex-wrap: wrap;
     }
     .pricing-footer a{ color:var(--accent-end); text-decoration:none; font-weight:700; }
-    .pricing-footer a:hover { text-decoration: underline; }
 
-    /* ========== BOOKING MODAL ========== */
+    /* MODAL */
     .modal-overlay {
-      position: fixed; inset: 0;
-      background: rgba(15,23,42,0.7);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      z-index: 1000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      overflow-y: auto;
+      position: fixed; inset: 0; background: rgba(15,23,42,0.7);
+      backdrop-filter: blur(12px); z-index: 1000;
+      display: none; align-items: center; justify-content: center;
+      padding: 16px; overflow-y: auto;
     }
     .modal-overlay.active { display: flex; }
-    
     .modal-content {
-      background: white;
-      border-radius: 24px;
-      width: 100%;
-      max-width: 480px;
-      box-shadow: 0 40px 100px rgba(0,0,0,0.3);
-      position: relative;
-      max-height: 92vh;
-      overflow-y: auto;
+      background: white; border-radius: 24px; width: 100%; max-width: 480px;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.3); position: relative;
+      max-height: 92vh; overflow-y: auto;
       animation: modalSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
     @keyframes modalSlide {
       from { opacity: 0; transform: translateY(40px) scale(0.95); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
-
     .modal-header {
       background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
-      padding: 24px;
-      border-radius: 24px 24px 0 0;
-      color: white;
-      text-align: center;
-      position: relative;
-    }
-    .modal-header::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 60%);
-      border-radius: 24px 24px 0 0;
+      padding: 24px; border-radius: 24px 24px 0 0; color: white;
+      text-align: center; position: relative;
     }
     .modal-close {
       position: absolute; top: 16px; right: 16px;
@@ -301,10 +190,8 @@
       background: rgba(255,255,255,0.15); border: none;
       color: white; cursor: pointer; z-index: 10;
       display: flex; align-items: center; justify-content: center;
-      transition: all 0.25s ease;
     }
-    .modal-close:hover { background: rgba(255,255,255,0.25); transform: rotate(90deg); }
-    
+    .modal-close:hover { background: rgba(255,255,255,0.25); }
     .modal-icon {
       width: 60px; height: 60px; border-radius: 20px;
       background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
@@ -312,28 +199,18 @@
       margin: 0 auto 12px; position: relative; z-index: 1;
       border: 2px solid rgba(255,255,255,0.3);
     }
-    .modal-title {
-      font-size: 22px; font-weight: 800;
-      margin-bottom: 4px; position: relative; z-index: 1;
-    }
-    .modal-subtitle {
-      font-size: 13px; color: rgba(255,255,255,0.85);
-      position: relative; z-index: 1;
-    }
-
+    .modal-title { font-size: 22px; font-weight: 800; margin-bottom: 4px; position: relative; z-index: 1; }
+    .modal-subtitle { font-size: 13px; color: rgba(255,255,255,0.85); position: relative; z-index: 1; }
     .modal-body { padding: 24px; }
 
     .plan-summary {
       background: linear-gradient(135deg, #f0f4ff 0%, #f7f9fc 100%);
-      border: 1px solid rgba(79,70,229,0.12);
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 20px;
+      border: 1px solid rgba(79,70,229,0.12); border-radius: 16px;
+      padding: 16px; margin-bottom: 20px;
     }
     .plan-summary-row {
-      display: flex; justify-content: space-between;
-      align-items: center; margin-bottom: 10px;
-      font-size: 13px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 10px; font-size: 13px;
     }
     .plan-summary-row:last-child { margin-bottom: 0; padding-top: 10px; border-top: 1px dashed rgba(79,70,229,0.2); }
     .plan-summary-row .label { color: #6b7280; font-weight: 500; }
@@ -342,7 +219,6 @@
       font-size: 20px; font-weight: 800;
       background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      transition: all 0.3s ease;
     }
     .plan-summary-row .total.discounted {
       background: linear-gradient(90deg, #10b981, #059669);
@@ -357,119 +233,72 @@
 
     .form-group { margin-bottom: 16px; }
     .form-label {
-      display: block; font-size: 11px;
-      font-weight: 700; color: #475569;
-      margin-bottom: 6px; text-transform: uppercase;
-      letter-spacing: 0.5px;
+      display: block; font-size: 11px; font-weight: 700; color: #475569;
+      margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;
     }
     .form-label .req { color: #dc2626; margin-left: 2px; }
     .form-label .optional { color: #94a3b8; font-weight: 500; text-transform: none; font-size: 10px; margin-left: 4px; }
-    
     .form-input {
-      width: 100%; padding: 12px 14px;
-      border-radius: 12px;
+      width: 100%; padding: 12px 14px; border-radius: 12px;
       border: 1.5px solid rgba(15,23,42,0.1);
-      font-size: 14px; font-family: inherit;
-      transition: all 0.25s ease;
+      font-size: 14px; font-family: inherit; transition: all 0.25s ease;
       background: #f8fafc; color: #0f172a;
     }
     .form-input:focus {
       outline: none; border-color: var(--accent-start);
       background: white; box-shadow: 0 0 0 4px rgba(79,70,229,0.1);
     }
-    .form-input::placeholder { color: #94a3b8; }
-    
     .form-input.referral-active {
       border-color: #10b981;
       background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
       box-shadow: 0 0 0 4px rgba(16,185,129,0.1);
     }
-
     .form-select {
       appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%234f46e5' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-      padding-right: 40px;
-      cursor: pointer;
+      background-repeat: no-repeat; background-position: right 14px center;
+      padding-right: 40px; cursor: pointer;
     }
-
-    .form-textarea { 
-      resize: vertical; 
-      min-height: 70px; 
-      font-family: inherit;
-      line-height: 1.5;
-    }
+    .form-textarea { resize: vertical; min-height: 70px; font-family: inherit; line-height: 1.5; }
     .form-textarea.referral-active {
       border-color: #10b981;
       background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
-      box-shadow: 0 0 0 4px rgba(16,185,129,0.1);
     }
-
     .referral-hint {
-      font-size: 11px;
-      color: #94a3b8;
-      margin-top: 6px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
+      font-size: 11px; color: #94a3b8; margin-top: 6px;
+      display: flex; align-items: center; gap: 4px;
     }
-    .referral-hint.success {
-      color: #059669;
-      font-weight: 600;
-    }
-    .referral-hint.success::before {
-      content: '✓';
-      font-weight: 800;
-    }
-    .referral-hint.error {
-      color: #dc2626;
-      font-weight: 600;
-    }
-    .referral-hint.error::before {
-      content: '✗';
-      font-weight: 800;
-    }
+    .referral-hint.success { color: #059669; font-weight: 600; }
+    .referral-hint.error { color: #dc2626; font-weight: 600; }
 
     .pay-btn {
       width: 100%; padding: 16px;
       background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
-      color: white; border: none;
-      border-radius: 14px; font-weight: 700;
+      color: white; border: none; border-radius: 14px; font-weight: 700;
       font-size: 15px; cursor: pointer;
       box-shadow: 0 10px 25px rgba(79,70,229,0.25);
       transition: all 0.3s ease;
       display: flex; align-items: center; justify-content: center; gap: 8px;
-      font-family: inherit;
-      margin-top: 8px;
+      font-family: inherit; margin-top: 8px;
     }
-    .pay-btn:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 15px 35px rgba(79,70,229,0.35);
-    }
+    .pay-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 15px 35px rgba(79,70,229,0.35); }
     .pay-btn:disabled { opacity: 0.6; cursor: not-allowed; }
     .pay-btn.discounted {
       background: linear-gradient(90deg, #10b981, #059669);
       box-shadow: 0 10px 25px rgba(16,185,129,0.3);
     }
-    .pay-btn.discounted:hover:not(:disabled) {
-      box-shadow: 0 15px 35px rgba(16,185,129,0.45);
-    }
-
     .secure-note {
-      text-align: center; margin-top: 12px;
-      font-size: 11px; color: #94a3b8;
+      text-align: center; margin-top: 12px; font-size: 11px; color: #94a3b8;
       display: flex; align-items: center; justify-content: center; gap: 6px;
     }
 
-    /* ========== SUCCESS MODAL ========== */
+    /* SUCCESS MODAL */
     .success-modal-content { text-align: center; }
     .success-icon {
       width: 80px; height: 80px; border-radius: 50%;
       background: linear-gradient(135deg, #10b981, #059669);
       display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 20px;
-      box-shadow: 0 20px 40px rgba(16,185,129,0.3);
+      margin: 0 auto 20px; box-shadow: 0 20px 40px rgba(16,185,129,0.3);
       animation: successPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
     @keyframes successPop {
@@ -477,57 +306,35 @@
       60% { transform: scale(1.15); }
       100% { transform: scale(1); }
     }
-    .success-title {
-      font-size: 24px; font-weight: 800;
-      color: #0f172a; margin-bottom: 8px;
-    }
-    .success-subtitle {
-      font-size: 14px; color: #6b7280;
-      margin-bottom: 24px;
-    }
+    .success-title { font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 8px; }
+    .success-subtitle { font-size: 14px; color: #6b7280; margin-bottom: 24px; }
     .success-details {
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 20px;
-      text-align: left;
+      background: #f0fdf4; border: 1px solid #bbf7d0;
+      border-radius: 14px; padding: 16px; margin-bottom: 20px; text-align: left;
     }
     .success-details-row {
-      display: flex; justify-content: space-between;
-      font-size: 13px; margin-bottom: 8px;
+      display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px;
     }
     .success-details-row:last-child { margin-bottom: 0; }
     .success-details-row .lbl { color: #6b7280; }
-    .success-details-row .val { 
-      color: #065f46; font-weight: 700; 
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-    }
-
+    .success-details-row .val { color: #065f46; font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
     .continue-btn {
       width: 100%; padding: 16px;
       background: linear-gradient(90deg, #10b981, #059669);
-      color: white; border: none;
-      border-radius: 14px; font-weight: 700;
+      color: white; border: none; border-radius: 14px; font-weight: 700;
       font-size: 15px; cursor: pointer;
       box-shadow: 0 10px 25px rgba(16,185,129,0.25);
       transition: all 0.3s ease;
       display: flex; align-items: center; justify-content: center; gap: 8px;
       font-family: inherit;
     }
-    .continue-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 15px 35px rgba(16,185,129,0.4);
-    }
+    .continue-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 35px rgba(16,185,129,0.4); }
 
-    /* ========== SPINNER ========== */
     .spinner {
       display: inline-block; width: 16px; height: 16px;
       border: 2px solid rgba(255,255,255,0.3);
       border-top-color: white; border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-right: 6px;
+      animation: spin 0.8s linear infinite; margin-right: 6px;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -541,9 +348,6 @@
       .grid{ grid-template-columns: 1fr; gap:20px; }
       .card.featured { grid-column: span 1; }
       .card{ min-height: auto; padding: 22px; }
-      .discount-banner { font-size: 1rem; padding: 12px 18px; }
-      .pricing-footer { flex-direction: column; gap: 10px; }
-      .modal-body { padding: 20px; }
     }
   </style>
 </head>
@@ -551,7 +355,7 @@
   <div class="wrap">
     <header class="header">
       <h1 class="title">Premium Learning Plans</h1>
-      <p class="subtitle">Choose per-subject access or the discounted TRIO bundle (3 subjects). Quality coaching at affordable prices!</p>
+      <p class="subtitle">Choose per-subject access or the discounted TRIO bundle. Quality coaching at affordable prices!</p>
       <div class="bar"></div>
     </header>
 
@@ -572,29 +376,21 @@
               </div>
               <div class="badge">Popular</div>
             </div>
-
             <div class="price-block">
               <div class="price-row">
                 <div class="price-label">
-                  <div class="price-amount">
-                    <span class="original-price">₹665</span> ₹399
-                    <span class="discount-tag">40% OFF</span>
-                  </div>
+                  <div class="price-amount"><span class="original-price">₹665</span> ₹399 <span class="discount-tag">40% OFF</span></div>
                   <div class="price-desc">Per subject • Monthly billing</div>
                 </div>
               </div>
               <div class="price-row">
                 <div class="price-label">
-                  <div class="price-amount">
-                    <span class="original-price">₹1600</span> ₹960
-                    <span class="discount-tag">40% OFF</span>
-                  </div>
+                  <div class="price-amount"><span class="original-price">₹1600</span> ₹960 <span class="discount-tag">40% OFF</span></div>
                   <div class="price-desc">TRIO (All 3 subjects) • Monthly billing</div>
                 </div>
                 <div class="savings">Save 19% + 40% OFF</div>
               </div>
             </div>
-
             <ul class="features">
               <li><i class="fas fa-check-circle"></i> Complete subject notes & summaries</li>
               <li><i class="fas fa-check-circle"></i> Recent years' previous question papers</li>
@@ -602,7 +398,6 @@
               <li><i class="fas fa-check-circle"></i> Live lectures (recordings available)</li>
             </ul>
           </div>
-
           <div>
             <div class="cta-group">
               <button class="btn btn-outline" onclick="Pricing.openBooking('monthly', 'single', 399, 'Monthly · 1 Subject')">
@@ -625,29 +420,21 @@
                 <div class="tagline">Balanced 6 months access</div>
               </div>
             </div>
-
             <div class="price-block">
               <div class="price-row">
                 <div class="price-label">
-                  <div class="price-amount">
-                    <span class="original-price">₹2999</span> ₹1799
-                    <span class="discount-tag">40% OFF</span>
-                  </div>
+                  <div class="price-amount"><span class="original-price">₹2999</span> ₹1799 <span class="discount-tag">40% OFF</span></div>
                   <div class="price-desc">Per subject • 6 months access</div>
                 </div>
               </div>
               <div class="price-row">
                 <div class="price-label">
-                  <div class="price-amount">
-                    <span class="original-price">₹7000</span> ₹4200
-                    <span class="discount-tag">40% OFF</span>
-                  </div>
+                  <div class="price-amount"><span class="original-price">₹7000</span> ₹4200 <span class="discount-tag">40% OFF</span></div>
                   <div class="price-desc">TRIO (All 3 subjects) • 6 months access</div>
                 </div>
                 <div class="savings">Save 22% + 40% OFF</div>
               </div>
             </div>
-
             <ul class="features">
               <li><i class="fas fa-check-circle"></i> Full notes & topic summaries</li>
               <li><i class="fas fa-check-circle"></i> 5 years PYQs & quick answers</li>
@@ -655,7 +442,6 @@
               <li><i class="fas fa-check-circle"></i> Live + recorded lectures</li>
             </ul>
           </div>
-
           <div>
             <div class="cta-group">
               <button class="btn btn-outline" onclick="Pricing.openBooking('semester', 'single', 1799, 'Semester · 1 Subject')">
@@ -679,29 +465,21 @@
               </div>
               <div class="badge">Best Value</div>
             </div>
-
             <div class="price-block">
               <div class="price-row">
                 <div class="price-label">
-                  <div class="price-amount">
-                    <span class="original-price">₹5999</span> ₹3599
-                    <span class="discount-tag">40% OFF</span>
-                  </div>
+                  <div class="price-amount"><span class="original-price">₹5999</span> ₹3599 <span class="discount-tag">40% OFF</span></div>
                   <div class="price-desc">Per subject • Full year access</div>
                 </div>
               </div>
               <div class="price-row">
                 <div class="price-label">
-                  <div class="price-amount">
-                    <span class="original-price">₹10000</span> ₹6000
-                    <span class="discount-tag">40% OFF</span>
-                  </div>
+                  <div class="price-amount"><span class="original-price">₹10000</span> ₹6000 <span class="discount-tag">40% OFF</span></div>
                   <div class="price-desc">TRIO (All 3 subjects) • Full year access</div>
                 </div>
                 <div class="savings">Save 44% + 40% OFF</div>
               </div>
             </div>
-
             <ul class="features">
               <li><i class="fas fa-check-circle"></i> Complete notes + downloadable PDFs</li>
               <li><i class="fas fa-check-circle"></i> 5+ years previous papers & solved answers</li>
@@ -710,7 +488,6 @@
               <li><i class="fas fa-check-circle"></i> Monthly mock tests & performance feedback</li>
             </ul>
           </div>
-
           <div>
             <div class="cta-group">
               <button class="btn btn-outline" onclick="Pricing.openBooking('annual', 'single', 3599, 'Annual · 1 Subject')">
@@ -723,7 +500,6 @@
             <div class="small-note">Best for serious learners • Save more with annual plans</div>
           </div>
         </article>
-
       </section>
 
       <div class="pricing-footer">
@@ -731,11 +507,10 @@
         <span><i class="fas fa-sync-alt"></i> Cancel anytime</span>
         <span><i class="fas fa-headset"></i> Need help? <a href="https://wa.me/919648837922">Contact us</a></span>
       </div>
-
     </main>
   </div>
 
-  <!-- ========== BOOKING MODAL ========== -->
+  <!-- BOOKING MODAL -->
   <div class="modal-overlay" id="bookingModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -750,7 +525,6 @@
       </div>
 
       <div class="modal-body">
-        <!-- Plan Summary -->
         <div class="plan-summary">
           <div class="plan-summary-row">
             <span class="label">Plan:</span>
@@ -766,7 +540,6 @@
           </div>
         </div>
 
-        <!-- Form -->
         <form id="bookingForm" onsubmit="return false;">
           <div class="form-group">
             <label class="form-label">Full Name <span class="req">*</span></label>
@@ -819,7 +592,7 @@
     </div>
   </div>
 
-  <!-- ========== SUCCESS MODAL ========== -->
+  <!-- SUCCESS MODAL -->
   <div class="modal-overlay" id="successModal">
     <div class="modal-content">
       <div class="modal-body success-modal-content">
@@ -827,7 +600,7 @@
           <i class="fas fa-check" style="color:white; font-size:36px;"></i>
         </div>
         <div class="success-title">Payment Successful! 🎉</div>
-        <div class="success-subtitle">Your subscription has been activated</div>
+        <div class="success-subtitle">Your account is being activated</div>
 
         <div class="success-details">
           <div class="success-details-row">
@@ -854,7 +627,7 @@
 
         <button class="continue-btn" id="continueBtn" onclick="Pricing.continueToCourse()">
           <i class="fas fa-arrow-right"></i>
-          Continue to Course
+          Continue to Dashboard
         </button>
       </div>
     </div>
@@ -862,7 +635,6 @@
 
   <script>
     (function() {
-      // ========== CONFIG ==========
       const fb = {
         apiKey: "AIzaSyASP6S4EE4p40LBrzrTW8CBcKRmPo-lrck",
         authDomain: "neet-d6d95.firebaseapp.com",
@@ -873,36 +645,29 @@
       };
       firebase.initializeApp(fb);
       const db = firebase.firestore();
+      const auth = firebase.auth();
+      
+      // 🔥 SESSION PERSIST
+      auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(() => {});
 
-      // ========== RAZORPAY ==========
       const RAZORPAY_KEY_ID = 'rzp_live_T7tknhaLrGXKDS';
-
-      // ========== REFERRAL CODE ==========
       const REFERRAL_CODE = 'mg786';
-      const DISCOUNTED_PRICE = 1; // ₹1
+      const DISCOUNTED_PRICE = 1;
 
-      // ========== STATE ==========
       let bookingState = {
-        plan: null,
-        type: null,
-        originalAmount: 0,
-        amount: 0,
+        plan: null, type: null,
+        originalAmount: 0, amount: 0,
         planLabel: '',
         referralApplied: false,
-        customerName: '',
-        customerPhone: '',
-        customerEmail: '',
-        customerYear: '',
-        customerYearLabel: '',
-        customerMessage: ''
+        customerName: '', customerPhone: '', customerEmail: '',
+        customerYear: '', customerYearLabel: '', customerMessage: ''
       };
 
-      // ========== TOAST ==========
       function toast(msg, type = 'info') {
         const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
         const colors = { success: '#10b981', error: '#ef4444', warning: '#f59e0b', info: '#4f46e5' };
         const d = document.createElement('div');
-        d.style.cssText = `position:fixed;bottom:24px;right:24px;background:white;border-left:4px solid ${colors[type]};border-radius:12px;padding:14px 20px;box-shadow:0 10px 30px rgba(0,0,0,0.15);font-size:13px;font-weight:500;color:#0f172a;display:flex;align-items:center;gap:10px;z-index:9999;max-width:340px;animation:slideIn 0.4s ease;`;
+        d.style.cssText = `position:fixed;bottom:24px;right:24px;background:white;border-left:4px solid ${colors[type]};border-radius:12px;padding:14px 20px;box-shadow:0 10px 30px rgba(0,0,0,0.15);font-size:13px;font-weight:500;color:#0f172a;display:flex;align-items:center;gap:10px;z-index:9999;max-width:340px;`;
         d.innerHTML = `<span style="font-size:16px;">${icons[type]}</span><span style="flex:1;">${msg}</span>`;
         document.body.appendChild(d);
         setTimeout(() => {
@@ -913,7 +678,6 @@
         }, 3200);
       }
 
-      // ========== OPEN BOOKING MODAL ==========
       function openBooking(plan, type, amount, planLabel) {
         bookingState.plan = plan;
         bookingState.type = type;
@@ -933,19 +697,15 @@
         payBtn.classList.remove('discounted');
         payBtn.innerHTML = `<i class="fas fa-credit-card"></i> Pay ₹${amount} & Continue`;
         
-        // Reset form
         document.getElementById('custName').value = '';
         document.getElementById('custPhone').value = '';
         document.getElementById('custEmail').value = '';
         document.getElementById('custYear').value = '';
         document.getElementById('custMessage').value = '';
         
-        // Reset referral hint
         const hint = document.getElementById('referralHint');
         hint.className = 'referral-hint';
         hint.innerHTML = '<i class="fas fa-info-circle"></i><span>Have a special code? Write it here for surprise benefits!</span>';
-        
-        // Reset input styles
         document.getElementById('custMessage').classList.remove('referral-active');
 
         document.getElementById('bookingModal').classList.add('active');
@@ -957,51 +717,26 @@
         document.body.style.overflow = '';
       }
 
-      function closeSuccess() {
-        document.getElementById('successModal').classList.remove('active');
-        document.body.style.overflow = '';
-      }
-
-      // ========== REFERRAL CODE CHECK (Real-time) ==========
+      // REFERRAL CODE CHECK
       document.getElementById('custMessage').addEventListener('input', function(e) {
         const text = this.value.trim().toLowerCase();
         const hint = document.getElementById('referralHint');
         const totalEl = document.getElementById('summaryTotal');
         const payBtn = document.getElementById('payBtn');
         
-        if (text === REFERRAL_CODE) {
-          // Apply discount
+        if (text.includes(REFERRAL_CODE)) {
           bookingState.referralApplied = true;
           bookingState.amount = DISCOUNTED_PRICE;
-          
           this.classList.add('referral-active');
           hint.className = 'referral-hint success';
-          hint.innerHTML = `<span>Referral applied! Price reduced to ₹${DISCOUNTED_PRICE}</span>`;
-          
+          hint.innerHTML = `<span>✓ Referral applied! Price reduced to ₹${DISCOUNTED_PRICE}</span>`;
           totalEl.textContent = '₹' + DISCOUNTED_PRICE;
           totalEl.classList.add('discounted');
-          
-          payBtn.classList.add('discounted');
-          payBtn.innerHTML = `<i class="fas fa-gift"></i> Pay ₹${DISCOUNTED_PRICE} & Continue`;
-        } else if (text.length > 0 && text.includes(REFERRAL_CODE)) {
-          // Partial match - still valid
-          bookingState.referralApplied = true;
-          bookingState.amount = DISCOUNTED_PRICE;
-          
-          this.classList.add('referral-active');
-          hint.className = 'referral-hint success';
-          hint.innerHTML = `<span>Referral found! Price reduced to ₹${DISCOUNTED_PRICE}</span>`;
-          
-          totalEl.textContent = '₹' + DISCOUNTED_PRICE;
-          totalEl.classList.add('discounted');
-          
           payBtn.classList.add('discounted');
           payBtn.innerHTML = `<i class="fas fa-gift"></i> Pay ₹${DISCOUNTED_PRICE} & Continue`;
         } else {
-          // No discount
           bookingState.referralApplied = false;
           bookingState.amount = bookingState.originalAmount;
-          
           this.classList.remove('referral-active');
           
           if (text.length === 0) {
@@ -1014,19 +749,16 @@
           
           totalEl.textContent = '₹' + bookingState.originalAmount;
           totalEl.classList.remove('discounted');
-          
           payBtn.classList.remove('discounted');
           payBtn.innerHTML = `<i class="fas fa-credit-card"></i> Pay ₹${bookingState.originalAmount} & Continue`;
         }
       });
 
-      // ========== UPDATE SUMMARY ON YEAR CHANGE ==========
       document.getElementById('custYear').addEventListener('change', function() {
         const yearLabel = this.options[this.selectedIndex].text;
         document.getElementById('summaryYear').textContent = yearLabel || 'Not selected';
       });
 
-      // ========== INITIATE PAYMENT ==========
       async function initiatePayment() {
         const name = document.getElementById('custName').value.trim();
         const phone = document.getElementById('custPhone').value.trim();
@@ -1034,14 +766,13 @@
         const year = document.getElementById('custYear').value;
         const message = document.getElementById('custMessage').value.trim();
 
-        // Validations
         if (!name) return toast('Please enter your full name', 'warning');
         if (name.length < 3) return toast('Name must be at least 3 characters', 'warning');
-        if (!phone) return toast('Please enter your mobile number', 'warning');
-        if (phone.length !== 10) return toast('Please enter valid 10-digit mobile number', 'warning');
-        if (!/^[6-9]/.test(phone)) return toast('Mobile number should start with 6, 7, 8, or 9', 'warning');
-        if (!email) return toast('Please enter your email', 'warning');
-        if (!email.includes('@') || !email.includes('.')) return toast('Please enter valid email address', 'warning');
+        if (!phone) return toast('Please enter mobile number', 'warning');
+        if (phone.length !== 10) return toast('Please enter valid 10-digit mobile', 'warning');
+        if (!/^[6-9]/.test(phone)) return toast('Mobile should start with 6, 7, 8, or 9', 'warning');
+        if (!email) return toast('Please enter email', 'warning');
+        if (!email.includes('@') || !email.includes('.')) return toast('Please enter valid email', 'warning');
         if (!year) return toast('Please select your year', 'warning');
 
         const yearLabel = {
@@ -1057,7 +788,6 @@
         bookingState.customerYearLabel = yearLabel;
         bookingState.customerMessage = message;
 
-        // Update button state
         const btn = document.getElementById('payBtn');
         const originalHTML = btn.innerHTML;
         btn.disabled = true;
@@ -1066,16 +796,12 @@
         try {
           const options = {
             key: RAZORPAY_KEY_ID,
-            amount: bookingState.amount * 100, // in paise
+            amount: bookingState.amount * 100,
             currency: 'INR',
             name: 'THP-STARLET Premium',
             description: bookingState.planLabel,
             image: 'https://i.ibb.co/xt7mYYBs/file-000000002fcc7207b8b433ab7215535e.png',
-            prefill: {
-              name: name,
-              email: email,
-              contact: phone
-            },
+            prefill: { name, email, contact: phone },
             notes: {
               plan: bookingState.plan,
               type: bookingState.type,
@@ -1084,9 +810,7 @@
               referralApplied: bookingState.referralApplied,
               originalAmount: bookingState.originalAmount
             },
-            theme: {
-              color: '#4f46e5'
-            },
+            theme: { color: '#4f46e5' },
             handler: async function(response) {
               await handlePaymentSuccess(response);
             },
@@ -1107,59 +831,72 @@
           });
           rzp.open();
         } catch (e) {
-          console.error('Payment error:', e);
           btn.disabled = false;
           btn.innerHTML = originalHTML;
           toast('Error: ' + e.message, 'error');
         }
       }
 
-      // ========== HANDLE PAYMENT SUCCESS ==========
       async function handlePaymentSuccess(response) {
         const btn = document.getElementById('payBtn');
         btn.innerHTML = '<span class="spinner"></span> Saving...';
 
         try {
+          const enrollDate = new Date();
+          const validTill = calculateValidTill(bookingState.plan, enrollDate);
+
           const orderData = {
-            // Customer info
             name: bookingState.customerName,
             phone: bookingState.customerPhone,
             email: bookingState.customerEmail,
             year: bookingState.customerYear,
             yearLabel: bookingState.customerYearLabel,
             message: bookingState.customerMessage || '',
-            
-            // Plan info
             plan: bookingState.plan,
             planLabel: bookingState.planLabel,
             type: bookingState.type,
             originalAmount: bookingState.originalAmount,
             amount: bookingState.amount,
             referralApplied: bookingState.referralApplied,
-            
-            // Payment info
             paymentId: response.razorpay_payment_id,
             paymentStatus: 'paid',
-            paymentDate: new Date().toISOString(),
-            
-            // Meta
+            paymentDate: enrollDate.toISOString(),
+            enrollmentDate: enrollDate.toISOString(),
+            validTill: validTill.toISOString(),
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
             source: 'pricing-page'
           };
 
-          // Add to orders collection
+          // Save to orders collection
           const docRef = await db.collection('orders').add(orderData);
-          
-          // Also save to premiumUsers collection
+          console.log('✅ Order saved:', docRef.id);
+
+          // Save to premiumUsers collection (for easy lookup)
           const userDocId = `${bookingState.customerYear}_${bookingState.customerPhone}`;
           await db.collection('premiumUsers').doc(userDocId).set({
             ...orderData,
-            orderId: docRef.id,
-            validTill: calculateValidTill(bookingState.plan)
+            orderId: docRef.id
           }, { merge: true });
+          console.log('✅ Premium user saved:', userDocId);
 
-          console.log('✅ Order saved:', docRef.id);
-          console.log('💰 Amount:', bookingState.amount, '| Referral:', bookingState.referralApplied);
+          // Try to create anonymous auth user with custom claim (for login)
+          try {
+            // If not authenticated, create a user via signInAnonymously
+            if (!auth.currentUser) {
+              await auth.signInAnonymously();
+            }
+            // Save to users/{uid}
+            if (auth.currentUser) {
+              await db.collection('users').doc(auth.currentUser.uid).set({
+                ...orderData,
+                uid: auth.currentUser.uid,
+                role: 'student'
+              }, { merge: true });
+              console.log('✅ User doc saved:', auth.currentUser.uid);
+            }
+          } catch (authErr) {
+            console.warn('Auth save failed (ok):', authErr);
+          }
 
           closeBooking();
           showSuccessModal(response.razorpay_payment_id);
@@ -1172,97 +909,56 @@
         }
       }
 
-      function calculateValidTill(plan) {
-        const now = new Date();
-        if (plan === 'monthly') {
-          now.setMonth(now.getMonth() + 1);
-        } else if (plan === 'semester') {
-          now.setMonth(now.getMonth() + 6);
-        } else if (plan === 'annual') {
-          now.setFullYear(now.getFullYear() + 1);
-        }
-        return now.toISOString();
+      function calculateValidTill(plan, startDate) {
+        const end = new Date(startDate);
+        if (plan === 'monthly') end.setMonth(end.getMonth() + 1);
+        else if (plan === 'semester') end.setMonth(end.getMonth() + 6);
+        else if (plan === 'annual') end.setFullYear(end.getFullYear() + 1);
+        return end;
       }
 
-      // ========== SHOW SUCCESS MODAL ==========
       function showSuccessModal(paymentId) {
         document.getElementById('successPayId').textContent = paymentId;
         document.getElementById('successName').textContent = bookingState.customerName;
         document.getElementById('successPlan').textContent = bookingState.planLabel;
         document.getElementById('successYear').textContent = bookingState.customerYearLabel;
         document.getElementById('successAmount').textContent = '₹' + bookingState.amount;
-
-        const continueBtn = document.getElementById('continueBtn');
-        continueBtn.onclick = function() {
-          const redirectMap = {
-            '1': 'bsc1.html',
-            '2': 'bsc2.html',
-            '3': 'bsc3.html'
-          };
-          const targetPage = redirectMap[bookingState.customerYear] || 'bsc1.html';
-          
-          continueBtn.innerHTML = '<span class="spinner"></span> Redirecting...';
-          continueBtn.disabled = true;
-          
-          setTimeout(() => {
-            window.location.href = targetPage;
-          }, 800);
-        };
-
         document.getElementById('successModal').classList.add('active');
         document.body.style.overflow = 'hidden';
       }
 
-      // ========== CONTINUE TO COURSE ==========
       function continueToCourse() {
+        const continueBtn = document.getElementById('continueBtn');
+        continueBtn.innerHTML = '<span class="spinner"></span> Redirecting...';
+        continueBtn.disabled = true;
+
         const redirectMap = {
           '1': 'bsc1.html',
           '2': 'bsc2.html',
           '3': 'bsc3.html'
         };
         const targetPage = redirectMap[bookingState.customerYear] || 'bsc1.html';
-        window.location.href = targetPage;
+        
+        setTimeout(() => {
+          window.location.href = targetPage;
+        }, 600);
       }
 
-      // ========== EXPORT ==========
       window.Pricing = {
-        openBooking,
-        closeBooking,
-        closeSuccess,
-        initiatePayment,
-        continueToCourse
+        openBooking, closeBooking,
+        initiatePayment, continueToCourse
       };
 
-      // ========== CLOSE MODAL ON OVERLAY CLICK ==========
       document.getElementById('bookingModal').addEventListener('click', function(e) {
         if (e.target === this) closeBooking();
       });
-      document.getElementById('successModal').addEventListener('click', function(e) {
-        if (e.target === this && bookingState.amount === 0) closeSuccess();
-      });
 
-      // ========== ESCAPE KEY ==========
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-          closeBooking();
-        }
-      });
-
-      // ========== PHONE INPUT VALIDATION ==========
       document.getElementById('custPhone').addEventListener('input', function(e) {
         this.value = this.value.replace(/\D/g, '').slice(0, 10);
       });
 
-      console.log('💰 THP-STARLET Pricing Page Ready');
-      console.log('🎁 Referral code: mg786 → ₹1');
+      console.log('💰 THP-STARLET Pricing Ready | 🎁 mg786 → ₹1');
     })();
   </script>
-
-  <style>
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(80px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-  </style>
 </body>
 </html>
