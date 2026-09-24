@@ -1,464 +1,791 @@
-<!DOCTYPE html>  <html lang="en">  
-<head>  
-  <meta charset="UTF-8" />  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  <title>STARLET - Login & Signup</title>  
-  <script src="https://cdn.tailwindcss.com"></script>  
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />  
-  <style>  
-    :root {  
-      --primary: #6366f1;  
-      --primary-dark: #4f46e5;  
-      --primary-light: #818cf8;  
-      --secondary: #f43f5e;  
-      --dark: #1e293b;  
-      --light: #f8fafc;  
-    }  body {   
-  font-family: 'Poppins', sans-serif;  
-  background: linear-gradient(135deg, #f9fafb, #f3f4f6);  
-  overflow-x: hidden;  
-}  
-  
-.fade {   
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);  
-}  
-  
-.form-input {  
-  transition: all 0.3s ease;  
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);  
-}  
-  
-.form-input:focus {  
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);  
-}  
-  
-.btn-primary {  
-  background-image: linear-gradient(to right, var(--primary), var(--primary-dark));  
-  box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3), 0 2px 4px -1px rgba(99, 102, 241, 0.2);  
-  cursor: pointer;  
-}  
-  
-.btn-primary:hover {  
-  background-image: linear-gradient(to right, var(--primary-dark), var(--primary));  
-  transform: translateY(-1px);  
-  box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3), 0 4px 6px -2px rgba(99, 102, 241, 0.2);  
-}  
-  
-.btn-primary:active {  
-  transform: translateY(0);  
-}  
-  
-.btn-secondary {  
-  background-image: linear-gradient(to right, #f43f5e, #e11d48);  
-  box-shadow: 0 4px 6px -1px rgba(244, 63, 94, 0.3), 0 2px 4px -1px rgba(244, 63, 94, 0.2);  
-  cursor: pointer;  
-}  
-  
-.btn-secondary:hover {  
-  background-image: linear-gradient(to right, #e11d48, #f43f5e);  
-}  
-  
-.floating-label {  
-  position: absolute;  
-  top: 0;  
-  left: 0;  
-  transform: translate(12px, 12px);  
-  transition: all 0.2s ease-out;  
-  pointer-events: none;  
-  color: #64748b;  
-  font-size: 14px;  
-}  
-  
-.input-filled + .floating-label,  
-.form-input:focus + .floating-label {  
-  transform: translate(8px, -8px) scale(0.85);  
-  background-color: white;  
-  padding: 0 4px;  
-  color: var(--primary);  
-}  
-  
-.input-group {  
-  position: relative;  
-}  
-  
-.loader {  
-  width: 48px;  
-  height: 48px;  
-  border: 5px solid #e0e7ff;  
-  border-bottom-color: var(--primary);  
-  border-radius: 50%;  
-  display: inline-block;  
-  box-sizing: border-box;  
-  animation: rotation 1s linear infinite;  
-}  
-  
-@keyframes rotation {  
-  0% { transform: rotate(0deg); }  
-  100% { transform: rotate(360deg); }  
-}  
-  
-.card {  
-  backdrop-filter: blur(16px) saturate(180%);  
-  -webkit-backdrop-filter: blur(16px) saturate(180%);  
-  background-color: rgba(255, 255, 255, 0.95);  
-  border-radius: 12px;  
-  border: 1px solid rgba(209, 213, 219, 0.3);  
-  max-height: 90vh;  
-  overflow-y: auto;  
-  scrollbar-width: thin;  
-  scrollbar-color: var(--primary) #f1f1f1;  
-}  
-  
-.card::-webkit-scrollbar {  
-  width: 6px;  
-}  
-  
-.card::-webkit-scrollbar-track {  
-  background: #f1f1f1;  
-  border-radius: 10px;  
-}  
-  
-.card::-webkit-scrollbar-thumb {  
-  background-color: var(--primary);  
-  border-radius: 10px;  
-}  
-  
-.wave {  
-  position: fixed;  
-  bottom: 0;  
-  left: 0;  
-  width: 100%;  
-  overflow: hidden;  
-  line-height: 0;  
-  transform: rotate(180deg);  
-  z-index: -1;  
-}  
-  
-.wave svg {  
-  position: relative;  
-  display: block;  
-  width: calc(100% + 1.3px);  
-  height: 150px;  
-}  
-  
-.wave .shape-fill {  
-  fill: rgba(99, 102, 241, 0.1);  
-}  
-  
-.clickable {  
-  cursor: pointer;  
-  transition: all 0.2s ease;  
-}  
-  
-.clickable:hover {  
-  opacity: 0.9;  
-  transform: scale(1.02);  
-}  
-  
-.clickable:active {  
-  transform: scale(0.98);  
-}  
-  
-@media (max-height: 700px) {  
-  .card {  
-    max-height: 80vh;  
-  }  
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STARLET - Phone Login & Access</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-  </style>  
-</head>  
-<body class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">  
-  <!-- Background Elements -->  
-  <div class="absolute inset-0 overflow-hidden z-0">  
-    <div class="absolute top-0 left-0 w-64 h-64 bg-indigo-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>  
-    <div class="absolute top-0 right-0 w-64 h-64 bg-pink-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>  
-    <div class="absolute bottom-0 right-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>  
-  </div>    <!-- Loader -->    <div id="loader" class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-90 z-50 transition-opacity duration-500">  
-    <div class="text-center">  
-      <div class="loader mb-4"></div>  
-      <p class="text-indigo-600 font-medium">Loading STARLET...</p>  
-    </div>  
-  </div>    <!-- Form Container -->    <div class="w-full max-w-md card shadow-2xl fade opacity-0 transform translate-y-4 mx-auto my-8" id="formContainer">  
-    <div class="p-8">  
-      <div class="text-center mb-8">  
-        <div class="flex justify-center mb-4 clickable" onclick="window.location.reload()">  
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">  
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />  
-          </svg>  
-        </div>  
-        <h2 class="text-3xl font-bold text-indigo-700 mb-2 clickable" onclick="window.location.reload()">STARLET</h2>  
-        <p class="text-gray-500" id="formTitle">Login to your account</p>  
-      </div>  <form id="authForm" class="space-y-6">  
-    <div id="nameField" class="hidden">  
-      <div class="input-group">  
-        <input type="text" id="name" class="form-input w-full p-3 border border-gray-200 rounded-lg focus:outline-none" />  
-        <label class="floating-label">Full Name</label>  
-      </div>  
-    </div>  
-
-    <div id="mobileField" class="hidden">  
-      <div class="input-group">  
-        <input type="text" id="mobile" class="form-input w-full p-3 border border-gray-200 rounded-lg focus:outline-none" />  
-        <label class="floating-label">Mobile Number</label>  
-      </div>  
-    </div>  
-
-    <div id="courseField" class="hidden">  
-      <div class="input-group">  
-        <select id="course" class="form-input w-full p-3 border border-gray-200 rounded-lg focus:outline-none appearance-none">  
-          <option value=""></option>  
-          <option value="BSc 1st Year">BSc 1st Year</option>  
-          <option value="BSc 2nd Year">BSc 2nd Year</option>  
-          <option value="BSc 3rd Year">BSc 3rd Year</option>  
-        </select>  
-        <label class="floating-label">Choose Course</label>  
-        <div class="absolute right-3 top-3 text-gray-400">  
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">  
-            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />  
-          </svg>  
-        </div>  
-      </div>  
-    </div>  
-
-    <div class="input-group">  
-      <input type="email" id="email" class="form-input w-full p-3 border border-gray-200 rounded-lg focus:outline-none" required />  
-      <label class="floating-label">Email Address</label>  
-    </div>  
-
-    <div class="input-group">  
-      <input type="password" id="password" class="form-input w-full p-3 border border-gray-200 rounded-lg focus:outline-none" required />  
-      <label class="floating-label">Password</label>  
-    </div>  
-
-    <div class="flex justify-between items-center text-sm">  
-      <div class="flex items-center">  
-        <input id="remember" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded clickable">  
-        <label for="remember" class="ml-2 block text-gray-600 clickable">Remember me</label>  
-      </div>  
-      <button type="button" id="forgotPassword" class="text-indigo-600 hover:text-indigo-800 transition-colors clickable">Forgot Password?</button>  
-    </div>  
-
-    <button type="submit" id="authBtn" class="btn-primary w-full text-white p-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 clickable">  
-      <span id="authText">Login</span>  
-      <svg id="spinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">  
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>  
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0h8z"/>  
-      </svg>  
-    </button>  
-
-    <div class="text-center text-sm text-gray-600">  
-      <span id="toggleFormText">Don't have an account?</span>  
-      <button type="button" id="toggleForm" class="ml-1 text-indigo-600 hover:text-indigo-800 font-medium transition-colors clickable">Sign Up</button>  
-    </div>  
-
-    <div id="payNow" class="hidden text-center pt-4 border-t border-gray-100">  
-      <p class="text-gray-600 mb-3">You haven't purchased access yet.</p>  
-      <a href="GPay.html" class="btn-secondary inline-block px-6 py-2 text-white rounded-lg transition-all clickable">Pay Now</a>  
-    </div>  
-  </form>  
-
-  <div id="popupMessage" class="hidden mt-6 text-center text-white px-4 py-3 rounded-lg transition-all duration-300 shadow-lg"></div>  
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --primary-light: #818cf8;
+      --secondary: #f43f5e;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --dark: #1e293b;
+      --light: #f8fafc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f9fafb, #f3f4f6);
+      overflow-x: hidden;
+      margin: 0;
+      min-height: 100vh;
+    }
+    .fade { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+    .form-input {
+      transition: all 0.3s ease;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+    .form-input:focus {
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+      border-color: var(--primary) !important;
+    }
+    .btn-primary {
+      background-image: linear-gradient(to right, var(--primary), var(--primary-dark));
+      box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover:not(:disabled) {
+      background-image: linear-gradient(to right, var(--primary-dark), var(--primary));
+      transform: translateY(-1px);
+      box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+    }
+    .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
+    .floating-label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translate(12px, 12px);
+      transition: all 0.2s ease-out;
+      pointer-events: none;
+      color: #64748b;
+      font-size: 14px;
+    }
+    .input-filled + .floating-label,
+    .form-input:focus + .floating-label {
+      transform: translate(8px, -8px) scale(0.85);
+      background-color: white;
+      padding: 0 4px;
+      color: var(--primary);
+    }
+    .input-group { position: relative; }
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 5px solid #e0e7ff;
+      border-bottom-color: var(--primary);
+      border-radius: 50%;
+      display: inline-block;
+      animation: rotation 1s linear infinite;
+    }
+    @keyframes rotation {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .card {
+      backdrop-filter: blur(16px) saturate(180%);
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      border: 1px solid rgba(209, 213, 219, 0.3);
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+    .card::-webkit-scrollbar { width: 6px; }
+    .card::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+    .card::-webkit-scrollbar-thumb { background-color: var(--primary); border-radius: 10px; }
+    .clickable {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .clickable:hover { opacity: 0.9; }
+    .clickable:active { transform: scale(0.98); }
     
-  <div class="mt-8 text-center text-xs text-gray-400">  
-    <p class="clickable" onclick="window.location.href='terms.html'">Terms of Service</p>  
-    <p class="clickable mt-1" onclick="window.location.href='privacy.html'">Privacy Policy</p>  
-  </div>  
-</div>
+    /* OTP-like password setup */
+    .password-setup {
+      animation: slideDown 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Success checkmark */
+    .success-check {
+      width: 80px; height: 80px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      box-shadow: 0 15px 35px rgba(16, 185, 129, 0.3);
+      animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    @keyframes popIn {
+      0% { transform: scale(0); }
+      60% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
 
-  </div>    <!-- Wave Decoration -->    <div class="wave">  
-    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">  
-      <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>  
-      <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="shape-fill"></path>  
-      <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="shape-fill"></path>  
-    </svg>  
-  </div>    <!-- Firebase Auth & Logic -->    <script type="module">  
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";  
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";  
-    import { getFirestore, setDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";  
-  
-    const firebaseConfig = {  
-      apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",  
-      authDomain: "starlet-registor.firebaseapp.com",  
-      projectId: "starlet-registor",  
-      storageBucket: "starlet-registor.appspot.com",  
-      messagingSenderId: "904193225045",  
-      appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc"  
-    };  
-  
-    const app = initializeApp(firebaseConfig);  
-    const auth = getAuth(app);  
-    const db = getFirestore(app);  
-  
-    // Floating label functionality  
-    document.querySelectorAll('.form-input').forEach(input => {  
-      // Check if input has value on page load  
-      if(input.value) {  
-        input.classList.add('input-filled');  
-      }  
+    /* Alert styles */
+    .alert-box {
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      animation: slideIn 0.4s ease;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .alert-error { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+    .alert-success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #065f46; }
+    .alert-info { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+    .alert-warning { background: #fef3c7; border: 1px solid #fde68a; color: #78350f; }
+
+    /* Step indicator */
+    .step-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: #cbd5e1; transition: all 0.3s ease;
+    }
+    .step-dot.active { background: var(--primary); box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2); }
+    .step-dot.completed { background: var(--success); }
+
+    /* Toast */
+    .toast {
+      position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+      background: #1e293b; color: white; padding: 14px 24px;
+      border-radius: 12px; font-size: 14px; font-weight: 500;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2); z-index: 9999;
+      display: flex; align-items: center; gap: 10px;
+      animation: toastIn 0.4s cubic-bezier(0.16,1,0.3,1);
+      max-width: 90vw;
+    }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translate(-50%, -30px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+
+  <!-- Background -->
+  <div class="absolute inset-0 overflow-hidden z-0">
+    <div class="absolute top-0 left-0 w-64 h-64 bg-indigo-100 rounded-full filter blur-3xl opacity-40"></div>
+    <div class="absolute top-0 right-0 w-64 h-64 bg-pink-100 rounded-full filter blur-3xl opacity-40"></div>
+    <div class="absolute bottom-0 right-0 w-64 h-64 bg-blue-100 rounded-full filter blur-3xl opacity-40"></div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="w-full max-w-md card shadow-2xl mx-auto my-8 relative z-10" id="mainCard">
+    <div class="p-8">
+
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <div class="flex justify-center mb-4">
+          <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+            <i class="fas fa-graduation-cap text-white text-2xl"></i>
+          </div>
+        </div>
+        <h2 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 mb-2">
+          STARLET
+        </h2>
+        <p class="text-gray-500 text-sm" id="formTitle">Login with your phone number</p>
+      </div>
+
+      <!-- Step Indicator -->
+      <div class="flex justify-center gap-2 mb-6" id="stepIndicator">
+        <div class="step-dot active" data-step="1"></div>
+        <div class="step-dot" data-step="2"></div>
+        <div class="step-dot" data-step="3"></div>
+      </div>
+
+      <!-- ========== STEP 1: PHONE NUMBER ========== -->
+      <div id="step1" class="reg-step active">
+        <div class="space-y-5">
+          <div class="input-group">
+            <input type="tel" id="phone" maxlength="10" inputmode="numeric"
+                   class="form-input w-full p-4 border border-gray-200 rounded-xl focus:outline-none text-lg tracking-wider" 
+                   placeholder=" ">
+            <label class="floating-label">Mobile Number (10 digits)</label>
+          </div>
+
+          <div class="flex items-center justify-center gap-2 text-xs text-gray-400">
+            <i class="fas fa-shield-alt"></i>
+            <span>Your phone number is 100% secure</span>
+          </div>
+
+          <button type="button" id="checkPhoneBtn" 
+                  class="btn-primary w-full text-white p-4 rounded-xl font-semibold flex items-center justify-center gap-2">
+            <i class="fas fa-arrow-right"></i>
+            <span>Continue</span>
+          </button>
+
+          <div class="text-center pt-2 border-t border-gray-100">
+            <p class="text-xs text-gray-500 mb-3">New student? First check enrollment:</p>
+            <a href="pricing.html" class="inline-flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-800 font-semibold">
+              <i class="fas fa-shopping-cart"></i>
+              Enroll Now
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== STEP 2: PASSWORD SETUP / LOGIN ========== -->
+      <div id="step2" class="reg-step hidden">
+        <!-- User info badge -->
+        <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-3 mb-5 flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold" id="userInitial">
+            ?
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="text-xs text-gray-500">Logged in as</div>
+            <div class="font-semibold text-gray-800 text-sm truncate" id="userNameDisplay">Loading...</div>
+          </div>
+          <button onclick="App.goBack(1)" class="w-8 h-8 rounded-lg bg-white hover:bg-gray-100 flex items-center justify-center text-gray-500" title="Change number">
+            <i class="fas fa-times text-xs"></i>
+          </button>
+        </div>
+
+        <!-- Password setup (if no password) -->
+        <div id="setupPasswordBox" class="hidden password-setup">
+          <div class="alert-box alert-info mb-5">
+            <i class="fas fa-info-circle mt-0.5"></i>
+            <div>
+              <strong>Create your password</strong>
+              <div class="text-xs mt-1 opacity-80">Set a password to secure your account for future logins.</div>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="input-group">
+              <input type="password" id="newPassword" 
+                     class="form-input w-full p-4 border border-gray-200 rounded-xl focus:outline-none" 
+                     placeholder=" ">
+              <label class="floating-label">Create Password (min 6 chars)</label>
+            </div>
+            <div class="input-group">
+              <input type="password" id="confirmPassword" 
+                     class="form-input w-full p-4 border border-gray-200 rounded-xl focus:outline-none" 
+                     placeholder=" ">
+              <label class="floating-label">Confirm Password</label>
+            </div>
+            <div id="passwordStrength" class="text-xs px-1"></div>
+          </div>
+        </div>
+
+        <!-- Password login (if password exists) -->
+        <div id="loginPasswordBox" class="hidden">
+          <div class="space-y-4">
+            <div class="input-group">
+              <input type="password" id="existingPassword" 
+                     class="form-input w-full p-4 border border-gray-200 rounded-xl focus:outline-none" 
+                     placeholder=" ">
+              <label class="floating-label">Enter Password</label>
+            </div>
+            <div class="flex justify-end">
+              <button type="button" onclick="App.forgotPassword()" 
+                      class="text-xs text-indigo-600 hover:text-indigo-800 font-semibold">
+                Forgot Password?
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" id="submitPasswordBtn" 
+                class="btn-primary w-full text-white p-4 rounded-xl font-semibold flex items-center justify-center gap-2 mt-5">
+          <span id="submitBtnIcon"><i class="fas fa-sign-in-alt"></i></span>
+          <span id="submitBtnText">Login</span>
+        </button>
+      </div>
+
+      <!-- ========== STEP 3: SUCCESS / REDIRECT ========== -->
+      <div id="step3" class="reg-step hidden text-center py-4">
+        <div class="success-check">
+          <i class="fas fa-check text-white text-3xl"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-800 mb-2">Welcome Back!</h3>
+        <p class="text-gray-500 text-sm mb-6" id="successMessage">Redirecting to your dashboard...</p>
         
-      // Add event listeners  
-      input.addEventListener('input', () => {  
-        if(input.value) {  
-          input.classList.add('input-filled');  
-        } else {  
-          input.classList.remove('input-filled');  
-        }  
-      });  
-    });  
-  
-    onAuthStateChanged(auth, async (user) => {  
-      if (user) {  
-        const docSnap = await getDoc(doc(db, "users", user.uid));  
-        if (docSnap.exists() && docSnap.data().hasAccess) {  
-          const course = docSnap.data().course;  
-          let redirectPage = "dashboard.html";  
-          if (course === "BSc 1st Year") redirectPage = "bsc1.html";  
-          else if (course === "BSc 2nd Year") redirectPage = "bsc2.html";  
-          else if (course === "BSc 3rd Year") redirectPage = "bsc3.html";  
-          window.location.replace(redirectPage);  
-        } else {  
-          await signOut(auth);  
-          document.getElementById("loader").classList.add("hidden");  
-          document.getElementById("formContainer").classList.remove("opacity-0");  
-          document.getElementById("formContainer").classList.remove("translate-y-4");  
-        }  
-      } else {  
-        document.getElementById("loader").classList.add("hidden");  
-        document.getElementById("formContainer").classList.remove("opacity-0");  
-        document.getElementById("formContainer").classList.remove("translate-y-4");  
-      }  
-    });  
-  
-    let isLogin = true;  
-    const toggleFormBtn = document.getElementById("toggleForm");  
-    const toggleFormText = document.getElementById("toggleFormText");  
-    const authText = document.getElementById("authText");  
-    const formTitle = document.getElementById("formTitle");  
-    const popup = document.getElementById("popupMessage");  
-  
-    function showMessage(msg, bg = 'bg-green-600') {  
-      popup.textContent = msg;  
-      popup.className = `block mt-6 text-center text-white px-4 py-3 rounded-lg transition-all duration-300 shadow-lg ${bg}`;  
-      popup.classList.remove("hidden");  
-      setTimeout(() => popup.classList.add("hidden"), 3000);  
-    }  
-  
-    function toggleForm() {  
-      isLogin = !isLogin;  
-      document.getElementById("nameField").classList.toggle("hidden", isLogin);  
-      document.getElementById("mobileField").classList.toggle("hidden", isLogin);  
-      document.getElementById("courseField").classList.toggle("hidden", isLogin);  
-      formTitle.textContent = isLogin ? "Login to your account" : "Create a new account";  
-      authText.textContent = isLogin ? "Login" : "Sign Up";  
-      toggleFormText.textContent = isLogin ? "Don't have an account?" : "Already have an account?";  
-      toggleFormBtn.textContent = isLogin ? "Sign Up" : "Login";  
+        <div class="bg-gray-50 rounded-xl p-4 mb-6 text-left space-y-2">
+          <div class="flex justify-between text-xs">
+            <span class="text-gray-500">Name:</span>
+            <span class="font-semibold text-gray-800" id="successName">—</span>
+          </div>
+          <div class="flex justify-between text-xs">
+            <span class="text-gray-500">Phone:</span>
+            <span class="font-semibold text-gray-800" id="successPhone">—</span>
+          </div>
+          <div class="flex justify-between text-xs">
+            <span class="text-gray-500">Course:</span>
+            <span class="font-semibold text-gray-800" id="successCourse">—</span>
+          </div>
+          <div class="flex justify-between text-xs">
+            <span class="text-gray-500">Plan:</span>
+            <span class="font-semibold text-green-600" id="successPlan">—</span>
+          </div>
+        </div>
+
+        <div class="loader mx-auto" style="width:32px;height:32px;border-width:3px;"></div>
+      </div>
+
+      <!-- Alert Container (for inline alerts) -->
+      <div id="alertContainer" class="mt-5"></div>
+
+      <!-- Footer -->
+      <div class="mt-8 text-center text-xs text-gray-400">
+        <p class="cursor-pointer hover:text-gray-600" onclick="window.location.href='terms.html'">Terms of Service</p>
+        <p class="cursor-pointer hover:text-gray-600 mt-1" onclick="window.location.href='privacy.html'">Privacy Policy</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toastContainer"></div>
+
+  <!-- Firebase Config -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    (function() {
+      // ========== FIREBASE ==========
+      const fb = {
+        apiKey: "AIzaSyASP6S4EE4p40LBrzrTW8CBcKRmPo-lrck",
+        authDomain: "neet-d6d95.firebaseapp.com",
+        projectId: "neet-d6d95",
+        storageBucket: "neet-d6d95.firebasestorage.app",
+        messagingSenderId: "54376928116",
+        appId: "1:54376928116:web:e29e44073162ec1c301221"
+      };
+      firebase.initializeApp(fb);
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+      auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(() => {});
+
+      // ========== STATE ==========
+      let currentPhone = '';
+      let currentUserData = null;
+      let needsPasswordSetup = false;
+      let firebaseEmail = '';
+
+      // ========== TOAST ==========
+      function toast(msg, type = 'info') {
+        const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+        const colors = { 
+          success: 'linear-gradient(90deg,#10b981,#059669)', 
+          error: 'linear-gradient(90deg,#ef4444,#dc2626)', 
+          warning: 'linear-gradient(90deg,#f59e0b,#d97706)', 
+          info: 'linear-gradient(90deg,#6366f1,#4f46e5)' 
+        };
+        const t = document.createElement('div');
+        t.className = 'toast';
+        t.style.background = colors[type];
+        t.innerHTML = `<span style="font-size:16px;">${icons[type]}</span><span>${msg}</span>`;
+        document.getElementById('toastContainer').appendChild(t);
+        setTimeout(() => {
+          t.style.opacity = '0';
+          t.style.transform = 'translate(-50%, -20px)';
+          t.style.transition = 'all 0.35s';
+          setTimeout(() => t.remove(), 350);
+        }, 3000);
+      }
+
+      // ========== INLINE ALERT ==========
+      function showAlert(msg, type = 'info') {
+        const c = document.getElementById('alertContainer');
+        const icons = { error: 'fa-exclamation-circle', success: 'fa-check-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+        c.innerHTML = `<div class="alert-box alert-${type}">
+          <i class="fas ${icons[type]} mt-0.5"></i>
+          <div style="flex:1;">${msg}</div>
+        </div>`;
+        setTimeout(() => { c.innerHTML = ''; }, 5000);
+      }
+
+      // ========== STEP NAVIGATION ==========
+      function goToStep(step) {
+        document.getElementById('step1').classList.add('hidden');
+        document.getElementById('step2').classList.add('hidden');
+        document.getElementById('step3').classList.add('hidden');
+        document.getElementById('step' + step).classList.remove('hidden');
+
+        const dots = document.querySelectorAll('#stepIndicator .step-dot');
+        dots.forEach((d, i) => {
+          d.classList.remove('active', 'completed');
+          if (i + 1 < step) d.classList.add('completed');
+          if (i + 1 === step) d.classList.add('active');
+        });
+      }
+
+      function goBack(step) {
+        goToStep(step);
+        document.getElementById('alertContainer').innerHTML = '';
+      }
+
+      // ========== FLOATING LABEL ==========
+      document.querySelectorAll('.form-input').forEach(input => {
+        if (input.value) input.classList.add('input-filled');
+        input.addEventListener('input', () => {
+          if (input.value) input.classList.add('input-filled');
+          else input.classList.remove('input-filled');
+        });
+      });
+
+      // ========== PHONE INPUT (digits only) ==========
+      document.getElementById('phone').addEventListener('input', function(e) {
+        this.value = this.value.replace(/\D/g, '').slice(0, 10);
+      });
+
+      // ========== STEP 1: CHECK PHONE ==========
+      document.getElementById('checkPhoneBtn').addEventListener('click', checkPhone);
+
+      async function checkPhone() {
+        const phone = document.getElementById('phone').value.trim();
         
-      // Reset form fields when toggling  
-      if(isLogin) {  
-        document.getElementById("name").value = "";  
-        document.getElementById("mobile").value = "";  
-        document.getElementById("course").value = "";  
-        document.getElementById("name").classList.remove('input-filled');  
-        document.getElementById("mobile").classList.remove('input-filled');  
-        document.getElementById("course").classList.remove('input-filled');  
-      }  
-    }  
-  
-    toggleFormBtn.addEventListener("click", () => {  
-      document.getElementById("formContainer").classList.add("opacity-0");  
-      document.getElementById("formContainer").classList.add("translate-y-4");  
-      setTimeout(() => {  
-        toggleForm();  
-        document.getElementById("formContainer").classList.remove("opacity-0");  
-        document.getElementById("formContainer").classList.remove("translate-y-4");  
-      }, 300);  
-    });  
-  
-    document.getElementById("authForm").addEventListener("submit", async (e) => {  
-      e.preventDefault();  
-      const email = document.getElementById("email").value.trim();  
-      const password = document.getElementById("password").value;  
-      const spinner = document.getElementById("spinner");  
-      const authBtn = document.getElementById("authBtn");  
-  
-      authText.textContent = isLogin ? "Logging in..." : "Signing up...";  
-      spinner.classList.remove("hidden");  
-      authBtn.disabled = true;  
-  
-      try {  
-        if (isLogin) {  
-          const userCredential = await signInWithEmailAndPassword(auth, email, password);  
-          const docSnap = await getDoc(doc(db, "users", userCredential.user.uid));  
-          if (docSnap.exists() && docSnap.data().hasAccess) {  
-            const course = docSnap.data().course;  
-            showMessage("Login successful! Redirecting...");  
-  
-            let redirectPage = "dashboard.html";  
-            if (course === "BSc 1st Year") redirectPage = "bsc1.html";  
-            else if (course === "BSc 2nd Year") redirectPage = "bsc2.html";  
-            else if (course === "BSc 3rd Year") redirectPage = "bsc3.html";  
-  
-            setTimeout(() => window.location.replace(redirectPage), 1000);  
-          } else {  
-            document.getElementById("payNow").classList.remove("hidden");  
-            await signOut(auth);  
-            showMessage("Please complete your payment to access content", 'bg-indigo-600');  
-          }  
-        } else {  
-          const name = document.getElementById("name").value.trim();  
-          const mobile = document.getElementById("mobile").value.trim();  
-          const course = document.getElementById("course").value;  
-  
-          if(!name || !mobile || !course) {  
-            throw new Error("Please fill all required fields");  
-          }  
-  
-          const userCredential = await createUserWithEmailAndPassword(auth, email, password);  
-          await setDoc(doc(db, "users", userCredential.user.uid), {  
-            name, email, mobile, course, hasAccess: false  
-          });  
-          showMessage("Account created successfully! Please login.");  
-          setTimeout(() => toggleForm(), 1500);  
-        }  
-      } catch (error) {  
-        showMessage(error.message, 'bg-red-500');  
-      } finally {  
-        authText.textContent = isLogin ? "Login" : "Sign Up";  
-        spinner.classList.add("hidden");  
-        authBtn.disabled = false;  
-      }  
-    });  
-  
-    document.getElementById("forgotPassword").addEventListener("click", async (e) => {  
-      e.preventDefault();  
-      const email = document.getElementById("email").value.trim();  
+        if (!phone) {
+          showAlert('Please enter your mobile number', 'error');
+          return;
+        }
+        if (phone.length !== 10) {
+          showAlert('Please enter a valid 10-digit mobile number', 'error');
+          return;
+        }
+        if (!/^[6-9]/.test(phone)) {
+          showAlert('Mobile number must start with 6, 7, 8, or 9', 'error');
+          return;
+        }
+
+        const btn = document.getElementById('checkPhoneBtn');
+        const originalHTML = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loader" style="width:20px;height:20px;border-width:2px;"></span><span>Checking...</span>';
+
+        currentPhone = phone;
+
+        try {
+          // Search in premiumUsers collection by phone
+          console.log('🔍 Searching premiumUsers for phone:', phone);
+          const snapshot = await db.collection('premiumUsers')
+            .where('phone', '==', phone)
+            .limit(1)
+            .get();
+
+          if (snapshot.empty) {
+            // Also try searching orders collection
+            console.log('🔍 Not found, checking orders collection...');
+            const orderSnap = await db.collection('orders')
+              .where('phone', '==', phone)
+              .limit(1)
+              .get();
+
+            if (orderSnap.empty) {
+              // No purchase found
+              console.log('❌ No purchase found for phone:', phone);
+              showAlert(`
+                <strong>No enrollment found!</strong>
+                <div style="font-size:12px; margin-top:4px;">
+                  Mobile number <b>${phone}</b> is not registered with us.<br>
+                  Please complete your enrollment first.
+                </div>
+              `, 'error');
+              
+              toast('Not enrolled! Redirecting to pricing...', 'warning');
+              
+              // Redirect after 2.5 seconds
+              setTimeout(() => {
+                window.location.href = 'pricing.html';
+              }, 2500);
+              
+              btn.disabled = false;
+              btn.innerHTML = originalHTML;
+              return;
+            }
+            
+            currentUserData = orderSnap.docs[0].data();
+          } else {
+            currentUserData = snapshot.docs[0].data();
+          }
+
+          console.log('✅ User found:', currentUserData);
+          renderUserInfo();
+          
+        } catch (e) {
+          console.error('❌ Error:', e);
+          showAlert('Error checking number. Please try again.', 'error');
+          btn.disabled = false;
+          btn.innerHTML = originalHTML;
+        }
+      }
+
+      // ========== RENDER USER INFO ==========
+      function renderUserInfo() {
+        const name = currentUserData.name || 'Student';
+        const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
         
-      if(!email) {  
-        showMessage("Please enter your email in the email field first", 'bg-indigo-600');  
-        document.getElementById("email").focus();  
-        return;  
-      }  
+        document.getElementById('userInitial').textContent = initials;
+        document.getElementById('userNameDisplay').textContent = name;
+
+        // Check if password exists (from Firebase Auth)
+        // We use phone-based email like "9876543210@starlet.users"
+        firebaseEmail = currentPhone + '@starlet.users';
         
-      try {  
-        await sendPasswordResetEmail(auth, email);  
-        showMessage("Password reset email sent. Check your inbox.", 'bg-indigo-600');  
-      } catch (error) {  
-        showMessage("Error: " + error.message, 'bg-red-500');  
-      }  
-    });  
-  
-    // Add click effects to all clickable elements  
-    document.querySelectorAll('.clickable').forEach(element => {  
-      element.addEventListener('mousedown', () => {  
-        element.classList.add('active:scale-95');  
-      });  
-      element.addEventListener('mouseup', () => {  
-        element.classList.remove('active:scale-95');  
-      });  
-      element.addEventListener('mouseleave', () => {  
-        element.classList.remove('active:scale-95');  
-      });  
-    });  
-  </script>  </body>  
-</html>  
+        // Try to sign in with this to see if account exists
+        // But we don't have the password...
+        // Instead, check in Firestore if user has setup password flag
+        
+        // Check if user has a password set (we'll store it in Firestore)
+        checkIfPasswordExists();
+      }
+
+      // ========== CHECK PASSWORD STATUS ==========
+      async function checkIfPasswordExists() {
+        // We check if there's a "hasPassword" flag in premiumUsers doc
+        // If no flag, we assume password needs to be setup
+        
+        const btn = document.getElementById('checkPhoneBtn');
+        const originalHTML = btn.innerHTML;
+
+        try {
+          // Check if user already has a Firebase Auth account
+          // Try to sign in with a dummy password to see error type
+          // Actually, let's use Firestore flag instead
+          
+          const userSnap = await db.collection('premiumUsers')
+            .where('phone', '==', currentPhone)
+            .limit(1)
+            .get();
+          
+          if (!userSnap.empty) {
+            const data = userSnap.docs[0].data();
+            const userDocId = userSnap.docs[0].id;
+            
+            if (data.hasPassword === true) {
+              // Password exists → show login form
+              needsPasswordSetup = false;
+              document.getElementById('setupPasswordBox').classList.add('hidden');
+              document.getElementById('loginPasswordBox').classList.remove('hidden');
+              document.getElementById('submitBtnText').textContent = 'Login';
+              document.getElementById('submitBtnIcon').innerHTML = '<i class="fas fa-sign-in-alt"></i>';
+              document.getElementById('formTitle').textContent = 'Enter your password';
+            } else {
+              // No password → setup form
+              needsPasswordSetup = true;
+              document.getElementById('setupPasswordBox').classList.remove('hidden');
+              document.getElementById('loginPasswordBox').classList.add('hidden');
+              document.getElementById('submitBtnText').textContent = 'Create & Login';
+              document.getElementById('submitBtnIcon').innerHTML = '<i class="fas fa-user-plus"></i>';
+              document.getElementById('formTitle').textContent = 'Setup your password';
+            }
+          }
+          
+          // Go to step 2
+          goToStep(2);
+          
+        } catch (e) {
+          console.error(e);
+          // Default to setup
+          needsPasswordSetup = true;
+          document.getElementById('setupPasswordBox').classList.remove('hidden');
+          document.getElementById('loginPasswordBox').classList.add('hidden');
+          goToStep(2);
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = originalHTML;
+        }
+      }
+
+      // ========== PASSWORD STRENGTH ==========
+      document.getElementById('newPassword').addEventListener('input', function() {
+        const pw = this.value;
+        const el = document.getElementById('passwordStrength');
+        let strength = 0;
+        if (pw.length >= 6) strength++;
+        if (pw.length >= 10) strength++;
+        if (/[A-Z]/.test(pw)) strength++;
+        if (/[0-9]/.test(pw)) strength++;
+        if (/[^A-Za-z0-9]/.test(pw)) strength++;
+
+        const colors = ['#ef4444', '#f59e0b', '#10b981', '#059669', '#4f46e5'];
+        const labels = ['Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
+        
+        if (pw.length === 0) {
+          el.innerHTML = '';
+        } else if (pw.length < 6) {
+          el.innerHTML = '<span style="color:#ef4444;">⚠ Password too short (min 6)</span>';
+        } else {
+          el.innerHTML = `<span style="color:${colors[strength-1] || '#ef4444'}; font-weight:600;">${labels[strength-1] || 'Weak'}</span>`;
+        }
+      });
+
+      // ========== SUBMIT PASSWORD ==========
+      document.getElementById('submitPasswordBtn').addEventListener('click', handleSubmit);
+
+      async function handleSubmit() {
+        const btn = document.getElementById('submitPasswordBtn');
+        const originalHTML = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loader" style="width:20px;height:20px;border-width:2px;"></span><span>Please wait...</span>';
+
+        try {
+          if (needsPasswordSetup) {
+            // Create new password
+            const pw = document.getElementById('newPassword').value;
+            const cpw = document.getElementById('confirmPassword').value;
+
+            if (pw.length < 6) {
+              showAlert('Password must be at least 6 characters', 'error');
+              btn.disabled = false;
+              btn.innerHTML = originalHTML;
+              return;
+            }
+            if (pw !== cpw) {
+              showAlert('Passwords do not match', 'error');
+              btn.disabled = false;
+              btn.innerHTML = originalHTML;
+              return;
+            }
+
+            // Create Firebase Auth account
+            try {
+              const cred = await auth.createUserWithEmailAndPassword(firebaseEmail, pw);
+              console.log('✅ Auth account created:', cred.user.uid);
+              
+              // Save hasPassword flag
+              const userSnap = await db.collection('premiumUsers')
+                .where('phone', '==', currentPhone)
+                .limit(1)
+                .get();
+              
+              if (!userSnap.empty) {
+                await db.collection('premiumUsers').doc(userSnap.docs[0].id).update({
+                  hasPassword: true,
+                  uid: cred.user.uid,
+                  passwordSetAt: new Date().toISOString()
+                });
+              }
+              
+              // Also save to users collection
+              await db.collection('users').doc(cred.user.uid).set({
+                ...currentUserData,
+                uid: cred.user.uid,
+                hasPassword: true,
+                role: 'student'
+              }, { merge: true });
+
+              toast('Password created! Logging in...', 'success');
+              redirectUser();
+
+            } catch (e) {
+              if (e.code === 'auth/email-already-in-use') {
+                // Already exists, try to login
+                try {
+                  await auth.signInWithEmailAndPassword(firebaseEmail, pw);
+                  toast('Login successful!', 'success');
+                  redirectUser();
+                } catch (loginErr) {
+                  showAlert('Password incorrect for this number', 'error');
+                  btn.disabled = false;
+                  btn.innerHTML = originalHTML;
+                }
+              } else {
+                throw e;
+              }
+            }
+            
+          } else {
+            // Login with existing password
+            const pw = document.getElementById('existingPassword').value;
+            
+            if (!pw) {
+              showAlert('Please enter your password', 'error');
+              btn.disabled = false;
+              btn.innerHTML = originalHTML;
+              return;
+            }
+
+            try {
+              await auth.signInWithEmailAndPassword(firebaseEmail, pw);
+              toast('Login successful!', 'success');
+              redirectUser();
+            } catch (e) {
+              let msg = 'Login failed';
+              if (e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') {
+                msg = 'Incorrect password';
+              } else if (e.code === 'auth/user-not-found') {
+                msg = 'Account not found. Please setup password.';
+                // Switch to setup mode
+                setTimeout(() => {
+                  needsPasswordSetup = true;
+                  document.getElementById('setupPasswordBox').classList.remove('hidden');
+                  document.getElementById('loginPasswordBox').classList.add('hidden');
+                  document.getElementById('submitBtnText').textContent = 'Create & Login';
+                  document.getElementById('submitBtnIcon').innerHTML = '<i class="fas fa-user-plus"></i>';
+                }, 1500);
+              }
+              showAlert(msg, 'error');
+              btn.disabled = false;
+              btn.innerHTML = originalHTML;
+            }
+          }
+        } catch (e) {
+          console.error(e);
+          showAlert('Error: ' + e.message, 'error');
+          btn.disabled = false;
+          btn.innerHTML = originalHTML;
+        }
+      }
+
+      // ========== REDIRECT USER ==========
+      function redirectUser() {
+        // Ensure userData is loaded
+        if (!currentUserData) {
+          showAlert('Data error. Please try again.', 'error');
+          return;
+        }
+
+        // Determine redirect page based on year
+        let redirectPage = 'bsc1.html'; // default
+        const year = currentUserData.year || '1';
+        
+        if (year === '1' || currentUserData.yearLabel?.includes('1st') || currentUserData.yearLabel?.includes('First')) {
+          redirectPage = 'bsc1.html';
+        } else if (year === '2' || currentUserData.yearLabel?.includes('2nd') || currentUserData.yearLabel?.includes('Second')) {
+          redirectPage = 'bsc2.html';
+        } else if (year === '3' || currentUserData.yearLabel?.includes('3rd') || currentUserData.yearLabel?.includes('Third')) {
+          redirectPage = 'bsc3.html';
+        }
+
+        // Show success step
+        goToStep(3);
+        document.getElementById('successName').textContent = currentUserData.name || 'Student';
+        document.getElementById('successPhone').textContent = currentPhone;
+        document.getElementById('successCourse').textContent = currentUserData.yearLabel || 'B.Sc. 1st Year';
+        document.getElementById('successPlan').textContent = currentUserData.planLabel || 'Premium';
+        document.getElementById('successMessage').textContent = 'Redirecting to your dashboard...';
+
+        console.log('🎯 Redirecting to:', redirectPage);
+
+        // Redirect after 1.5 seconds
+        setTimeout(() => {
+          window.location.href = redirectPage;
+        }, 1500);
+      }
+
+      // ========== FORGOT PASSWORD ==========
+      function forgotPassword() {
+        toast('Contact admin on WhatsApp to reset password', 'info');
+        setTimeout(() => {
+          window.open('https://wa.me/919648837922?text=Hi, I forgot my STARLET password. My phone: ' + currentPhone, '_blank');
+        }, 1200);
+      }
+
+      // ========== EXPORT ==========
+      window.App = { goBack, forgotPassword };
+      
+      // Hide initial loader if any
+      console.log('🔐 STARLET Phone Login Ready');
+      console.log('📱 Users must have paid first (from pricing.html)');
+    })();
+  </script>
+</body>
+</html>
