@@ -7,27 +7,72 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
 
-  <!-- AOS CSS -->
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
+    
+    * { box-sizing: border-box; }
     
     body {
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%);
       min-height: 100vh;
+      margin: 0;
+    }
+
+    /* LOADING */
+    #loadingScreen {
+      position: fixed; inset: 0;
+      background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+      z-index: 9999; display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 20px;
+      transition: opacity 0.5s;
+    }
+    #loadingScreen.hide { opacity: 0; pointer-events: none; }
+    .loader-ring {
+      width: 60px; height: 60px;
+      border: 4px solid rgba(255,255,255,0.2);
+      border-top-color: white; border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ACCESS DENIED */
+    #accessDenied {
+      position: fixed; inset: 0;
+      background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
+      z-index: 9998; display: none;
+      align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    #accessDenied.show { display: flex; }
+    .denied-card {
+      background: white; border-radius: 24px; padding: 40px 32px;
+      max-width: 420px; width: 100%; text-align: center;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.4);
+      animation: shakeIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    @keyframes shakeIn {
+      0% { opacity: 0; transform: scale(0.8) rotate(-5deg); }
+      60% { transform: scale(1.05) rotate(2deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0); }
+    }
+    .denied-icon {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 15px 40px rgba(239,68,68,0.3);
     }
     
     .glass-card {
       background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
       border-radius: 16px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.2);
@@ -40,166 +85,244 @@
     }
     
     .section-title {
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: #0f766e;
-      position: relative;
-      padding-bottom: 8px;
-      margin-bottom: 16px;
+      font-size: 1.4rem; font-weight: 600; color: #0f766e;
+      position: relative; padding-bottom: 8px; margin-bottom: 16px;
     }
-    
     .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 40px;
-      height: 3px;
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 40px; height: 3px;
       background: linear-gradient(to right, #0d9488, #14b8a6);
       border-radius: 3px;
     }
     
     .poster-img {
-      width: 100%;
-      height: auto;
-      border-radius: 12px;
+      width: 100%; height: auto; border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-    }
-    
-    .poster-img:hover {
-      transform: scale(1.01);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
     
     .stylish-logo {
-      font-size: 1.8rem;
-      font-weight: 700;
+      font-size: 1.8rem; font-weight: 700;
       background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      display: inline-flex; align-items: center; gap: 8px;
     }
     
     .btn-primary {
       background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
-      color: white;
-      transition: all 0.3s ease;
+      color: white; transition: all 0.3s ease;
       box-shadow: 0 4px 12px rgba(13, 148, 136, 0.2);
-      border: none;
+      border: none; cursor: pointer;
     }
-    
     .btn-primary:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(13, 148, 136, 0.3);
-      background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
     }
     
-    .notice-item {
-      position: relative;
-      padding-left: 24px;
-      margin-bottom: 12px;
-    }
-    
+    .notice-item { position: relative; padding-left: 24px; margin-bottom: 12px; }
     .notice-item::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 8px;
-      width: 10px;
-      height: 10px;
-      background: #14b8a6;
-      border-radius: 50%;
+      content: ''; position: absolute; left: 0; top: 8px;
+      width: 10px; height: 10px;
+      background: #14b8a6; border-radius: 50%;
     }
     
     .user-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      color: white;
-      transition: all 0.3s ease;
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 600; color: white;
       background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
       box-shadow: 0 4px 10px rgba(13, 148, 136, 0.3);
+      overflow: hidden; font-size: 14px;
     }
-    
-    .user-avatar:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.2);
-    }
+    .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
     
     .tag {
-      display: inline-block;
-      padding: 4px 10px;
-      background-color: #ccfbf1;
-      color: #0d9488;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 500;
+      display: inline-block; padding: 4px 10px;
+      background-color: #ccfbf1; color: #0d9488;
+      border-radius: 20px; font-size: 0.75rem; font-weight: 500;
     }
     
     .user-info-badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 4px 8px;
-      background-color: #f0fdf4;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      margin-right: 6px;
+      display: inline-flex; align-items: center;
+      padding: 4px 8px; background-color: #f0fdf4;
+      border-radius: 20px; font-size: 0.75rem;
       border: 1px solid #dcfce7;
     }
-    
-    .user-info-badge i {
-      margin-right: 4px;
-      color: #0d9488;
-    }
+    .user-info-badge i { margin-right: 4px; color: #0d9488; }
     
     .user-profile-card {
-      background: linear-gradient(135deg, rgba(13, 148, 136, 0.1) 0%, rgba(20, 184, 166, 0.1) 100%);
+      background: linear-gradient(135deg, rgba(13, 148, 136, 0.08), rgba(20, 184, 166, 0.08));
       border: 1px solid rgba(20, 184, 166, 0.2);
     }
     
-    .initials-avatar {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      font-weight: 600;
-      color: white;
+    .profile-photo-wrapper {
+      position: relative; width: 100px; height: 100px; margin: 0 auto;
+    }
+    .profile-photo, .profile-photo-initials {
+      width: 100px; height: 100px; border-radius: 50%;
+      object-fit: cover; border: 4px solid white;
+      box-shadow: 0 8px 25px rgba(13, 148, 136, 0.25);
       background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
-      box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3);
+    }
+    .profile-photo-initials {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem; font-weight: 700; color: white;
       margin: 0 auto;
     }
-    
-    .profile-detail-item {
-      display: flex;
-      align-items: center;
-      padding: 8px 0;
+    .verified-badge {
+      position: absolute; bottom: 2px; right: 2px;
+      width: 28px; height: 28px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      border: 3px solid white;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+    }
+    .verified-badge i { color: white; font-size: 11px; }
+
+    .detail-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 0;
       border-bottom: 1px solid rgba(20, 184, 166, 0.1);
     }
-    
-    .profile-detail-item:last-child {
-      border-bottom: none;
+    .detail-row:last-child { border-bottom: none; }
+    .detail-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, rgba(13, 148, 136, 0.1), rgba(20, 184, 166, 0.1));
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-    
-    .profile-detail-item i {
-      width: 24px;
-      color: #0d9488;
-      text-align: center;
+    .detail-icon i { color: #0d9488; font-size: 14px; }
+    .detail-content { flex: 1; min-width: 0; }
+    .detail-label {
+      font-size: 10px; font-weight: 600; color: #6b7280;
+      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;
     }
+    .detail-value {
+      font-size: 13px; font-weight: 500; color: #1f2937;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+
+    /* COUNTDOWN */
+    .countdown-container {
+      background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+      border-radius: 16px; padding: 20px;
+      position: relative; overflow: hidden;
+      box-shadow: 0 8px 25px rgba(13, 148, 136, 0.25);
+    }
+    .countdown-container::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.15) 0%, transparent 60%);
+    }
+    .countdown-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+      position: relative; z-index: 1;
+    }
+    .countdown-box {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 12px; padding: 12px 8px; text-align: center;
+      transition: all 0.3s ease;
+    }
+    .countdown-box:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-2px);
+    }
+    .countdown-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.75rem; font-weight: 700; color: white; line-height: 1;
+      display: block; margin-bottom: 4px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .countdown-label {
+      font-size: 0.65rem; font-weight: 600;
+      color: rgba(255,255,255,0.75);
+      text-transform: uppercase; letter-spacing: 1.5px;
+    }
+    .progress-bar-container { margin-top: 16px; position: relative; z-index: 1; }
+    .progress-bar-bg {
+      height: 8px; background: rgba(255,255,255,0.15);
+      border-radius: 999px; overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%; background: linear-gradient(90deg, #34d399, #6ee7b7);
+      border-radius: 999px; transition: width 1s ease;
+      box-shadow: 0 0 12px rgba(110, 231, 183, 0.5);
+      width: 0%;
+    }
+    .progress-labels {
+      display: flex; justify-content: space-between; margin-top: 8px;
+      font-size: 0.7rem; color: rgba(255,255,255,0.75); font-weight: 500;
+    }
+    .batch-status-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 999px;
+      font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      position: relative; z-index: 1;
+    }
+    .status-active {
+      background: rgba(52, 211, 153, 0.2);
+      color: #6ee7b7; border: 1px solid rgba(52, 211, 153, 0.3);
+    }
+    .status-expired {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .status-urgent {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.3);
+      animation: pulse-urgent 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse-urgent {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+    .expiry-alert {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border: 1px solid #fbbf24;
+      border-radius: 12px; padding: 14px 16px;
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .expiry-alert i { color: #d97706; font-size: 20px; margin-top: 2px; }
+    .expiry-alert-text { flex: 1; font-size: 13px; color: #78350f; line-height: 1.5; }
+    .expiry-alert-text strong { display: block; font-weight: 700; margin-bottom: 2px; color: #451a03; }
   </style>
 </head>
 <body>
 
-  <div class="max-w-4xl mx-auto px-4 py-8 space-y-6">
+  <!-- LOADING SCREEN -->
+  <div id="loadingScreen">
+    <div class="loader-ring"></div>
+    <div style="color:white; font-weight:600; letter-spacing:1px; text-align:center;">
+      VERIFYING ACCESS...
+      <div style="font-size:11px; opacity:0.7; margin-top:6px; font-weight:400;">Checking your enrollment</div>
+    </div>
+  </div>
+
+  <!-- ACCESS DENIED -->
+  <div id="accessDenied">
+    <div class="denied-card">
+      <div class="denied-icon">
+        <i class="fas fa-lock" style="color:white; font-size:32px;"></i>
+      </div>
+      <h2 style="font-size:22px; font-weight:800; color:#0f172a; margin-bottom:8px;">Access Restricted</h2>
+      <p style="font-size:14px; color:#6b7280; margin-bottom:24px; line-height:1.6;">
+        This dashboard is only for <strong>enrolled students</strong>. Please complete your enrollment to access this page.
+      </p>
+      <a href="pricing.html" style="display:block; width:100%; background:linear-gradient(90deg,#4f46e5,#7c3aed); color:white; padding:14px; border-radius:12px; font-weight:700; text-decoration:none; font-size:14px; box-shadow:0 10px 25px rgba(79,70,229,0.25);">
+        <i class="fas fa-shopping-cart" style="margin-right:6px;"></i>Enroll Now
+      </a>
+      <a href="Neet.html" style="display:block; width:100%; background:transparent; color:#6b7280; padding:12px; margin-top:10px; font-weight:600; text-decoration:none; font-size:13px;">
+        <i class="fas fa-arrow-left" style="margin-right:6px;"></i>Go Back
+      </a>
+      <div style="margin-top:20px; padding-top:20px; border-top:1px solid #f1f5f9;">
+        <p style="font-size:11px; color:#94a3b8; margin:0;">
+          <i class="fas fa-info-circle"></i> Already enrolled? Login with the same account
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-4xl mx-auto px-4 py-8 space-y-6" id="mainContent" style="display:none;">
 
     <!-- Header -->
     <header class="flex justify-between items-center" data-aos="fade-down">
@@ -213,58 +336,158 @@
         <div class="hidden md:flex items-center gap-2">
           <span class="user-info-badge">
             <i class="fas fa-user-graduate"></i>
-            <span id="userName"></span>
-          </span>
-          <span class="user-info-badge">
-            <i class="fas fa-book"></i>
-            <span id="userCourse"></span>
+            <span id="userName">Student</span>
           </span>
         </div>
         <button onclick="logout()" class="px-4 py-2 rounded-lg btn-primary font-medium flex items-center gap-2 text-sm">
-          <i class="fas fa-sign-out-alt"></i> Logout
+          <i class="fas fa-sign-out-alt"></i> <span class="hidden sm:inline">Logout</span>
         </button>
         <div id="userAvatar" class="user-avatar">
-          <!-- Initial will be inserted here -->
+          <i class="fas fa-user"></i>
         </div>
       </div>
     </header>
 
-    <!-- User Profile Info (Mobile) -->
-    <div class="glass-card p-5 md:hidden user-profile-card" data-aos="fade-down">
-      <div class="text-center mb-4">
-        <div id="mobileUserAvatar" class="initials-avatar">
-          <!-- Initial will be inserted here -->
-        </div>
-        <h3 class="text-lg font-semibold mt-3 text-gray-800" id="userNameMobile"></h3>
-        <p class="text-sm text-emerald-600" id="userCourseMobile"></p>
+    <!-- Expiry Alert -->
+    <div id="expiryAlert" class="expiry-alert" style="display:none;" data-aos="fade-down">
+      <i class="fas fa-exclamation-triangle"></i>
+      <div class="expiry-alert-text">
+        <strong>Batch expiring soon!</strong>
+        Your subscription ends in <span id="expiryDaysLeft">0</span> days. 
+        <a href="pricing.html" style="color:#0f766e; font-weight:700; text-decoration:underline;">Renew now →</a>
       </div>
-      <div class="space-y-2">
-        <div class="profile-detail-item">
-          <i class="fas fa-envelope"></i>
-          <span class="text-sm text-gray-600" id="userEmailMobile"></span>
+    </div>
+
+    <!-- STUDENT PROFILE CARD -->
+    <div class="glass-card p-6 user-profile-card" data-aos="zoom-in">
+      <div class="text-center mb-5">
+        <div class="profile-photo-wrapper">
+          <div id="profilePhotoInitials" class="profile-photo-initials">S</div>
+          <img id="profilePhotoImg" class="profile-photo" style="display:none;" alt="Profile">
+          <div class="verified-badge">
+            <i class="fas fa-check"></i>
+          </div>
         </div>
-        <div class="profile-detail-item">
-          <i class="fas fa-phone"></i>
-          <span class="text-sm text-gray-600" id="userMobileMobile"></span>
+        <h3 class="text-xl font-bold mt-4 text-gray-800" id="profileName">Loading...</h3>
+        <p class="text-sm text-emerald-600 font-medium" id="profileCourse">B.Sc. 1st Year Biology</p>
+        <div class="flex justify-center gap-2 mt-3 flex-wrap">
+          <span class="tag" style="background:#fef3c7;color:#d97706;"><i class="fas fa-crown"></i> Premium Member</span>
+          <span class="tag" id="batchStatusTag">Active</span>
         </div>
-        <div class="profile-detail-item">
-          <i class="fas fa-id-card"></i>
-          <span class="text-sm text-gray-600">B.Sc. Biology 1st Year</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
+        <div class="detail-row">
+          <div class="detail-icon"><i class="fas fa-envelope"></i></div>
+          <div class="detail-content">
+            <div class="detail-label">Email</div>
+            <div class="detail-value" id="userEmail">Loading...</div>
+          </div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-icon"><i class="fas fa-phone"></i></div>
+          <div class="detail-content">
+            <div class="detail-label">Mobile</div>
+            <div class="detail-value" id="userPhone">Loading...</div>
+          </div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-icon"><i class="fas fa-graduation-cap"></i></div>
+          <div class="detail-content">
+            <div class="detail-label">Year</div>
+            <div class="detail-value" id="userYear">B.Sc. 1st Year</div>
+          </div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-icon"><i class="fas fa-ticket-alt"></i></div>
+          <div class="detail-content">
+            <div class="detail-label">Plan</div>
+            <div class="detail-value" id="userPlan">Loading...</div>
+          </div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-icon"><i class="fas fa-calendar-check"></i></div>
+          <div class="detail-content">
+            <div class="detail-label">Enrolled On</div>
+            <div class="detail-value" id="userEnrollDate">Loading...</div>
+          </div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-icon"><i class="fas fa-hourglass-half"></i></div>
+          <div class="detail-content">
+            <div class="detail-label">Valid Till</div>
+            <div class="detail-value" id="userValidTill">Loading...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COUNTDOWN -->
+    <div class="countdown-container" id="countdownCard" data-aos="fade-up">
+      <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+        <div>
+          <div style="color:rgba(255,255,255,0.7); font-size:10px; text-transform:uppercase; letter-spacing:2px; font-weight:600; margin-bottom:2px;">Your Batch Validity</div>
+          <div style="color:white; font-size:18px; font-weight:700; display:flex; align-items:center; gap:8px;">
+            <i class="fas fa-hourglass-half"></i>
+            <span id="batchCountdownTitle">Loading...</span>
+          </div>
+        </div>
+        <span id="batchStatusBadge" class="batch-status-badge status-active">
+          <i class="fas fa-circle" style="font-size:6px;"></i>
+          <span>Active</span>
+        </span>
+      </div>
+
+      <div class="countdown-grid">
+        <div class="countdown-box">
+          <span class="countdown-value" id="cdDays">00</span>
+          <span class="countdown-label">Days</span>
+        </div>
+        <div class="countdown-box">
+          <span class="countdown-value" id="cdHours">00</span>
+          <span class="countdown-label">Hours</span>
+        </div>
+        <div class="countdown-box">
+          <span class="countdown-value" id="cdMins">00</span>
+          <span class="countdown-label">Mins</span>
+        </div>
+        <div class="countdown-box">
+          <span class="countdown-value" id="cdSecs">00</span>
+          <span class="countdown-label">Secs</span>
+        </div>
+      </div>
+
+      <div class="progress-bar-container">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="batchProgressBar"></div>
+        </div>
+        <div class="progress-labels">
+          <span><i class="fas fa-play-circle"></i> Start</span>
+          <span id="progressPercent">0% Complete</span>
+          <span>End <i class="fas fa-flag-checkered"></i></span>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-top:14px; position:relative; z-index:1; flex-wrap:wrap; gap:8px;">
+        <div style="color:rgba(255,255,255,0.7); font-size:11px;">
+          <i class="fas fa-calendar-alt"></i> Started: <span id="batchStartDate" style="color:white; font-weight:600;">—</span>
+        </div>
+        <div style="color:rgba(255,255,255,0.7); font-size:11px;">
+          <i class="fas fa-calendar-times"></i> Expires: <span id="batchEndDate" style="color:white; font-weight:600;">—</span>
         </div>
       </div>
     </div>
 
     <!-- Poster -->
     <div class="glass-card overflow-hidden" data-aos="zoom-in">
-      <img src="IMG_20250417_015130.png" alt="Dashboard Poster" class="poster-img">
+      <img src="IMG_20250417_015130.png" alt="Poster" class="poster-img" onerror="this.parentElement.style.display='none'">
     </div>
 
     <!-- Welcome -->
     <div class="glass-card p-5" data-aos="fade-up">
-      <h2 class="section-title">Welcome back, <span id="welcomeUserName" class="text-emerald-600"></span>! <i class="fas fa-dna text-emerald-500"></i></h2>
+      <h2 class="section-title">Welcome back, <span id="welcomeUserName" class="text-emerald-600">Student</span>! <i class="fas fa-dna text-emerald-500"></i></h2>
       <p class="text-gray-600 leading-relaxed text-sm">
-        Embark on your exciting journey through the world of biology. Access all your course materials, live lectures, and seminars in one place. 
-        Let's explore the wonders of life sciences together!
+        Embark on your exciting journey through the world of biology. Access all your course materials, live lectures, and seminars in one place. Let's explore the wonders of life sciences together!
       </p>
     </div>
 
@@ -286,31 +509,13 @@
     <div class="glass-card p-5" data-aos="fade-left">
       <h2 class="section-title">Download Notes <i class="fas fa-book-open text-emerald-500"></i></h2>
       <div class="mt-4">
-        <a href="1notes.html"
-           class="inline-flex items-center px-5 py-2.5 btn-primary rounded-lg font-medium text-sm">
+        <a href="1notes.html" class="inline-flex items-center px-5 py-2.5 btn-primary rounded-lg font-medium text-sm">
           <i class="fas fa-download mr-2"></i> Get 1st Year Bio Notes
         </a>
         <div class="mt-3 flex flex-wrap gap-2">
           <span class="tag">PDF Format</span>
           <span class="tag">Updated Weekly</span>
           <span class="tag">Color Diagrams</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Seminar -->
-    <div class="glass-card p-5" data-aos="flip-left">
-      <h2 class="section-title">Seminar <i class="fas fa-microscope text-emerald-500"></i></h2>
-      <div class="mt-4">
-        <a href="zoomus://zoom.us/join?confno=9876543210&pwd=xyz123" target="_blank"
-           class="inline-flex items-center px-5 py-2.5 btn-primary rounded-lg font-medium text-sm">
-          <i class="fas fa-chalkboard-teacher mr-2"></i> Join Seminar
-        </a>
-        <div class="mt-3">
-          <h3 class="font-medium text-gray-700 text-sm flex items-center">
-            <i class="fas fa-calendar-day text-emerald-500 mr-2"></i> Upcoming Seminar:
-          </h3>
-          <p class="text-xs text-gray-600 mt-1">"Recent Advances in Molecular Biology" - Prof. Smith (June 15, 2025)</p>
         </div>
       </div>
     </div>
@@ -328,7 +533,7 @@
         <li class="notice-item">
           <div class="flex items-start">
             <i class="fas fa-clipboard-check text-emerald-500 mr-2 mt-0.5 text-sm"></i>
-            <span class="text-sm">Attendance is mandatory from Day 1. Minimum 75% required for exams.</span>
+            <span class="text-sm">Attendance is mandatory from Day 1. Minimum 75% required.</span>
           </div>
         </li>
         <li class="notice-item">
@@ -354,100 +559,295 @@
 
     <!-- Footer -->
     <footer class="text-center pt-6 pb-4 text-gray-500 text-xs" data-aos="fade-up">
-      <div class="flex justify-center gap-4 mb-3">
-        <a href="#" class="text-teal-600 hover:text-teal-800"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="text-teal-600 hover:text-teal-800"><i class="fab fa-twitter"></i></a>
-        <a href="#" class="text-teal-600 hover:text-teal-800"><i class="fab fa-instagram"></i></a>
-        <a href="#" class="text-teal-600 hover:text-teal-800"><i class="fab fa-linkedin-in"></i></a>
-      </div>
       <p>© 2025 Starlet Biology Dashboard. All rights reserved.</p>
     </footer>
   </div>
 
-  <!-- Firebase Config & Auth -->
   <script>
+    // ========== FIREBASE ==========
     const firebaseConfig = {
-      apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
-      authDomain: "starlet-registor.firebaseapp.com",
-      projectId: "starlet-registor",
-      storageBucket: "starlet-registor.appspot.com",
-      messagingSenderId: "904193225045",
-      appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc"
+      apiKey: "AIzaSyASP6S4EE4p40LBrzrTW8CBcKRmPo-lrck",
+      authDomain: "neet-d6d95.firebaseapp.com",
+      projectId: "neet-d6d95",
+      storageBucket: "neet-d6d95.firebasestorage.app",
+      messagingSenderId: "54376928116",
+      appId: "1:54376928116:web:e29e44073162ec1c301221"
     };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
 
+    // 🔥 SESSION PERSIST
+    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(() => {});
+
+    let countdownInterval = null;
+    let currentUserData = null;
+
+    // ========== UTILS ==========
     function getInitials(name) {
-      if (!name) return '?';
-      const names = name.split(' ');
+      if (!name) return 'S';
+      const names = name.trim().split(' ');
       let initials = names[0].substring(0, 1).toUpperCase();
-      if (names.length > 1) {
-        initials += names[names.length - 1].substring(0, 1).toUpperCase();
-      }
+      if (names.length > 1) initials += names[names.length - 1].substring(0, 1).toUpperCase();
       return initials;
     }
 
-    function logout() {
-      auth.signOut().then(() => {
-        window.location.href = "index.html";
-      }).catch((error) => {
-        console.error("Logout Error:", error);
-        alert("Logout failed. Please try again.");
-      });
+    function formatDate(date) {
+      if (!date) return '—';
+      const d = new Date(date);
+      if (isNaN(d.getTime())) return '—';
+      return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
     }
 
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        // User is signed in
-        const userRef = db.collection('users').doc(user.uid);
+    function calculateValidTill(plan, enrollDate) {
+      const start = enrollDate ? new Date(enrollDate) : new Date();
+      const end = new Date(start);
+      if (plan === 'monthly') end.setMonth(end.getMonth() + 1);
+      else if (plan === 'semester') end.setMonth(end.getMonth() + 6);
+      else if (plan === 'annual') end.setFullYear(end.getFullYear() + 1);
+      else end.setMonth(end.getMonth() + 1);
+      return end;
+    }
+
+    function logout() {
+      if (confirm('Are you sure you want to logout?')) {
+        auth.signOut().then(() => window.location.href = "Neet.html");
+      }
+    }
+
+    function showAccessDenied() {
+      document.getElementById('loadingScreen').style.display = 'none';
+      document.getElementById('accessDenied').classList.add('show');
+    }
+
+    function showPage() {
+      document.getElementById('loadingScreen').classList.add('hide');
+      setTimeout(() => {
+        document.getElementById('loadingScreen').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+        if (window.AOS) AOS.refresh();
+      }, 400);
+    }
+
+    // ========== COUNTDOWN ==========
+    function startCountdown(startDate, endDate) {
+      if (countdownInterval) clearInterval(countdownInterval);
+      
+      const start = new Date(startDate).getTime();
+      const end = new Date(endDate).getTime();
+      const totalDuration = end - start;
+      
+      function update() {
+        const now = Date.now();
+        const remaining = end - now;
+        const elapsed = now - start;
         
-        userRef.get().then((doc) => {
-          if (doc.exists) {
-            const userData = doc.data();
-            const firstName = userData.name ? userData.name.split(' ')[0] : 'Budding Biologist';
-            const initials = getInitials(userData.name);
-            
-            // Update desktop view
-            document.getElementById('userName').textContent = userData.name || 'Not provided';
-            document.getElementById('userCourse').textContent = userData.course || 'Not provided';
-            document.getElementById('userAvatar').textContent = initials;
-            
-            // Update mobile view
-            document.getElementById('userNameMobile').textContent = userData.name || 'Not provided';
-            document.getElementById('userCourseMobile').textContent = userData.course || 'Not provided';
-            document.getElementById('userMobileMobile').textContent = userData.mobile || 'Not provided';
-            document.getElementById('userEmailMobile').textContent = user.email;
-            document.getElementById('mobileUserAvatar').textContent = initials;
-            
-            // Update welcome message
-            document.getElementById('welcomeUserName').textContent = firstName;
-          } else {
-            console.log("No such document!");
-            // Fallback if no user data
-            document.getElementById('userAvatar').textContent = '?';
-            document.getElementById('mobileUserAvatar').textContent = '?';
-            document.getElementById('welcomeUserName').textContent = 'Budding Biologist';
-          }
-        }).catch((error) => {
-          console.log("Error getting document:", error);
-        });
+        if (remaining <= 0) {
+          document.getElementById('cdDays').textContent = '00';
+          document.getElementById('cdHours').textContent = '00';
+          document.getElementById('cdMins').textContent = '00';
+          document.getElementById('cdSecs').textContent = '00';
+          document.getElementById('batchProgressBar').style.width = '100%';
+          document.getElementById('progressPercent').textContent = '100% Complete';
+          const sb = document.getElementById('batchStatusBadge');
+          sb.className = 'batch-status-badge status-expired';
+          sb.innerHTML = '<i class="fas fa-circle" style="font-size:6px;"></i><span>Expired</span>';
+          document.getElementById('countdownCard').style.background = 'linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%)';
+          if (countdownInterval) clearInterval(countdownInterval);
+          return;
+        }
+        
+        const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const mins = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((remaining % (1000 * 60)) / 1000);
+        
+        document.getElementById('cdDays').textContent = String(days).padStart(2, '0');
+        document.getElementById('cdHours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('cdMins').textContent = String(mins).padStart(2, '0');
+        document.getElementById('cdSecs').textContent = String(secs).padStart(2, '0');
+        
+        const progress = Math.min(100, Math.max(0, (elapsed / totalDuration) * 100));
+        document.getElementById('batchProgressBar').style.width = progress + '%';
+        document.getElementById('progressPercent').textContent = Math.round(progress) + '% Complete';
+        
+        if (days < 7) {
+          const sb = document.getElementById('batchStatusBadge');
+          sb.className = 'batch-status-badge status-urgent';
+          sb.innerHTML = '<i class="fas fa-exclamation-triangle" style="font-size:8px;"></i><span>Expiring Soon</span>';
+          document.getElementById('expiryAlert').style.display = 'flex';
+          document.getElementById('expiryDaysLeft').textContent = days;
+        } else {
+          const sb = document.getElementById('batchStatusBadge');
+          sb.className = 'batch-status-badge status-active';
+          sb.innerHTML = '<i class="fas fa-circle" style="font-size:6px;"></i><span>Active</span>';
+          document.getElementById('expiryAlert').style.display = 'none';
+        }
+      }
+      
+      update();
+      countdownInterval = setInterval(update, 1000);
+    }
+
+    // ========== RENDER USER DATA ==========
+    function renderUserData(userData) {
+      currentUserData = userData;
+      
+      const name = userData.name || 'Student';
+      const firstName = name.split(' ')[0];
+      const initials = getInitials(name);
+      const email = userData.email || 'Not provided';
+      const phone = userData.phone || 'Not provided';
+      const yearLabel = userData.yearLabel || 'B.Sc. 1st Year';
+      const planLabel = userData.planLabel || (userData.plan ? userData.plan.charAt(0).toUpperCase() + userData.plan.slice(1) + ' Plan' : 'Monthly Plan');
+      
+      let enrollDate;
+      if (userData.enrollmentDate) enrollDate = new Date(userData.enrollmentDate);
+      else if (userData.paymentDate) enrollDate = new Date(userData.paymentDate);
+      else if (userData.createdAt?.toDate) enrollDate = userData.createdAt.toDate();
+      else enrollDate = new Date();
+      
+      let validTill;
+      if (userData.validTill) validTill = new Date(userData.validTill);
+      else validTill = calculateValidTill(userData.plan || 'monthly', enrollDate);
+      
+      // Avatar
+      const userAvatar = document.getElementById('userAvatar');
+      if (userData.avatar) {
+        userAvatar.innerHTML = `<img src="${userData.avatar}" alt="${name}" onerror="this.parentElement.textContent='${initials}'">`;
       } else {
-        // No user is signed in
-        window.location.href = "login.html";
+        userAvatar.textContent = initials;
+      }
+      
+      document.getElementById('userName').textContent = name;
+      
+      // Profile photo
+      const pInitials = document.getElementById('profilePhotoInitials');
+      const pImg = document.getElementById('profilePhotoImg');
+      
+      if (userData.avatar) {
+        pImg.src = userData.avatar;
+        pImg.style.display = 'block';
+        pInitials.style.display = 'none';
+        pImg.onerror = function() {
+          this.style.display = 'none';
+          pInitials.style.display = 'flex';
+          pInitials.textContent = initials;
+        };
+      } else {
+        pInitials.textContent = initials;
+        pInitials.style.display = 'flex';
+        pImg.style.display = 'none';
+      }
+      
+      document.getElementById('profileName').textContent = name;
+      document.getElementById('profileCourse').textContent = yearLabel + ' Biology';
+      document.getElementById('userEmail').textContent = email;
+      document.getElementById('userPhone').textContent = phone;
+      document.getElementById('userYear').textContent = yearLabel;
+      document.getElementById('userPlan').textContent = planLabel;
+      document.getElementById('userEnrollDate').textContent = formatDate(enrollDate);
+      document.getElementById('userValidTill').textContent = formatDate(validTill);
+      
+      // Status tag
+      const now = new Date();
+      const statusTag = document.getElementById('batchStatusTag');
+      if (validTill > now) {
+        const daysLeft = Math.ceil((validTill - now) / (1000 * 60 * 60 * 24));
+        statusTag.textContent = daysLeft + ' days left';
+        statusTag.style.background = '#dcfce7';
+        statusTag.style.color = '#059669';
+      } else {
+        statusTag.textContent = 'Expired';
+        statusTag.style.background = '#fee2e2';
+        statusTag.style.color = '#dc2626';
+      }
+      
+      document.getElementById('welcomeUserName').textContent = firstName;
+      document.getElementById('batchCountdownTitle').textContent = planLabel + ' · Batch Timer';
+      document.getElementById('batchStartDate').textContent = formatDate(enrollDate);
+      document.getElementById('batchEndDate').textContent = formatDate(validTill);
+      
+      startCountdown(enrollDate, validTill);
+      
+      showPage();
+    }
+
+    // ========== CHECK PURCHASE & LOAD DATA ==========
+    auth.onAuthStateChanged(async (user) => {
+      console.log('👤 User:', user ? user.email : 'Not logged in');
+      
+      // 🔒 BLOCK 1: No user → Access Denied
+      if (!user) {
+        console.log('❌ No logged-in user');
+        showAccessDenied();
+        return;
+      }
+      
+      try {
+        // Try 1: users/{uid}
+        let doc = await db.collection('users').doc(user.uid).get();
+        if (doc.exists) {
+          const data = doc.data();
+          if (data.paymentStatus === 'paid' || data.amount) {
+            console.log('✅ Found in users collection');
+            renderUserData(data);
+            return;
+          }
+        }
+        
+        // Try 2: premiumUsers by email
+        console.log('🔍 Searching premiumUsers by email...');
+        let snap = await db.collection('premiumUsers').where('email', '==', user.email).limit(1).get();
+        if (!snap.empty) {
+          console.log('✅ Found in premiumUsers');
+          renderUserData(snap.docs[0].data());
+          return;
+        }
+        
+        // Try 3: orders by email
+        console.log('🔍 Searching orders by email...');
+        snap = await db.collection('orders').where('email', '==', user.email).limit(1).get();
+        if (!snap.empty) {
+          console.log('✅ Found in orders');
+          renderUserData(snap.docs[0].data());
+          return;
+        }
+        
+        // Try 4: match by phone (if user.phoneNumber set)
+        if (user.phoneNumber) {
+          console.log('🔍 Searching by phone...');
+          snap = await db.collection('premiumUsers').where('phone', '==', user.phoneNumber).limit(1).get();
+          if (!snap.empty) {
+            console.log('✅ Found by phone');
+            renderUserData(snap.docs[0].data());
+            return;
+          }
+        }
+        
+        // ❌ No purchase found
+        console.log('❌ No purchase found');
+        showAccessDenied();
+        
+      } catch (err) {
+        console.error('❌ Error:', err);
+        showAccessDenied();
       }
     });
+
+    // Fallback timeout
+    setTimeout(() => {
+      const loading = document.getElementById('loadingScreen');
+      if (loading && loading.style.display !== 'none') {
+        console.log('⏰ Timeout');
+        showAccessDenied();
+      }
+    }, 5000);
   </script>
 
-  <!-- AOS JS -->
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>
-    AOS.init({
-      duration: 700,
-      easing: 'ease-in-out',
-      once: true,
-      offset: 50
-    });
+    AOS.init({ duration: 700, easing: 'ease-in-out', once: true, offset: 50 });
   </script>
 </body>
 </html>
